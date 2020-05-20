@@ -4,4 +4,6 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#include "Editor/editorpch.hpp"
+#pragma once
+
+#include "Time/TimeModule.hpp"

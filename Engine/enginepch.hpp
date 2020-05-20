@@ -1,8 +1,8 @@
-/**
+/*****************************************************************************************************************************
  * Copyright 2020 Gabriel Gheorghe. All rights reserved.
  * This code is licensed under the BSD 3-Clause "New" or "Revised" License
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
- */
+ *****************************************************************************************************************************/
 
 #pragma once
 
@@ -94,8 +94,21 @@ namespace Pollux
 #ifdef POLLUX_SYSTEM_WINDOWS
     using soket_t = SOCKET;
 #endif
+
+    extern const char* g_pEmptyString;
+
+#ifdef POLLUX_TARGET_UNITTEST
+    struct UnitTestResult
+    {
+        bool succeeded = true;
+        const char* message = g_pEmptyString;
+    };
+
+#define RUN_TEST(NAME) if (UnitTestResult res = Test::NAME(); !res.succeeded) \
+    { std::cout << res.message << "\n"; errors++; }
+#endif
 }
 
 #ifdef ENGINE_HEADERS
-
+#include "Core/CorePackage.hpp"
 #endif
