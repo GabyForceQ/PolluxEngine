@@ -15,7 +15,6 @@ namespace Pollux::Core::Test
     UnitTestResult ClockTypeTest_Conversion()
     {
         UnitTestResult res;
-        bool ok = true;
         static const char* pErrorMessage = "ClockTypeTest_Conversion() FAILED";
 
         for (const auto& e : g_ClockTypeMap)
