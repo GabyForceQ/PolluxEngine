@@ -1,15 +1,15 @@
-using System.IO;
+﻿using System.IO;
 using Sharpmake;
 
 [module: Sharpmake.Include("BaseProject.sharpmake.cs")]
 [module: Sharpmake.Include("Engine.sharpmake.cs")]
 
 [Generate]
-public class Editor : BaseProject
+public class Test : BaseProject
 {
     public string ProjectRootPath
     {
-        get { return Path.Combine(Options.RootPath, "Editor"); }
+        get { return Path.Combine(Options.RootPath, "Test"); }
     }
 
     public override string ProjectFolder
@@ -22,7 +22,7 @@ public class Editor : BaseProject
         get { return "[project.Name]_[target.Optimization]"; }
     }
 
-    public Editor() : base()
+    public Test() : base()
     {
         SourceRootPath = ProjectRootPath;
 
@@ -36,8 +36,8 @@ public class Editor : BaseProject
     {
         base.ConfigureAll(conf, target);
 
-        conf.PrecompHeader = "Editor/editorpch.hpp";
-        conf.PrecompSource = "Editor/editorpch.cpp";
+        conf.PrecompHeader = "Test/testpch.hpp";
+        conf.PrecompSource = "Test/testpch.cpp";
 
         conf.AddPublicDependency<Engine>(target);
 
@@ -46,9 +46,6 @@ public class Editor : BaseProject
         conf.VcxprojUserFile = new Configuration.VcxprojUserFileSettings();
         conf.VcxprojUserFile.LocalDebuggerWorkingDirectory = Options.RootPath;
 
-        conf.Defines.Add("POLLUX_WITH_EDITOR");
-
-        conf.LibraryFiles.Add("Iphlpapi.lib");
-        conf.LibraryFiles.Add("Shlwapi.lib");
+        conf.Defines.Add("POLLUX_TARGET_UNITTEST");
     }
 }

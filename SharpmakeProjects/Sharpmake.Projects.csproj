@@ -55,6 +55,7 @@
     <Compile Include="Options.sharpmake.cs" />
     <Compile Include="Main.sharpmake.cs" />
     <Compile Include="PolluxSolution.sharpmake.cs" />
+    <Compile Include="Test.sharpmake.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

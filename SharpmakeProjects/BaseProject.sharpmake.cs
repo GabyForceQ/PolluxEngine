@@ -27,6 +27,21 @@ public abstract class BaseProject : Project
         conf.IncludePrivatePaths.Add(Options.RootPath);
 
         conf.Options.Add(Sharpmake.Options.Vc.Compiler.Exceptions.Enable);
+        conf.Options.Add(Sharpmake.Options.Vc.Compiler.CppLanguageStandard.Latest); // CPP20
+
+        conf.Defines.Add("POLLUX_PLATFORM_X64");
+
+        switch (target.Optimization)
+        {
+            case Optimization.Debug:
+                conf.Defines.Add("POLLUX_TARGET_DEBUG");
+                break;
+            case Optimization.Release:
+                conf.Defines.Add("POLLUX_TARGET_RELEASE");
+                break;
+            default:
+                break;
+        }
     }
 
     [Configure(Platform.win64)]

@@ -104,7 +104,7 @@ namespace Pollux
         const char* message = g_pEmptyString;
     };
 
-#define RUN_TEST(NAME) if (UnitTestResult res = Test::NAME(); !res.succeeded) \
+#define RUN_TEST(NAME) if (UnitTestResult res = NAME(); !res.succeeded) \
     { std::cout << res.message << "\n"; errors++; }
 #endif
 }

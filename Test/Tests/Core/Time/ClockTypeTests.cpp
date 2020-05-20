@@ -4,11 +4,10 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#include "Engine/enginepch.hpp"
-#include "ClockTypeTests.hpp"
-#include "../ClockType.hpp"
+#include "Test/testpch.hpp"
 
-#ifdef POLLUX_TARGET_UNITTEST
+#include "ClockTypeTests.hpp"
+#include "Engine/Core/Time/ClockType.hpp"
 
 namespace Pollux::Core::Test
 {
@@ -31,5 +30,3 @@ namespace Pollux::Core::Test
         return std::move(res);
     }
 }
-
-#endif
