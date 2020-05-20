@@ -53,7 +53,16 @@ public class Engine : BaseProject
     {
         base.ConfigureWin64(conf, target);
 
-        conf.Defines.Add("POLLUX_DRIVER_OPENGL");
-        conf.Defines.Add("POLLUX_INTERFACE_WGL");
+        switch (target.Optimization)
+        {
+            case Optimization.Debug:
+                conf.Defines.Add("POLLUX_TARGET_DEBUG");
+                break;
+            case Optimization.Release:
+                conf.Defines.Add("POLLUX_TARGET_RELEASE");
+                break;
+            default:
+                break;
+        }
     }
 }

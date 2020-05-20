@@ -64,6 +64,5 @@ public class Editor : BaseProject
 
         conf.LibraryFiles.Add("Iphlpapi.lib");
         conf.LibraryFiles.Add("Shlwapi.lib");
-        conf.LibraryFiles.Add("opengl32.lib");
     }
 }
