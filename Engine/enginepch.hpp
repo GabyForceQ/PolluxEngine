@@ -109,6 +109,10 @@ namespace Pollux
 #endif
 }
 
+#ifdef POLLUX_PLATFORM_X64
+size_t operator "" _sz(uint64_t x);
+#endif
+
 #ifdef ENGINE_HEADERS
 #include "Core/CorePackage.hpp"
 #endif

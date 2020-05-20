@@ -24,3 +24,10 @@ namespace Pollux
 {
     const char* g_pEmptyString = "";
 }
+
+#ifdef POLLUX_PLATFORM_X64
+size_t operator "" _sz(uint64_t x)
+{
+    return x;
+}
+#endif
