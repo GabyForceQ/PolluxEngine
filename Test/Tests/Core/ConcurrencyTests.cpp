@@ -7,7 +7,7 @@
 #include "Test/testpch.hpp"
 
 #include "ConcurrencyTests.hpp"
-#include "Engine/Core/Concurrency/ConcurrencyModule.hpp"
+#include "Engine/Core/Concurrency/ConcurrencyPackage.hpp"
 
 using namespace Pollux::Core;
 
