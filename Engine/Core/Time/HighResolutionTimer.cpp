@@ -95,14 +95,14 @@ namespace Pollux::Core
     };
 #endif
 
-    HighResolutionTimer::HighResolutionTimer(void)
+    HighResolutionTimer::HighResolutionTimer()
     {
         m_pHighResolutionTimerImpl = new HighResolutionTimerImpl();
     }
 
-    HighResolutionTimer::~HighResolutionTimer(void)
+    HighResolutionTimer::~HighResolutionTimer()
     {
-        delete m_pHighResolutionTimerImpl;
+        SAFE_DELETE(m_pHighResolutionTimerImpl);
     }
 
     void HighResolutionTimer::Tick()

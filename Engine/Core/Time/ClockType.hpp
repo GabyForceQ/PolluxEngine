@@ -63,7 +63,7 @@ namespace Pollux::Core
 
     /**************************************************************************************************************************
      * \return Clock Type as enum
-     * \param Clock Type string
+     * \param clockType string
      * \exception Runtime error: Clock Type string is not valid
      * \see ClockType
      *
@@ -74,7 +74,7 @@ namespace Pollux::Core
 
     /**************************************************************************************************************************
      * \return Clock Type as string
-     * \param Clock Type enum
+     * \param clockType enum
      * \see ClockType
      *
      * The returned string will be composed by the enum class name followed by :: followed by the enum field name
