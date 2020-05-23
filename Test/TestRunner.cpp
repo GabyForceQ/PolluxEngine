@@ -8,7 +8,7 @@
 
 #include "TestRunner.hpp"
 #include "Tests/Core/ConcurrencyTests.hpp"
-#include "Tests/Core/Time/ClockTypeTests.hpp"
+#include "Tests/Core/TimeTests.hpp"
 
 namespace Pollux::Test
 {
