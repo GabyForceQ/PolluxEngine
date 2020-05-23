@@ -6,4 +6,5 @@
 
 #pragma once
 
+#include "Concurrency/ConcurrencyModule.hpp"
 #include "Time/TimeModule.hpp"
