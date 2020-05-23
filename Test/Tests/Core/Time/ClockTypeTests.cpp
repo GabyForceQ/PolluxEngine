@@ -9,12 +9,14 @@
 #include "ClockTypeTests.hpp"
 #include "Engine/Core/Time/ClockType.hpp"
 
-namespace Pollux::Core::Test
+using namespace Pollux::Core;
+
+namespace Pollux::Test
 {
-    UnitTestResult ClockTypeTest_Conversion()
+    UnitTestResult ClockTypeConversion()
     {
         UnitTestResult res;
-        static const char* pErrorMessage = "ClockTypeTest_Conversion() FAILED";
+        static const char* pErrorMessage = "ClockType conversion FAILED";
 
         for (const auto& e : g_ClockTypeMap)
         {

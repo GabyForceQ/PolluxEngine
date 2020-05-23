@@ -9,8 +9,6 @@
 #include "TestRunner.hpp"
 #include "Tests/Core/Time/ClockTypeTests.hpp"
 
-using namespace Pollux::Core::Test;
-
 namespace Pollux::Test
 {
     void RunAllTests()
@@ -19,7 +17,10 @@ namespace Pollux::Test
         static const char* pFilureMessage = " tests failed!\n\n";
         uint32_t errors = 0;
 
-        RUN_TEST(ClockTypeTest_Conversion);
+        // Core.Time
+        {
+            RUN_TEST(ClockTypeConversion);
+        }
 
         if (errors == 0)
         {

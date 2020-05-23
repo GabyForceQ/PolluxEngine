@@ -6,11 +6,11 @@
 
 #pragma once
 
-namespace Pollux::Core::Test
+namespace Pollux::Test
 {
     /**************************************************************************************************************************
-     * \brief Check if an enum of type ClockType is convertible to string and vice versa.
+     * \brief Check if an enum of type ClockType is convertible to string and vice versa
      * \return Test Result
      *************************************************************************************************************************/
-    UnitTestResult ClockTypeTest_Conversion();
+    UnitTestResult ClockTypeConversion();
 }
