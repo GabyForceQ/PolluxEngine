@@ -82,7 +82,6 @@ void operator delete(void* p);
 namespace Pollux
 {
     using byte_t = uint8_t;
-    using char_t = uint8_t;
     using type_t = uint16_t;
     using id_t = uint64_t;
     using resource_t = uint64_t;

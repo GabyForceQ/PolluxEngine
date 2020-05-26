@@ -8,6 +8,7 @@
 
 #include "TestRunner.hpp"
 #include "Tests/Core/ConcurrencyTests.hpp"
+#include "Tests/Core/EncodingTests.hpp"
 #include "Tests/Core/TimeTests.hpp"
 
 namespace Pollux::Test
@@ -22,6 +23,14 @@ namespace Pollux::Test
         {
             RUN_TEST(CreateDestroyWorkerThread);
             RUN_TEST(SetNameToWorkerThread);
+        }
+
+        // Core.Encoding
+        {
+            RUN_TEST(DecodeBigEndian);
+            RUN_TEST(DecodeLittleEndian);
+            RUN_TEST(EncodeBigEndian);
+            RUN_TEST(EncodeLittleEndian);
         }
 
         // Core.Time

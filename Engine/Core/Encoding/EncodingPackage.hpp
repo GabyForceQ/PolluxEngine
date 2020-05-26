@@ -6,7 +6,5 @@
 
 #pragma once
 
-#include "Concurrency/ConcurrencyPackage.hpp"
-#include "Encoding/EncodingPackage.hpp"
-#include "OOP/OOPPackage.hpp"
-#include "Time/TimePackage.hpp"
+#include "EndianUtils.hpp"
+#include "UTF8Utils.hpp"

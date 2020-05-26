@@ -4,9 +4,15 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "Engine/enginepch.hpp"
 
-#include "Concurrency/ConcurrencyPackage.hpp"
-#include "Encoding/EncodingPackage.hpp"
-#include "OOP/OOPPackage.hpp"
-#include "Time/TimePackage.hpp"
+#include "UTF8ParseError.hpp"
+
+namespace Pollux
+{
+	UTF8ParseError::UTF8ParseError(const char* message)
+		:
+		std::logic_error{ message }
+	{
+	}
+}

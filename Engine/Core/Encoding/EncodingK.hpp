@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "Concurrency/ConcurrencyPackage.hpp"
-#include "Encoding/EncodingPackage.hpp"
-#include "OOP/OOPPackage.hpp"
-#include "Time/TimePackage.hpp"
+namespace Pollux::Core
+{
+	constexpr char UTF8_BOM[3] = { 0xEF, 0xBB, 0xBF };
+}

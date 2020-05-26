@@ -6,7 +6,14 @@
 
 #pragma once
 
-#include "Concurrency/ConcurrencyPackage.hpp"
-#include "Encoding/EncodingPackage.hpp"
-#include "OOP/OOPPackage.hpp"
-#include "Time/TimePackage.hpp"
+namespace Pollux
+{
+    /**************************************************************************************************************************
+     * \class UTF8 Parse Error
+     *************************************************************************************************************************/
+    class UTF8ParseError final : public std::logic_error
+    {
+    public:
+        explicit UTF8ParseError(const char* message);
+    };
+}
