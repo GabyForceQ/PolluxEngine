@@ -6,8 +6,4 @@
 
 #pragma once
 
-#include "Concurrency/ConcurrencyPackage.hpp"
-#include "Encoding/EncodingPackage.hpp"
-#include "Generic/GenericPackage.hpp"
-#include "OOP/OOPPackage.hpp"
-#include "Time/TimePackage.hpp"
+#include "GenericUtils.hpp"
