@@ -27,13 +27,13 @@ namespace Pollux::Core
     }
 
     template <typename T, typename ...Args>
-    bool InList(const T& value, Args&&... args) noexcept
+    bool InList(const T value, Args&&... args) noexcept
     {
         return ((value == args) || ...);
     }
 
     template <typename T>
-    bool InRange(const T& value, const T& begin, const T& end) noexcept
+    bool InRange(const T value, const T begin, const T end) noexcept
     {
         if constexpr (std::is_convertible<T, MathBaseType>::value)
         {
@@ -58,7 +58,7 @@ namespace Pollux::Core
     }
 
     template <typename U, typename T>
-    bool If(const bool& cond, T* pInstance, const std::function<void(U* pIt)>& Callback)
+    bool If(bool cond, T* pInstance, const std::function<void(U* pIt)>& Callback)
     {
         if (cond && pInstance != nullptr)
         {
@@ -85,5 +85,11 @@ namespace Pollux::Core
     inline auto GetVectorSize(const T& vec) noexcept
     {
         return sizeof(typename T::value_type) * vec.size();
+    }
+
+    template <typename T>
+    bool Contains(const std::vector<T>& vec, T val) noexcept
+    {
+        return std::find(vec.begin(), vec.end(), val) != vec.end();
     }
 }
