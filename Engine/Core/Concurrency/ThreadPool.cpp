@@ -4,8 +4,6 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
-
 #include "Engine/enginepch.hpp"
 
 #include "ThreadPool.hpp"
