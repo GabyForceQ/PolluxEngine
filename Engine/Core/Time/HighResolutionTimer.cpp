@@ -5,6 +5,7 @@
  *****************************************************************************************************************************/
 
 #include "Engine/enginepch.hpp"
+
 #include "HighResolutionTimer.hpp"
 
 namespace Pollux::Core
