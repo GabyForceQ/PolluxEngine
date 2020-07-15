@@ -8,24 +8,14 @@ public static class Options
         Path.Combine(Util.GetCurrentSharpmakeFileInfo().DirectoryName, "..")));
 
     public static string ExternPath = Path.Combine(RootPath, "Extern");
-
     public static string BuildPath = Path.Combine(RootPath, "Build");
-
-    public static string TempPath = Path.Combine(BuildPath, "Temp");
+    public static string ExternLibPath = Path.Combine(RootPath, "Lib");
     public static string LibPath = Path.Combine(BuildPath, "Lib");
-    public static string NuGetPackagesPath = Path.Combine(TempPath, "Nuget");
+    public static string TempPath = Path.Combine(BuildPath, "Temp");
     public static string OutputPath = Path.Combine(BuildPath, "Output");
     public static string ProjectsPath = Path.Combine(BuildPath, "Projects");
 
     public static Dictionary<string, string> ExternalNuGetPackages = new Dictionary<string, string>();
-
-    // Global NuGet feeds to use
-    public static string[] NuGetFeeds =
-    {
-        "https://artifactory.ubisoft.org/api/nuget/nuget",
-        "https://artifactory.ubisoft.org/api/nuget/nuget-playground",
-        "https://artifactory.ubisoft.org/api/nuget/nuget-snapshot"
-    };
 
     public static string GetProjectPath(Target target)
     {
