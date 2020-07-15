@@ -47,14 +47,15 @@ public abstract class BaseProject : Project
     [Configure(Platform.win64)]
     public virtual void ConfigureWin64(Configuration conf, Target target)
     {
-        conf.Defines.Add("POLLUX_SYSTEM_WIN64");
         conf.Defines.Add("POLLUX_SYSTEM_WINDOWS");
+        conf.Defines.Add("POLLUX_DRIVER_VULKAN");
 
         conf.Defines.Add("_SCL_SECURE_NO_WARNINGS");
         conf.Defines.Add("_CRT_SECURE_NO_WARNINGS");
         conf.Defines.Add("WIN32_LEAN_AND_MEAN");
         conf.Defines.Add("_WINSOCKAPI_");
-        conf.Defines.Add("GLEW_STATIC");
+
+        conf.LibraryFiles.Add(Path.Combine(Options.ExternLibPath, "vulkan-1.lib"));
 
         conf.Options.Add(new Sharpmake.Options.Vc.Compiler.DisableSpecificWarnings("4005"));
 

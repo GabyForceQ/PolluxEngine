@@ -79,6 +79,10 @@ void operator delete(void* p);
 #endif
 #pragma endregion OS_HEADERS
 
+#ifdef POLLUX_DRIVER_VULKAN
+#include "vulkan/vulkan.hpp"
+#endif
+
 namespace Pollux
 {
     using byte_t = uint8_t;

@@ -21,8 +21,7 @@ public class Engine : BaseProject
         get { return "[project.Name]"; }
     }
 
-    public Engine()
-        : base()
+    public Engine() : base()
     {
         SourceRootPath = ProjectRootPath;
 
@@ -44,7 +43,7 @@ public class Engine : BaseProject
 
         conf.IncludePaths.AddRange(new string[]
         {
-            Path.Combine(Options.ExternPath, "Deps", "single_include")
+            Path.Combine(Options.ExternPath, "SingleInclude")
         });
     }
 }
