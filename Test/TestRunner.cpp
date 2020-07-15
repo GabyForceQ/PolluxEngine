@@ -10,6 +10,7 @@
 #include "Tests/Core/ConcurrencyTests.hpp"
 #include "Tests/Core/EncodingTests.hpp"
 #include "Tests/Core/TimeTests.hpp"
+#include "Tests/Core/Graphics/VulkanTests.hpp"
 
 namespace Pollux::Test
 {
@@ -36,6 +37,14 @@ namespace Pollux::Test
         // Core.Time
         {
             RUN_TEST(ClockTypeConversion);
+        }
+
+        // Core.Graphics
+        {
+            // Core.Graphics.Vulkan
+            {
+                RUN_TEST(CreateDestroyVulkanInstance);
+            }
         }
 
         if (errors == 0)
