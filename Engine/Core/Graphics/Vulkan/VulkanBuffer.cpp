@@ -57,13 +57,13 @@ namespace Pollux::Core
 
 	VkResult VulkanBuffer::Invalidate(VkDeviceSize size, VkDeviceSize offset)
 	{
-		VkMappedMemoryRange mappedRange = {};
-		mappedRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-		mappedRange.memory = pMemory;
-		mappedRange.offset = offset;
-		mappedRange.size = size;
+		VkMappedMemoryRange mappedMemoryRange = {};
+		mappedMemoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+		mappedMemoryRange.memory = pMemory;
+		mappedMemoryRange.offset = offset;
+		mappedMemoryRange.size = size;
 
-		return vkInvalidateMappedMemoryRanges(pDevice, 1, &mappedRange);
+		return vkInvalidateMappedMemoryRanges(pDevice, 1, &mappedMemoryRange);
 	}
 
 	void VulkanBuffer::Destroy()
