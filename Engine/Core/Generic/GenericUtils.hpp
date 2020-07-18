@@ -92,4 +92,6 @@ namespace Pollux::Core
     {
         return std::find(vec.begin(), vec.end(), val) != vec.end();
     }
+
+    bool Contains(const std::vector<std::string>& vec, std::string_view val) noexcept;
 }
