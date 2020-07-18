@@ -14,15 +14,15 @@ namespace Pollux::Core
 {
 	VkResult VulkanBuffer::Map(VkDeviceSize size, VkDeviceSize offset)
 	{
-		return vkMapMemory(pDevice, pMemory, offset, size, 0, &pMapped);
+		return vkMapMemory(pDevice, pMemory, offset, size, 0, &pMappedMemory);
 	}
 
 	void VulkanBuffer::Unmap()
 	{
-		if (pMapped != nullptr)
+		if (pMappedMemory != nullptr)
 		{
 			vkUnmapMemory(pDevice, pMemory);
-			pMapped = nullptr;
+			pMappedMemory = nullptr;
 		}
 	}
 
@@ -40,8 +40,8 @@ namespace Pollux::Core
 
 	void VulkanBuffer::CopyTo(void* pData, VkDeviceSize size)
 	{
-		assert(pMapped != nullptr);
-		memcpy(pMapped, pData, size);
+		assert(pMappedMemory != nullptr);
+		memcpy(pMappedMemory, pData, size);
 	}
 
 	VkResult VulkanBuffer::Flush(VkDeviceSize size, VkDeviceSize offset)
