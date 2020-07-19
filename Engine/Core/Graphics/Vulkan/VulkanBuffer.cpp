@@ -28,13 +28,13 @@ namespace Pollux::Core
 
 	VkResult VulkanBuffer::Bind(VkDeviceSize offset)
 	{
-		return vkBindBufferMemory(pDevice, pBuffer, pMemory, offset);
+		return vkBindBufferMemory(pDevice, pHandle, pMemory, offset);
 	}
 
 	void VulkanBuffer::SetupDescriptor(VkDeviceSize size, VkDeviceSize offset)
 	{
 		descriptor.offset = offset;
-		descriptor.buffer = pBuffer;
+		descriptor.buffer = pHandle;
 		descriptor.range = size;
 	}
 
@@ -68,9 +68,9 @@ namespace Pollux::Core
 
 	void VulkanBuffer::Destroy()
 	{
-		if (pBuffer != VK_NULL_HANDLE)
+		if (pHandle != VK_NULL_HANDLE)
 		{
-			vkDestroyBuffer(pDevice, pBuffer, nullptr);
+			vkDestroyBuffer(pDevice, pHandle, nullptr);
 		}
 
 		if (pMemory != VK_NULL_HANDLE)
