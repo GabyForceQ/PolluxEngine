@@ -8,6 +8,9 @@
 
 #ifdef POLLUX_DRIVER_VULKAN
 
+#define VK_FLAGS_NONE 0
+#define VK_DEFAULT_FENCE_TIMEOUT 100000000000
+
 namespace Pollux::Core
 {
 	template <typename F>
