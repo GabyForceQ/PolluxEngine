@@ -45,6 +45,11 @@ namespace Pollux::Core
         }
     }
 
+    void ThisThread::SetName(std::string_view name)
+    {
+        SetName(std::string(name).data());
+    }
+
     void ThisThread::SleepForMilliseconds(const uint32_t& milliseconds)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
