@@ -5,11 +5,3 @@
  *****************************************************************************************************************************/
 
 #pragma once
-
-#include "Concurrency/ConcurrencyPackage.hpp"
-#include "Encoding/EncodingPackage.hpp"
-#include "Generic/GenericPackage.hpp"
-#include "Graphics/GraphicsPackage.hpp"
-#include "OOP/OOPPackage.hpp"
-#include "Time/TimePackage.hpp"
-#include "System/SystemPackage.hpp"
