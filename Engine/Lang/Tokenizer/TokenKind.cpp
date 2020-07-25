@@ -42,6 +42,8 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_CloseParen = "TokenKind::CloseParen";
 	const char* g_pTokenKind_OpenBrace = "TokenKind::OpenBrace";
 	const char* g_pTokenKind_CloseBrace = "TokenKind::CloseBrace";
+	const char* g_pTokenKind_OpenBracket = "TokenKind::OpenBracket";
+	const char* g_pTokenKind_CloseBracket = "TokenKind::CloseBracket";
 	const char* g_pTokenKind_Colon = "TokenKind::Colon";
 	const char* g_pTokenKind_Semicolon = "TokenKind::Semicolon";
 	const char* g_pTokenKind_Comma = "TokenKind::Comma";
@@ -50,6 +52,7 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_RangeInclusive = "TokenKind::RangeInclusive";
 	const char* g_pTokenKind_Follow = "TokenKind::Follow";
 	const char* g_pTokenKind_Arrow = "TokenKind::Arrow";
+	const char* g_pTokenKind_At = "TokenKind::At";
 	const char* g_pTokenKind_LogicalNot = "TokenKind::LogicalNot";
 	const char* g_pTokenKind_LogicalAnd = "TokenKind::LogicalAnd";
 	const char* g_pTokenKind_LogicalOr = "TokenKind::LogicalOr";
@@ -112,6 +115,8 @@ namespace Pollux::Lang
 		{ g_pTokenKind_CloseParen, TokenKind::CloseParen },
 		{ g_pTokenKind_OpenBrace, TokenKind::OpenBrace },
 		{ g_pTokenKind_CloseBrace, TokenKind::CloseBrace },
+		{ g_pTokenKind_OpenBracket, TokenKind::OpenBracket },
+		{ g_pTokenKind_CloseBracket, TokenKind::CloseBracket },
 		{ g_pTokenKind_Colon, TokenKind::Colon },
 		{ g_pTokenKind_Semicolon, TokenKind::Semicolon },
 		{ g_pTokenKind_Comma, TokenKind::Comma },
@@ -120,6 +125,7 @@ namespace Pollux::Lang
 		{ g_pTokenKind_RangeInclusive, TokenKind::RangeInclusive },
 		{ g_pTokenKind_Follow, TokenKind::Follow },
 		{ g_pTokenKind_Arrow, TokenKind::Arrow },
+		{ g_pTokenKind_At, TokenKind::At },
 		{ g_pTokenKind_LogicalNot, TokenKind::LogicalNot },
 		{ g_pTokenKind_LogicalAnd, TokenKind::LogicalAnd },
 		{ g_pTokenKind_LogicalOr, TokenKind::LogicalOr },
@@ -195,6 +201,8 @@ namespace Pollux::Lang
 		case TokenKind::CloseParen: return g_pTokenKind_CloseParen;
 		case TokenKind::OpenBrace: return g_pTokenKind_OpenBrace;
 		case TokenKind::CloseBrace: return g_pTokenKind_CloseBrace;
+		case TokenKind::OpenBracket: return g_pTokenKind_OpenBracket;
+		case TokenKind::CloseBracket: return g_pTokenKind_CloseBracket;
 		case TokenKind::Colon: return g_pTokenKind_Colon;
 		case TokenKind::Semicolon: return g_pTokenKind_Semicolon;
 		case TokenKind::Comma: return g_pTokenKind_Comma;
@@ -203,6 +211,7 @@ namespace Pollux::Lang
 		case TokenKind::RangeInclusive: return g_pTokenKind_RangeInclusive;
 		case TokenKind::Follow: return g_pTokenKind_Follow;
 		case TokenKind::Arrow: return g_pTokenKind_Arrow;
+		case TokenKind::At: return g_pTokenKind_At;
 		case TokenKind::LogicalNot: return g_pTokenKind_LogicalNot;
 		case TokenKind::LogicalAnd: return g_pTokenKind_LogicalAnd;
 		case TokenKind::LogicalOr: return g_pTokenKind_LogicalOr;

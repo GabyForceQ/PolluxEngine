@@ -45,6 +45,8 @@ namespace Pollux::Lang
 		CloseParen,				///	)
 		OpenBrace,				///	{
 		CloseBrace,				///	}
+		OpenBracket,			///	[
+		CloseBracket,			///	]
 		Colon,					///	:
 		Semicolon,				///	;
 		Comma,					///	,
@@ -53,6 +55,7 @@ namespace Pollux::Lang
 		RangeInclusive,			///	..=
 		Follow,					///	=>
 		Arrow,					///	->
+		At,						/// @
 		LogicalNot,				///	!
 		LogicalAnd,				///	&&
 		LogicalOr,				///	||
@@ -114,6 +117,8 @@ namespace Pollux::Lang
 	extern const char* g_pTokenKind_CloseParen;
 	extern const char* g_pTokenKind_OpenBrace;
 	extern const char* g_pTokenKind_CloseBrace;
+	extern const char* g_pTokenKind_OpenBracket;
+	extern const char* g_pTokenKind_CloseBracket;
 	extern const char* g_pTokenKind_Colon;
 	extern const char* g_pTokenKind_Semicolon;
 	extern const char* g_pTokenKind_Comma;
@@ -122,6 +127,7 @@ namespace Pollux::Lang
 	extern const char* g_pTokenKind_RangeInclusive;
 	extern const char* g_pTokenKind_Follow;
 	extern const char* g_pTokenKind_Arrow;
+	extern const char* g_pTokenKind_At;
 	extern const char* g_pTokenKind_LogicalNot;
 	extern const char* g_pTokenKind_LogicalAnd;
 	extern const char* g_pTokenKind_LogicalOr;
