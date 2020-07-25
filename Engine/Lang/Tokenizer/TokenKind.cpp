@@ -13,6 +13,8 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_Undefined = "TokenKind::Undefined";
 	const char* g_pTokenKind_Eof = "TokenKind::Eof";
 	const char* g_pTokenKind_Eol = "TokenKind::Eol";
+	const char* g_pTokenKind_SingleLineComment = "TokenKind::SingleLineComment";
+	const char* g_pTokenKind_Documentation = "TokenKind::Documentation";
 	const char* g_pTokenKind_Identifier = "TokenKind::Identifier";
 	const char* g_pTokenKind_LiteralInteger = "TokenKind::LiteralInteger";
 	const char* g_pTokenKind_LiteralDouble = "TokenKind::LiteralDouble";
@@ -86,6 +88,8 @@ namespace Pollux::Lang
 		{ g_pTokenKind_Undefined, TokenKind::Undefined },
 		{ g_pTokenKind_Eof, TokenKind::Eof },
 		{ g_pTokenKind_Eol, TokenKind::Eol },
+		{ g_pTokenKind_SingleLineComment, TokenKind::SingleLineComment },
+		{ g_pTokenKind_Documentation, TokenKind::Documentation },
 		{ g_pTokenKind_Identifier, TokenKind::Identifier },
 		{ g_pTokenKind_LiteralInteger, TokenKind::LiteralInteger },
 		{ g_pTokenKind_LiteralDouble, TokenKind::LiteralDouble },
@@ -172,6 +176,8 @@ namespace Pollux::Lang
 		case TokenKind::Undefined: return g_pTokenKind_Undefined;
 		case TokenKind::Eof: return g_pTokenKind_Eof;
 		case TokenKind::Eol: return g_pTokenKind_Eol;
+		case TokenKind::SingleLineComment: return g_pTokenKind_SingleLineComment;
+		case TokenKind::Documentation: return g_pTokenKind_Documentation;
 		case TokenKind::Identifier: return g_pTokenKind_Identifier;
 		case TokenKind::LiteralInteger: return g_pTokenKind_LiteralInteger;
 		case TokenKind::LiteralDouble: return g_pTokenKind_LiteralDouble;

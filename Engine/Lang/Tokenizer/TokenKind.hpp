@@ -16,6 +16,8 @@ namespace Pollux::Lang
 		Undefined,				///	null
 		Eof,					///	-1
 		Eol,					///	\n
+		SingleLineComment,		/// #
+		Documentation,			/// !#
 		Identifier,				///	name
 		LiteralInteger,			///	e.g. 58
 		LiteralDouble,			///	e.g. 58.0
@@ -88,6 +90,8 @@ namespace Pollux::Lang
 	extern const char* g_pTokenKind_Undefined;
 	extern const char* g_pTokenKind_Eof;
 	extern const char* g_pTokenKind_Eol;
+	extern const char* g_pTokenKind_SingleLineComment;
+	extern const char* g_pTokenKind_Documentation;
 	extern const char* g_pTokenKind_Identifier;
 	extern const char* g_pTokenKind_LiteralInteger;
 	extern const char* g_pTokenKind_LiteralDouble;
