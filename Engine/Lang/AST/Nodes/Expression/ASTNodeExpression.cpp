@@ -12,7 +12,7 @@ namespace Pollux::Lang
 {
 	ASTNodeExpression::ASTNodeExpression(ExpressionKind kind) noexcept
 		:
-		ASTNodeBase{ Token{ TokenKind::Undefined, "" } },
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } },
 		kind{ std::move(kind) }
 	{
 	}

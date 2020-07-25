@@ -12,7 +12,7 @@ namespace Pollux::Lang
 {
 	ASTNodeLog::ASTNodeLog(ASTNodeExpression* pExression) noexcept
 		:
-		ASTNodeBase{ Token{ TokenKind::Undefined, "" } },
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } },
 		pExression{ pExression }
 	{
 	}

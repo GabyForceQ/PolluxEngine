@@ -12,7 +12,7 @@ namespace Pollux::Lang
 {
 	ASTNodeEmptyStatement::ASTNodeEmptyStatement() noexcept
 		:
-		ASTNodeBase{ Token{ TokenKind::Undefined, "" } }
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } }
 	{
 	}
 
