@@ -15,6 +15,7 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_Eol = "TokenKind::Eol";
 	const char* g_pTokenKind_Identifier = "TokenKind::Identifier";
 	const char* g_pTokenKind_LiteralInteger = "TokenKind::LiteralInteger";
+	const char* g_pTokenKind_LiteralFloat = "TokenKind::LiteralFloat";
 	const char* g_pTokenKind_LiteralDouble = "TokenKind::LiteralDouble";
 	const char* g_pTokenKind_LiteralString = "TokenKind::LiteralString";
 	const char* g_pTokenKind_OperatorAdd = "TokenKind::OperatorAdd";
@@ -88,6 +89,7 @@ namespace Pollux::Lang
 		{ g_pTokenKind_Eol, TokenKind::Eol },
 		{ g_pTokenKind_Identifier, TokenKind::Identifier },
 		{ g_pTokenKind_LiteralInteger, TokenKind::LiteralInteger },
+		{ g_pTokenKind_LiteralFloat, TokenKind::LiteralFloat },
 		{ g_pTokenKind_LiteralDouble, TokenKind::LiteralDouble },
 		{ g_pTokenKind_LiteralString, TokenKind::LiteralString },
 		{ g_pTokenKind_OperatorAdd, TokenKind::OperatorAdd },
@@ -174,6 +176,7 @@ namespace Pollux::Lang
 		case TokenKind::Eol: return g_pTokenKind_Eol;
 		case TokenKind::Identifier: return g_pTokenKind_Identifier;
 		case TokenKind::LiteralInteger: return g_pTokenKind_LiteralInteger;
+		case TokenKind::LiteralFloat: return g_pTokenKind_LiteralFloat;
 		case TokenKind::LiteralDouble: return g_pTokenKind_LiteralDouble;
 		case TokenKind::LiteralString: return g_pTokenKind_LiteralString;
 		case TokenKind::OperatorAdd: return g_pTokenKind_OperatorAdd;

@@ -18,6 +18,7 @@ namespace Pollux::Lang
 		Eol,					///	\n
 		Identifier,				///	name
 		LiteralInteger,			///	e.g. 58
+		LiteralFloat,			/// e.g. 58f, 58.f, 58.0f
 		LiteralDouble,			///	e.g. 58.0
 		LiteralString,			///	e.g. "hello world"
 		OperatorAdd,			///	+
@@ -90,6 +91,7 @@ namespace Pollux::Lang
 	extern const char* g_pTokenKind_Eol;
 	extern const char* g_pTokenKind_Identifier;
 	extern const char* g_pTokenKind_LiteralInteger;
+	extern const char* g_pTokenKind_LiteralFloat;
 	extern const char* g_pTokenKind_LiteralDouble;
 	extern const char* g_pTokenKind_LiteralString;
 	extern const char* g_pTokenKind_OperatorAdd;
