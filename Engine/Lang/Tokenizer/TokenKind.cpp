@@ -53,6 +53,13 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_LogicalNot = "TokenKind::LogicalNot";
 	const char* g_pTokenKind_LogicalAnd = "TokenKind::LogicalAnd";
 	const char* g_pTokenKind_LogicalOr = "TokenKind::LogicalOr";
+	const char* g_pTokenKind_BitNot = "TokenKind::BitNot";
+	const char* g_pTokenKind_BitAnd = "TokenKind::BitAnd";
+	const char* g_pTokenKind_BitOr = "TokenKind::BitOr";
+	const char* g_pTokenKind_BitXor = "TokenKind::BitXor";
+	const char* g_pTokenKind_BitLeftShift = "TokenKind::BitLeftShift";
+	const char* g_pTokenKind_BitRightShift = "TokenKind::BitRightShift";
+	const char* g_pTokenKind_BitUnsignedRightShift = "TokenKind::BitUnsignedRightShift";
 	const char* g_pTokenKind_KeywordVar = "TokenKind::KeywordVar";
 	const char* g_pTokenKind_KeywordVal = "TokenKind::KeywordVal";
 	const char* g_pTokenKind_KeywordTrue = "TokenKind::KeywordTrue";
@@ -116,6 +123,13 @@ namespace Pollux::Lang
 		{ g_pTokenKind_LogicalNot, TokenKind::LogicalNot },
 		{ g_pTokenKind_LogicalAnd, TokenKind::LogicalAnd },
 		{ g_pTokenKind_LogicalOr, TokenKind::LogicalOr },
+		{ g_pTokenKind_BitNot, TokenKind::BitNot },
+		{ g_pTokenKind_BitAnd, TokenKind::BitAnd },
+		{ g_pTokenKind_BitOr, TokenKind::BitOr },
+		{ g_pTokenKind_BitXor, TokenKind::BitXor },
+		{ g_pTokenKind_BitLeftShift, TokenKind::BitLeftShift },
+		{ g_pTokenKind_BitRightShift, TokenKind::BitRightShift },
+		{ g_pTokenKind_BitUnsignedRightShift, TokenKind::BitUnsignedRightShift },
 		{ g_pTokenKind_KeywordVar, TokenKind::KeywordVar },
 		{ g_pTokenKind_KeywordVal, TokenKind::KeywordVal },
 		{ g_pTokenKind_KeywordTrue, TokenKind::KeywordTrue },
@@ -192,6 +206,13 @@ namespace Pollux::Lang
 		case TokenKind::LogicalNot: return g_pTokenKind_LogicalNot;
 		case TokenKind::LogicalAnd: return g_pTokenKind_LogicalAnd;
 		case TokenKind::LogicalOr: return g_pTokenKind_LogicalOr;
+		case TokenKind::BitNot: return g_pTokenKind_BitNot;
+		case TokenKind::BitAnd: return g_pTokenKind_BitAnd;
+		case TokenKind::BitOr: return g_pTokenKind_BitOr;
+		case TokenKind::BitXor: return g_pTokenKind_BitXor;
+		case TokenKind::BitLeftShift: return g_pTokenKind_BitLeftShift;
+		case TokenKind::BitRightShift: return g_pTokenKind_BitRightShift;
+		case TokenKind::BitUnsignedRightShift: return g_pTokenKind_BitUnsignedRightShift;
 		case TokenKind::KeywordVar: return g_pTokenKind_KeywordVar;
 		case TokenKind::KeywordVal: return g_pTokenKind_KeywordVal;
 		case TokenKind::KeywordTrue: return g_pTokenKind_KeywordTrue;

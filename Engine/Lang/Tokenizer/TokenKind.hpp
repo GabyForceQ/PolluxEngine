@@ -56,6 +56,13 @@ namespace Pollux::Lang
 		LogicalNot,				///	!
 		LogicalAnd,				///	&&
 		LogicalOr,				///	||
+		BitNot,					///	~
+		BitAnd,					///	&
+		BitOr,					///	|
+		BitXor,					///	^
+		BitLeftShift,			/// <<
+		BitRightShift,			/// >>
+		BitUnsignedRightShift,	/// >>>
 		KeywordVar,				///	var
 		KeywordVal,				///	val
 		KeywordTrue,			///	true
@@ -118,6 +125,13 @@ namespace Pollux::Lang
 	extern const char* g_pTokenKind_LogicalNot;
 	extern const char* g_pTokenKind_LogicalAnd;
 	extern const char* g_pTokenKind_LogicalOr;
+	extern const char* g_pTokenKind_BitNot;
+	extern const char* g_pTokenKind_BitAnd;
+	extern const char* g_pTokenKind_BitOr;
+	extern const char* g_pTokenKind_BitXor;
+	extern const char* g_pTokenKind_BitLeftShift;
+	extern const char* g_pTokenKind_BitRightShift;
+	extern const char* g_pTokenKind_BitUnsignedRightShift;
 	extern const char* g_pTokenKind_KeywordVar;
 	extern const char* g_pTokenKind_KeywordVal;
 	extern const char* g_pTokenKind_KeywordTrue;
