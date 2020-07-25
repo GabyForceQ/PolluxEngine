@@ -145,7 +145,7 @@ namespace Pollux::Lang
 		throw std::runtime_error("Error (Lang.Tokenizer): Token Kind string is not valid.");
 	}
 
-	const char* ToString(const TokenKind& tokenKind)
+	std::string ToString(const TokenKind tokenKind)
 	{
 		switch (tokenKind)
 		{
@@ -209,7 +209,7 @@ namespace Pollux::Lang
 		case TokenKind::KeywordComptime: return g_pTokenKind_KeywordComptime;
 		case TokenKind::KeywordAlways: return g_pTokenKind_KeywordAlways;
 		case TokenKind::KeywordPackage: return g_pTokenKind_KeywordPackage;
-		default: // todo. Log a warning message
+		default: ; // todo. Log a warning message
 		}
 
 		return g_pEmptyString;
