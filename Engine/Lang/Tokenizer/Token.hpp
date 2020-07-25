@@ -18,5 +18,7 @@ namespace Pollux::Lang
 		explicit Token(TokenKind tokenKind, std::string_view value) noexcept;
 
 		std::string ToString() const;
+
+		bool IsKeyword() const noexcept;
 	};
 }

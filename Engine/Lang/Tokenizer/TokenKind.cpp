@@ -163,6 +163,27 @@ namespace Pollux::Lang
 		{ g_pTokenKind_KeywordPackage, TokenKind::KeywordPackage }
 	};
 
+	const std::map<const char*, TokenKind> g_TokenKindKeywordMap
+	{
+		{ g_pTokenKind_KeywordVar, TokenKind::KeywordVar },
+		{ g_pTokenKind_KeywordVal, TokenKind::KeywordVal },
+		{ g_pTokenKind_KeywordTrue, TokenKind::KeywordTrue },
+		{ g_pTokenKind_KeywordFalse, TokenKind::KeywordFalse },
+		{ g_pTokenKind_KeywordLog, TokenKind::KeywordLog },
+		{ g_pTokenKind_KeywordIf, TokenKind::KeywordIf },
+		{ g_pTokenKind_KeywordElse, TokenKind::KeywordElse },
+		{ g_pTokenKind_KeywordReturn, TokenKind::KeywordReturn },
+		{ g_pTokenKind_KeywordFunc, TokenKind::KeywordFunc },
+		{ g_pTokenKind_KeywordAnnot, TokenKind::KeywordAnnot },
+		{ g_pTokenKind_KeywordObject, TokenKind::KeywordObject },
+		{ g_pTokenKind_KeywordClass, TokenKind::KeywordClass },
+		{ g_pTokenKind_KeywordStruct, TokenKind::KeywordStruct },
+		{ g_pTokenKind_KeywordEnum, TokenKind::KeywordEnum },
+		{ g_pTokenKind_KeywordComptime, TokenKind::KeywordComptime },
+		{ g_pTokenKind_KeywordAlways, TokenKind::KeywordAlways },
+		{ g_pTokenKind_KeywordPackage, TokenKind::KeywordPackage }
+	};
+
 	TokenKind TokenKindToEnum(const char* tokenKind)
 	{
 		if (g_TokenKindMap.contains(tokenKind))

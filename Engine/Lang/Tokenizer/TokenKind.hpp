@@ -166,6 +166,8 @@ namespace Pollux::Lang
 
 	extern const std::map<const char*, TokenKind> g_TokenKindMap;
 
+	extern const std::map<const char*, TokenKind> g_TokenKindKeywordMap;
+
 	TokenKind TokenKindToEnum(const char* tokenKind);
 	std::string ToString(const TokenKind tokenKind);
 }

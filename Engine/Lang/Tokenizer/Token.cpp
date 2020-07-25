@@ -21,4 +21,9 @@ namespace Pollux::Lang
 	{
 		return "Token({ " + Lang::ToString(kind) + " }, { " + value + " })\n";
 	}
+
+	bool Token::IsKeyword() const noexcept
+	{
+		return g_TokenKindKeywordMap.contains(value.c_str());
+	}
 }
