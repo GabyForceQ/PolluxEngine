@@ -27,6 +27,8 @@ namespace Pollux::Lang
 		ASTNodeIfElse
 	};
 
+	MAKE_ENUM_CONVERTIBLE_TO(ASTNodeKind, type_t)
+
 	extern const char* g_ASTNodeKind_ASTNodeBase;
 	extern const char* g_ASTNodeKind_ASTNodeAssign;
 	extern const char* g_ASTNodeKind_ASTNodeLog;
