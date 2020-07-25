@@ -10,8 +10,6 @@
 
 namespace Pollux::Lang
 {
-	class ASTNodeExpression;
-
 	class ASTNodeEmptyStatement final : public ASTNodeBase
 	{
 	public:
