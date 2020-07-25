@@ -14,6 +14,9 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_Eof = "TokenKind::Eof";
 	const char* g_pTokenKind_Eol = "TokenKind::Eol";
 	const char* g_pTokenKind_Identifier = "TokenKind::Identifier";
+	const char* g_pTokenKind_LiteralBinary = "TokenKind::LiteralBinary";
+	const char* g_pTokenKind_LiteralOctal = "TokenKind::LiteralOctal";
+	const char* g_pTokenKind_LiteralHexa = "TokenKind::LiteralHexa";
 	const char* g_pTokenKind_LiteralInteger = "TokenKind::LiteralInteger";
 	const char* g_pTokenKind_LiteralFloat = "TokenKind::LiteralFloat";
 	const char* g_pTokenKind_LiteralDouble = "TokenKind::LiteralDouble";
@@ -88,6 +91,9 @@ namespace Pollux::Lang
 		{ g_pTokenKind_Eof, TokenKind::Eof },
 		{ g_pTokenKind_Eol, TokenKind::Eol },
 		{ g_pTokenKind_Identifier, TokenKind::Identifier },
+		{ g_pTokenKind_LiteralBinary, TokenKind::LiteralBinary },
+		{ g_pTokenKind_LiteralOctal, TokenKind::LiteralOctal },
+		{ g_pTokenKind_LiteralHexa, TokenKind::LiteralHexa },
 		{ g_pTokenKind_LiteralInteger, TokenKind::LiteralInteger },
 		{ g_pTokenKind_LiteralFloat, TokenKind::LiteralFloat },
 		{ g_pTokenKind_LiteralDouble, TokenKind::LiteralDouble },
@@ -175,6 +181,9 @@ namespace Pollux::Lang
 		case TokenKind::Eof: return g_pTokenKind_Eof;
 		case TokenKind::Eol: return g_pTokenKind_Eol;
 		case TokenKind::Identifier: return g_pTokenKind_Identifier;
+		case TokenKind::LiteralBinary: return g_pTokenKind_LiteralBinary;
+		case TokenKind::LiteralOctal: return g_pTokenKind_LiteralOctal;
+		case TokenKind::LiteralHexa: return g_pTokenKind_LiteralHexa;
 		case TokenKind::LiteralInteger: return g_pTokenKind_LiteralInteger;
 		case TokenKind::LiteralFloat: return g_pTokenKind_LiteralFloat;
 		case TokenKind::LiteralDouble: return g_pTokenKind_LiteralDouble;

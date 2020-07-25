@@ -17,6 +17,9 @@ namespace Pollux::Lang
 		Eof,					///	-1
 		Eol,					///	\n
 		Identifier,				///	name
+		LiteralBinary,			/// e.g. 0b0101
+		LiteralOctal,			/// e.g. 0o5702
+		LiteralHexa,			/// e.g. 0xAF62
 		LiteralInteger,			///	e.g. 58
 		LiteralFloat,			/// e.g. 58f, 58.f, 58.0f
 		LiteralDouble,			///	e.g. 58.0
@@ -90,6 +93,9 @@ namespace Pollux::Lang
 	extern const char* g_pTokenKind_Eof;
 	extern const char* g_pTokenKind_Eol;
 	extern const char* g_pTokenKind_Identifier;
+	extern const char* g_pTokenKind_LiteralBinary;
+	extern const char* g_pTokenKind_LiteralOctal;
+	extern const char* g_pTokenKind_LiteralHexa;
 	extern const char* g_pTokenKind_LiteralInteger;
 	extern const char* g_pTokenKind_LiteralFloat;
 	extern const char* g_pTokenKind_LiteralDouble;
