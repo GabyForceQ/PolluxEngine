@@ -191,7 +191,7 @@ namespace Pollux::Lang
 			return g_TokenKindMap.at(tokenKind);
 		}
 
-		throw std::runtime_error("Error (Lang.Tokenizer): Token Kind string is not valid.");
+		throw std::runtime_error("Error (Lang.Tokenizer): TokenKind string is not valid.");
 	}
 
 	std::string ToString(const TokenKind tokenKind)
