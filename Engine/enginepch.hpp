@@ -116,6 +116,9 @@ namespace Pollux
 size_t operator "" _sz(uint64_t x);
 #endif
 
+#define MAKE_ENUM_CONVERTIBLE_TO(NAME, TYPE) inline TYPE operator+(NAME self) \
+    { return static_cast<TYPE>(self); }
+
 #ifdef ENGINE_HEADERS
 #include "Core/CoreModule.hpp"
 #endif
