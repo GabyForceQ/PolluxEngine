@@ -10,11 +10,11 @@
 
 namespace Pollux::BuildSystem
 {
-	const char* g_ProjectType_VisualStudio = "ProjectType::VisualStudio";
+	const char* g_ProjectType_VS2019 = "ProjectType::VS2019";
 
 	const std::map<const char*, ProjectType> g_ProjectTypeMap
 	{
-		{ g_ProjectType_VisualStudio, ProjectType::VisualStudio },
+		{ g_ProjectType_VS2019, ProjectType::VS2019 },
 	};
 
 	ProjectType ProjectTypeToEnum(const char* projectType)
@@ -31,7 +31,7 @@ namespace Pollux::BuildSystem
 	{
 		switch (projectType)
 		{
-		case ProjectType::VisualStudio: return g_ProjectType_VisualStudio;
+		case ProjectType::VS2019: return g_ProjectType_VS2019;
 		default:; // todo. Log a warning message
 		}
 

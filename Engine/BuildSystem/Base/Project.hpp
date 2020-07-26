@@ -13,12 +13,12 @@ namespace Pollux::BuildSystem
 	class Project
 	{
 	public:
-		const std::string name;
+		std::string name;
 
-		const std::string path;
+		std::string path;
 
-		const std::vector<BuildConfiguration> configurations;
+		std::vector<BuildConfiguration> configurations;
 
-		const std::vector<std::string> preprocessorDefinitions;
+		std::vector<std::string> preprocessorDefinitions;
 	};
 }

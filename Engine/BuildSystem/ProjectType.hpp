@@ -10,10 +10,10 @@ namespace Pollux::BuildSystem
 {
 	enum class ProjectType
 	{
-		VisualStudio
+		VS2019
 	};
 
-	extern const char* g_ProjectType_VisualStudio;
+	extern const char* g_ProjectType_VS2019;
 
 	extern const std::map<const char*, ProjectType> g_ProjectTypeMap;
 

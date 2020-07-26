@@ -5,3 +5,11 @@
  *****************************************************************************************************************************/
 
 #pragma once
+
+#include "VisualStudio/Generators/VSProjectGenerator.hpp"
+#include "VisualStudio/Generators/VSSolutionGenerator.hpp"
+#include "VisualStudio/Objects/VSProject.hpp"
+#include "VisualStudio/Objects/VSSolution.hpp"
+
+#include "BuildAction.hpp"
+#include "ProjectType.hpp"
