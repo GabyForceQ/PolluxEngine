@@ -44,6 +44,7 @@
 #include <locale>
 #include <filesystem>
 #include <future>
+#include <random>
 #pragma endregion CPP_STL_HEADERS
 
 #ifdef POLLUX_TARGET_DEBUG
