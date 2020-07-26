@@ -2,6 +2,7 @@
 
 [module: Sharpmake.Include("Options.sharpmake.cs")]
 [module: Sharpmake.Include("Engine.sharpmake.cs")]
+[module: Sharpmake.Include("EngineBuilder.sharpmake.cs")]
 [module: Sharpmake.Include("Editor.sharpmake.cs")]
 [module: Sharpmake.Include("Test.sharpmake.cs")]
 
@@ -25,6 +26,7 @@ public class PolluxSolution : Solution
         conf.SolutionPath = Options.GetProjectPath(target);
 
         conf.AddProject<Editor>(target);
+        conf.AddProject<EngineBuilder>(target);
         conf.AddProject<Test>(target);
     }
 }

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BaseProject.sharpmake.cs" />
     <Compile Include="Engine.sharpmake.cs" />
+    <Compile Include="EngineBuilder.sharpmake.cs" />
     <Compile Include="ExternProject.sharpmake.cs" />
     <Compile Include="Editor.sharpmake.cs" />
     <Compile Include="Options.sharpmake.cs" />
