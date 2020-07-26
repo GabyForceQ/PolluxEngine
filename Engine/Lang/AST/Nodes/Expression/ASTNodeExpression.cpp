@@ -4,27 +4,21 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "Engine/enginepch.hpp"
 
-#ifdef POLLUX_DRIVER_VULKAN
+#include "ASTNodeExpression.hpp"
 
-#define VK_FLAGS_NONE 0
-#define VK_DEFAULT_FENCE_TIMEOUT 100000000000
-
-namespace Pollux::Core
+namespace Pollux::Lang
 {
-	template <typename F>
-	void VulkanCheckResult(F f)
+	ASTNodeExpression::ASTNodeExpression(ExpressionKind kind) noexcept
+		:
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } },
+		kind{ std::move(kind) }
 	{
-		if (VkResult res = (f); res != VK_SUCCESS)
-		{
-			// todo. log
-			if (res != VK_SUCCESS)
-			{
-				throw std::runtime_error("Vulkan Error!");
-			}
-		}
+	}
+
+	void ASTNodeExpression::Accept(IASTNodeVisitor* pVisitor)
+	{
+		return pVisitor->Visit(this);
 	}
 }
-
-#endif

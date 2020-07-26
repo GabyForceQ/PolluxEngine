@@ -6,25 +6,19 @@
 
 #pragma once
 
-#ifdef POLLUX_DRIVER_VULKAN
+#include "TokenKind.hpp"
 
-#define VK_FLAGS_NONE 0
-#define VK_DEFAULT_FENCE_TIMEOUT 100000000000
-
-namespace Pollux::Core
+namespace Pollux::Lang
 {
-	template <typename F>
-	void VulkanCheckResult(F f)
+	struct Token final
 	{
-		if (VkResult res = (f); res != VK_SUCCESS)
-		{
-			// todo. log
-			if (res != VK_SUCCESS)
-			{
-				throw std::runtime_error("Vulkan Error!");
-			}
-		}
-	}
-}
+		TokenKind kind = TokenKind::Undefined;
+		std::string value;
 
-#endif
+		explicit Token(TokenKind tokenKind, std::string_view value) noexcept;
+
+		std::string ToString() const;
+
+		bool IsKeyword() const noexcept;
+	};
+}

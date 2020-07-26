@@ -6,25 +6,15 @@
 
 #pragma once
 
-#ifdef POLLUX_DRIVER_VULKAN
+#include "../ASTNodeBase.hpp"
 
-#define VK_FLAGS_NONE 0
-#define VK_DEFAULT_FENCE_TIMEOUT 100000000000
-
-namespace Pollux::Core
+namespace Pollux::Lang
 {
-	template <typename F>
-	void VulkanCheckResult(F f)
+	class ASTNodeEmptyStatement final : public ASTNodeBase
 	{
-		if (VkResult res = (f); res != VK_SUCCESS)
-		{
-			// todo. log
-			if (res != VK_SUCCESS)
-			{
-				throw std::runtime_error("Vulkan Error!");
-			}
-		}
-	}
-}
+	public:
+		explicit ASTNodeEmptyStatement() noexcept;
 
-#endif
+		void Accept(IASTNodeVisitor* pVisitor);
+	};
+}

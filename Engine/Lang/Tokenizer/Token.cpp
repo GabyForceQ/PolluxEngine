@@ -4,27 +4,26 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "Engine/enginepch.hpp"
 
-#ifdef POLLUX_DRIVER_VULKAN
+#include "Token.hpp"
 
-#define VK_FLAGS_NONE 0
-#define VK_DEFAULT_FENCE_TIMEOUT 100000000000
-
-namespace Pollux::Core
+namespace Pollux::Lang
 {
-	template <typename F>
-	void VulkanCheckResult(F f)
+	Token::Token(TokenKind tokenKind, std::string_view value) noexcept
+		:
+		kind{ std::move(kind) },
+		value{ std::move(value) }
 	{
-		if (VkResult res = (f); res != VK_SUCCESS)
-		{
-			// todo. log
-			if (res != VK_SUCCESS)
-			{
-				throw std::runtime_error("Vulkan Error!");
-			}
-		}
+	}
+
+	std::string Token::ToString() const
+	{
+		return "Token({ " + Lang::ToString(kind) + " }, { " + value + " })\n";
+	}
+
+	bool Token::IsKeyword() const noexcept
+	{
+		return g_TokenKindKeywordMap.contains(value.c_str());
 	}
 }
-
-#endif
