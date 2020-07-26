@@ -8,9 +8,11 @@
 
 namespace Pollux::BuildSystem
 {
+	class Project;
+
 	class IProjectGenerator
 	{
 	public:
-		virtual void Generate() = 0;
+		virtual std::string Generate(Project* pProject) = 0;
 	};
 }

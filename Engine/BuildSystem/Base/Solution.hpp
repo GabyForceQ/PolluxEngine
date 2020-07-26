@@ -8,9 +8,11 @@
 
 namespace Pollux::BuildSystem
 {
+	class Project;
+
 	class Solution
 	{
 	public:
-
+		std::vector<Project*> pProjects;
 	};
 }

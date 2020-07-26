@@ -8,9 +8,11 @@
 
 namespace Pollux::BuildSystem
 {
+	class Solution;
+
 	class ISolutionGenerator
 	{
 	public:
-		virtual void Generate() = 0;
+		virtual std::string Generate(Solution* pSolution) = 0;
 	};
 }

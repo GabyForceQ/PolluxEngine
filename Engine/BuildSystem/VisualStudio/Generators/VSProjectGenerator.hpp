@@ -13,6 +13,6 @@ namespace Pollux::BuildSystem
 	class VSProjectGenerator final : public IProjectGenerator
 	{
 	public:
-		void Generate() override;
+		std::string Generate(Project* pProject) override;
 	};
 }

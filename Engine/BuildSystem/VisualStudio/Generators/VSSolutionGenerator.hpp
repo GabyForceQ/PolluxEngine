@@ -13,6 +13,6 @@ namespace Pollux::BuildSystem
 	class VSSolutionGenerator final : public ISolutionGenerator
 	{
 	public:
-		void Generate() override;
+		std::string Generate(Solution* pSolution) override;
 	};
 }
