@@ -11,12 +11,12 @@
 
 namespace Pollux::BuildSystem
 {
-	class VSProject final : public Project
+	class VSProject : public Project
 	{
 	public:
 		const VSGuid guid = VSGuid::Create();
 		
-		const VSGuid type;
+		const VSGuid type = VSGuid::Create();
 
 		const std::vector<VSGuid> dependencies;
 	};

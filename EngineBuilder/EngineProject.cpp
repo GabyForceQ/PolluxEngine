@@ -4,15 +4,12 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "EngineBuilder/enginebuilderpch.hpp"
+#include "EngineProject.hpp"
 
-#include "../../Base/Solution.hpp"
-
-namespace Pollux::BuildSystem
+namespace Pollux::EngineBuilder
 {
-	class VSSolution : public Solution
-	{
-	public:
-
-	};
+    EngineProject::EngineProject()
+    {
+    }
 }

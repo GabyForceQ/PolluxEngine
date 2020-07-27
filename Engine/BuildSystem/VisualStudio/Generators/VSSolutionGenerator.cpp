@@ -44,6 +44,44 @@ namespace Pollux::BuildSystem
             res += "EndProject\n";
         }
 
+        res += "Gloabl\n"
+            "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
+
+        const std::vector<BuildConfiguration> configurations =
+        {
+            { "Debug", BuildPlatform::Windows, "x64", BuildConfigurationType::Debug },
+            { "Release", BuildPlatform::Windows, "x64", BuildConfigurationType::Release },
+            { "Retail", BuildPlatform::Windows, "x64", BuildConfigurationType::Retail },
+        };
+
+        for (const auto& configuration : configurations)
+        {
+            res += "\t\t" + configuration.name + "|" + configuration.architecture + " = " + configuration.name + "|" +
+                configuration.architecture + "\n";
+        }
+
+        res += "\tEndGlobalSection\n"
+            "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n";
+
+        for (Project* pProject : pSolution->pProjects)
+        {
+            auto pVSProject = Core::Cast<VSProject>(pProject);
+
+            for (const auto& configuration : pProject->configurations)
+            {
+                res += "\t\t{" + pVSProject->guid.ToString() + "}." + configuration.name + "|" + configuration.architecture +
+                    ".ActiveCfg = " + configuration.name + "|" + configuration.architecture + "\n";
+                res += "\t\t{" + pVSProject->guid.ToString() + "}." + configuration.name + "|" + configuration.architecture +
+                    ".Build.0 = " + configuration.name + "|" + configuration.architecture + "\n";
+            }
+        }
+
+        res += "\tEndGlobalSection\n"
+            "\tGlobalSection(SolutionProperties) = preSolution\n"
+            "\t\tHideSolutionNode = FALSE\n"
+            "\tEndGlobalSection\n"
+            "EndGlobal\n";
+
         return std::move(res);
     }
 }

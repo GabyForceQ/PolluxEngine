@@ -6,13 +6,11 @@
 
 #pragma once
 
-#include "../../Base/Solution.hpp"
-
-namespace Pollux::BuildSystem
+namespace Pollux::EngineBuilder
 {
-	class VSSolution : public Solution
+	class EngineProject final : public BuildSystem::VSProject
 	{
 	public:
-
+		EngineProject();
 	};
 }

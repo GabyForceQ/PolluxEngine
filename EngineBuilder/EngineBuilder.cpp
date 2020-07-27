@@ -6,21 +6,28 @@
 
 #include "EngineBuilder/enginebuilderpch.hpp"
 
+#include "EngineProject.hpp"
+
 using namespace Pollux::BuildSystem;
+using namespace Pollux::EngineBuilder;
 
 int main(int argc, char* argv[])
 {
+    srand(static_cast<uint32_t>(time(0)));
+
     try
     {
         BuildAction buildAction = BuildAction::None;
-        std::string projectPath = "Build\\Projects\\Win64_VS2019\\";
+        std::string projectPath = "Build\\Projects\\test\\";
         std::set<ProjectType> projectTypes;
         std::string targetName;
         ISolutionGenerator* pSolutionGenerator = nullptr;
+        IProjectGenerator* pProjectGenerator = nullptr;
         Solution* pSolution = nullptr;
         std::string solutionCode;
+        std::vector<std::string> projectsCode;
 
-        for (int i = 1; i < argc; ++i)
+        for (int i = 1; i < argc; i++)
         {
             if (std::string(argv[i]) == "--help")
             {
@@ -79,8 +86,21 @@ int main(int argc, char* argv[])
         }
         case BuildAction::GenerateProject:
         {
-            Project* project = new Project();
-            project->path = projectPath;
+            const std::vector<BuildConfiguration> configurations =
+            {
+                { "Debug", BuildPlatform::Windows, "x64", BuildConfigurationType::Debug },
+                { "Release", BuildPlatform::Windows, "x64", BuildConfigurationType::Release },
+                { "Retail", BuildPlatform::Windows, "x64", BuildConfigurationType::Retail },
+            };
+
+            EngineProject* pEngineProject = new EngineProject();
+            pEngineProject->path = "PolluxEngine______PROJ.vcxproj";
+            pEngineProject->name = "PolluxEngine______PROJ";
+
+            for (const auto& configuration : configurations)
+            {
+                pEngineProject->configurations.push_back(configuration);
+            }
 
             for (const auto projectType : projectTypes)
             {
@@ -89,7 +109,12 @@ int main(int argc, char* argv[])
                 case ProjectType::VS2019:
                 {
                     pSolutionGenerator = new VSSolutionGenerator();
+                    pProjectGenerator = new VSProjectGenerator();
+
                     pSolution = new VSSolution();
+                    pSolution->pProjects.push_back(pEngineProject);
+
+                    projectsCode.push_back(pProjectGenerator->Generate(pEngineProject));
 
                     solutionCode = pSolutionGenerator->Generate(pSolution);
                     
@@ -112,9 +137,16 @@ int main(int argc, char* argv[])
         }
         }
 
-        std::fstream f((projectPath + "PolluxEngine").c_str(), std::ios::out);
+        std::fstream f((projectPath + "PolluxEngine______SLN.sln").c_str(), std::ios::out);
         f << solutionCode;
         f.close();
+
+        for (const std::string& projectCode : projectsCode)
+        {
+            std::fstream f((projectPath + "PolluxEngine______PROJ.vcxproj").c_str(), std::ios::out);
+            f << projectCode;
+            f.close();
+        }
     }
     catch (const std::exception& e)
     {

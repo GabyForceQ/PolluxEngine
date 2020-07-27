@@ -31,15 +31,15 @@ namespace Pollux::BuildSystem
         }
 
         res += "  </ItemGroup>\n";
-
         res += "  <PropertyGroup Label=\"Globals\">\n";
+        res += "    <VCProjectVersion>16.0</VCProjectVersion>\n";
+        res += "    <Keyword>Win32Proj</Keyword>\n";
         res += "    <ProjectGuid>{" + pVSProject->guid.ToString() + "}</ProjectGuid>\n";
-        res += "    <DefaultLanguage>en-US</DefaultLanguage>";
-        res += "    <RootNamespace>Pollux</RootNamespace>\n";
+        res += "    <DefaultLanguage>en-US</DefaultLanguage>\n";
+        res += "    <RootNamespace>" + pProject->name + "</RootNamespace>\n";
         res += "    <ProjectName>" + pProject->name + "</ProjectName>\n";
-        res += "    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>\n";
+        res += "    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>\n";
         res += "  </PropertyGroup>\n";
-
         res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Default.props\" />\n";
 
         for (const auto& configuration : pProject->configurations)
@@ -69,17 +69,16 @@ namespace Pollux::BuildSystem
                 break;
             }
             default:
-                break;
+                break; // todo. error
             }
             
             res += "    <CharacterSet>MultiByte</CharacterSet>\n";
             res += "  </PropertyGroup>\n";
         }
 
-        res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\" />\n";
+        res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\"/>\n";
         res += "  <ImportGroup Label=\"ExtensionSettings\">\n";
         res += "  </ImportGroup>\n";
-        res += "  <ImportGroup Label=\"PropertySheets\">\n";
         res += "  <ImportGroup Label=\"Shared\">\n";
         res += "  </ImportGroup>\n";
 
@@ -92,12 +91,139 @@ namespace Pollux::BuildSystem
             res += "  </ImportGroup>\n";
         }
 
-        res += "  <PropertyGroup Label=\"UserMacros\" />\n";
+        res += "  <PropertyGroup Label=\"UserMacros\"/>\n";
 
-        res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.targets\" />\n";
+        for (const auto& configuration : pProject->configurations)
+        {
+            res += "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='" +
+                configuration.name + "|" + configuration.architecture + "'\">\n";
+
+            switch (configuration.type)
+            {
+            case BuildConfigurationType::Debug:
+            {
+                res += "    <LinkIncremental>true</LinkIncremental>\n";
+                break;
+            }
+            case BuildConfigurationType::Release:
+            {
+                res += "    <LinkIncremental>false</LinkIncremental>\n";
+                break;
+            }
+            case BuildConfigurationType::Retail:
+            {
+                res += "    <LinkIncremental>false</LinkIncremental>\n";
+                break;
+            }
+            default:
+                break; // todo. error
+            }
+
+            res += "  </PropertyGroup>\n";
+        }
+
+        for (const auto& configuration : pProject->configurations)
+        {
+            res += "  <ItemDefinitionGroup Condition=\"'$(Configuration)|$(Platform)'=='" +
+                configuration.name + "|" + configuration.architecture + "'\">\n";
+            res += "    <ClCompile>\n";
+            res += "      <WarningLevel>Level3</WarningLevel>\n";
+            res += "      <SDLCheck>true</SDLCheck>\n";
+            res += "      <ConformanceMode>true</ConformanceMode>\n";
+
+            switch (configuration.type)
+            {
+            case BuildConfigurationType::Debug:
+            {
+                // Do not add this to Debug because /ZI and /Gy- or /Gy command line options are incompatible 
+                //res += "        <FunctionLevelLinking>false</FunctionLevelLinking>\n";
+                
+                res += "        <IntrinsicFunctions>false</IntrinsicFunctions>\n";
+                break;
+            }
+            case BuildConfigurationType::Release:
+            {
+                res += "        <FunctionLevelLinking>true</FunctionLevelLinking>\n";
+                res += "        <IntrinsicFunctions>true</IntrinsicFunctions>\n";
+                break;
+            }
+            case BuildConfigurationType::Retail:
+            {
+                res += "        <FunctionLevelLinking>true</FunctionLevelLinking>\n";
+                res += "        <IntrinsicFunctions>true</IntrinsicFunctions>\n";
+                break;
+            }
+            default:
+                break; // todo. error
+            }
+
+            res += "    </ClCompile>\n";
+            res += "    <Link>\n";
+            res += "      <SubSystem>Console</SubSystem>\n";
+
+            switch (configuration.type)
+            {
+            case BuildConfigurationType::Debug:
+            {
+                res += "        <GenerateDebugInformation>true</GenerateDebugInformation>\n";
+                res += "        <OptimizeReferences>false</OptimizeReferences>\n";
+                res += "        <EnableCOMDATFolding>false</EnableCOMDATFolding>\n";
+                break;
+            }
+            case BuildConfigurationType::Release:
+            {
+                res += "        <GenerateDebugInformation>false</GenerateDebugInformation>\n";
+                res += "        <OptimizeReferences>true</OptimizeReferences>\n";
+                res += "        <EnableCOMDATFolding>true</EnableCOMDATFolding>\n";
+                break;
+            }
+            case BuildConfigurationType::Retail:
+            {
+                res += "        <GenerateDebugInformation>false</GenerateDebugInformation>\n";
+                res += "        <OptimizeReferences>true</OptimizeReferences>\n";
+                res += "        <EnableCOMDATFolding>true</EnableCOMDATFolding>\n";
+                break;
+            }
+            default:
+                break; // todo. error
+            }
+
+            res += "        <PreprocessorDefinitions>";
+
+            switch (configuration.type)
+            {
+            case BuildConfigurationType::Debug:
+            {
+                res += "_DEBUG;";
+                break;
+            }
+            case BuildConfigurationType::Release:
+            {
+                res += "NDEBUG;";
+                break;
+            }
+            case BuildConfigurationType::Retail:
+            {
+                res += "NDEBUG;";
+                break;
+            }
+            default:
+                break; // todo. error
+            }
+
+            for (const std::string& preprocessorDefinition : pProject->preprocessorDefinitions)
+            {
+                res += preprocessorDefinition + ";";
+            }
+
+            res += "%(PreprocessorDefinitions)</PreprocessorDefinitions>\n";
+            res += "    </Link>\n";
+            res += "  </ItemDefinitionGroup>\n";
+        }
+
+        res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.targets\"/>\n";
         res += "  <ImportGroup Label=\"ExtensionTargets\">\n";
         res += "  </ImportGroup>\n";
-
         res += "</Project>";
 
         return std::move(res);
