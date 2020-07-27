@@ -59,6 +59,7 @@ namespace Pollux::BuildSystem
             case BuildConfigurationType::Release:
             {
                 res += "    <UseDebugLibraries>false</UseDebugLibraries>\n";
+                res += "    <WholeProgramOptimization>true</WholeProgramOptimization>\n";
                 break;
             }
             case BuildConfigurationType::Retail:
