@@ -6,13 +6,34 @@
 
 #pragma once
 
+#include "../Interfaces/IBuildConfiguration.hpp"
+#include "../Interfaces/IProjectConfiguration.hpp"
+
 namespace Pollux::BuildSystem
 {
+	class VSSolution;
+	class VSSolutionGenerator;
+	class VSProject;
+	class VSProjectGenerator;
 	class Project;
 
-	class Solution
+	class Solution : protected IBuildConfiguration, private IProjectConfiguration
 	{
 	public:
+		Solution(const std::vector<Project*>& pProjects);
+
+		void SetProjectType(ProjectType projectType) override;
+
+	protected:
 		std::vector<Project*> pProjects;
+
+	private:
+		VSSolution* pVSSolution = nullptr;
+		VSSolutionGenerator* pVSSolutionGenerator = nullptr;
+
+		friend VSSolution;
+		friend VSSolutionGenerator;
+		friend VSProject;
+		friend VSProjectGenerator;
 	};
 }

@@ -7,6 +7,7 @@
 #include "EngineBuilder/enginebuilderpch.hpp"
 
 #include "EngineProject.hpp"
+#include "PolluxEngineSolution.hpp"
 
 using namespace Pollux::BuildSystem;
 using namespace Pollux::EngineBuilder;
@@ -23,9 +24,10 @@ int main(int argc, char* argv[])
         std::string targetName;
         ISolutionGenerator* pSolutionGenerator = nullptr;
         IProjectGenerator* pProjectGenerator = nullptr;
-        Solution* pSolution = nullptr;
+        PolluxEngineSolution* pSolution = nullptr;
         std::string solutionCode;
         std::vector<std::string> projectsCode;
+        std::vector<Project*> pProjects;
 
         for (int i = 1; i < argc; i++)
         {
@@ -86,21 +88,9 @@ int main(int argc, char* argv[])
         }
         case BuildAction::GenerateProject:
         {
-            const std::vector<BuildConfiguration> configurations =
-            {
-                { "Debug", BuildPlatform::Windows, "x64", BuildConfigurationType::Debug },
-                { "Release", BuildPlatform::Windows, "x64", BuildConfigurationType::Release },
-                { "Retail", BuildPlatform::Windows, "x64", BuildConfigurationType::Retail },
-            };
-
             EngineProject* pEngineProject = new EngineProject();
-            pEngineProject->path = "PolluxEngine______PROJ.vcxproj";
-            pEngineProject->name = "PolluxEngine______PROJ";
-
-            for (const auto& configuration : configurations)
-            {
-                pEngineProject->configurations.push_back(configuration);
-            }
+            pEngineProject->ConfigureWin64();
+            pProjects.push_back(pEngineProject);
 
             for (const auto projectType : projectTypes)
             {
@@ -111,8 +101,9 @@ int main(int argc, char* argv[])
                     pSolutionGenerator = new VSSolutionGenerator();
                     pProjectGenerator = new VSProjectGenerator();
 
-                    pSolution = new VSSolution();
-                    pSolution->pProjects.push_back(pEngineProject);
+                    pSolution = new PolluxEngineSolution(pProjects);
+                    pSolution->SetProjectType(projectType);
+                    pSolution->ConfigureWin64();
 
                     projectsCode.push_back(pProjectGenerator->Generate(pEngineProject));
 
@@ -120,19 +111,9 @@ int main(int argc, char* argv[])
                     
                     break;
                 }
-                default:
-                {
-                    // todo. log error
-                    break;
-                }
                 }
             }
 
-            break;
-        }
-        default:
-        {
-            // todo. log error
             break;
         }
         }

@@ -6,11 +6,9 @@
 
 #pragma once
 
-#include "../../Base/Solution.hpp"
-
 namespace Pollux::BuildSystem
 {
-	class VSSolution : public Solution
+	class VSSolution final
 	{
 	public:
 

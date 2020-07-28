@@ -6,12 +6,11 @@
 
 #pragma once
 
-#include "../../Base/Project.hpp"
 #include "../VSGuid.hpp"
 
 namespace Pollux::BuildSystem
 {
-	class VSProject : public Project
+	class VSProject final
 	{
 	public:
 		const VSGuid guid = VSGuid::Create();

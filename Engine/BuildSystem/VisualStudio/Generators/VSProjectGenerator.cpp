@@ -7,14 +7,14 @@
 #include "Engine/enginepch.hpp"
 
 #include "VSProjectGenerator.hpp"
+#include "Engine/BuildSystem/Base/Project.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
-#include "Engine/Core/Generic/GenericUtils.hpp"
 
 namespace Pollux::BuildSystem
 {
     std::string VSProjectGenerator::Generate(Project* pProject)
     {
-        auto pVSProject = Core::Cast<VSProject>(pProject);
+        auto pVSProject = pProject->pVSProject;
 
         std::string res = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
             "<Project DefaultTargets=\"Build\" ToolsVersion=\"16.0\" "

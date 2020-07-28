@@ -7,7 +7,20 @@
 #include "Engine/enginepch.hpp"
 
 #include "Project.hpp"
+#include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
 
 namespace Pollux::BuildSystem
 {
+    void Project::SetProjectType(ProjectType projectType)
+    {
+		this->projectType = projectType;
+
+		switch (projectType)
+		{
+		case ProjectType::VS2019:
+		{
+			pVSProject = new VSProject();
+		}
+		}
+    }
 }

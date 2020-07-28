@@ -6,6 +6,9 @@
 
 #pragma once
 
+#include "Base/Project.hpp"
+#include "Base/Solution.hpp"
+
 #include "VisualStudio/Generators/VSProjectGenerator.hpp"
 #include "VisualStudio/Generators/VSSolutionGenerator.hpp"
 #include "VisualStudio/Objects/VSProject.hpp"

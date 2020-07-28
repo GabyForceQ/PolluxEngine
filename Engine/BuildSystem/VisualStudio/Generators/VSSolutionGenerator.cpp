@@ -7,15 +7,16 @@
 #include "Engine/enginepch.hpp"
 
 #include "VSSolutionGenerator.hpp"
+#include "Engine/BuildSystem/Base/Project.hpp"
+#include "Engine/BuildSystem/Base/Solution.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSSolution.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
-#include "Engine/Core/Generic/GenericUtils.hpp"
 
 namespace Pollux::BuildSystem
 {
     std::string VSSolutionGenerator::Generate(Solution* pSolution)
     {
-        auto pVSSolution = Core::Cast<VSSolution>(pSolution);
+        auto pVSSolution = pSolution->pVSSolution;
 
         std::string res = "Microsoft Visual Studio Solution File, Format Version 12.00\n"
             "# Visual Studio Version 16\n"
@@ -24,7 +25,7 @@ namespace Pollux::BuildSystem
 
         for (Project* pProject : pSolution->pProjects)
         {
-            auto pVSProject = Core::Cast<VSProject>(pProject);
+            auto pVSProject = pProject->pVSProject;
 
             res += "Project(\"{" + pVSProject->type.ToString() + "}\") = \"" + pProject->name +
                 "\", \"" + pProject->path + "\", \"{" + pVSProject->guid.ToString() + "}\"\n";
@@ -65,7 +66,7 @@ namespace Pollux::BuildSystem
 
         for (Project* pProject : pSolution->pProjects)
         {
-            auto pVSProject = Core::Cast<VSProject>(pProject);
+            auto pVSProject = pProject->pVSProject;
 
             for (const auto& configuration : pProject->configurations)
             {

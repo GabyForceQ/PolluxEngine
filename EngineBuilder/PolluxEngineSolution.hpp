@@ -4,26 +4,16 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#include "Engine/enginepch.hpp"
+#pragma once
 
-#include "Solution.hpp"
-#include "Project.hpp"
-
-namespace Pollux::BuildSystem
+namespace Pollux::EngineBuilder
 {
-    Solution::Solution(const std::vector<Project*>& pProjects)
-        :
-        pProjects{ pProjects }
-    {
-    }
+	class PolluxEngineSolution final : public BuildSystem::Solution
+	{
+	public:
+		PolluxEngineSolution(const std::vector<BuildSystem::Project*>& pProjects);
 
-    void Solution::SetProjectType(ProjectType projectType)
-    {
-        this->projectType = projectType;
-
-        for (Project* pProject : pProjects)
-        {
-            pProject->SetProjectType(projectType);
-        }
-    }
+	public: //private:
+		virtual void ConfigureWin64() override;
+	};
 }

@@ -13,6 +13,7 @@ namespace Pollux::BuildSystem
 		Debug,
 		Release,
 		Retail
+		// todo. User Defined
 	};
 
 	extern const char* g_BuildConfigurationType_Debug;
