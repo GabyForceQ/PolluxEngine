@@ -20,6 +20,11 @@ namespace Pollux::BuildSystem
 
 	class Project : protected IBuildConfiguration, private IProjectConfiguration
 	{
+	public:
+		const std::string& GetName() const noexcept;
+		
+		const std::string& GetPath() const noexcept;
+
 	protected:
 		std::string name;
 

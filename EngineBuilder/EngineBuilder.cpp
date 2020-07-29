@@ -7,6 +7,8 @@
 #include "EngineBuilder/enginebuilderpch.hpp"
 
 #include "EngineProject.hpp"
+#include "EditorProject.hpp"
+
 #include "PolluxEngineSolution.hpp"
 
 using namespace Pollux::BuildSystem;
@@ -26,8 +28,16 @@ int main(int argc, char* argv[])
         IProjectGenerator* pProjectGenerator = nullptr;
         PolluxEngineSolution* pSolution = nullptr;
         std::string solutionCode;
-        std::vector<std::string> projectsCode;
         std::vector<Project*> pProjects;
+
+        struct ProjectsCode
+        {
+            std::string name;
+            std::string path;
+            std::string code;
+        };
+
+        std::vector<ProjectsCode> projectsCode;
 
         for (int i = 1; i < argc; i++)
         {
@@ -92,6 +102,10 @@ int main(int argc, char* argv[])
             pEngineProject->ConfigureWin64();
             pProjects.push_back(pEngineProject);
 
+            EditorProject* pEditorProject = new EditorProject();
+            pEditorProject->ConfigureWin64();
+            pProjects.push_back(pEditorProject);
+
             for (const auto projectType : projectTypes)
             {
                 switch (projectType)
@@ -105,7 +119,8 @@ int main(int argc, char* argv[])
                     pSolution->SetProjectType(projectType);
                     pSolution->ConfigureWin64();
 
-                    projectsCode.push_back(pProjectGenerator->Generate(pEngineProject));
+                    projectsCode.push_back({ pEngineProject->GetName(), pEngineProject->GetPath(), pProjectGenerator->Generate(pEngineProject) });
+                    projectsCode.push_back({ pEditorProject->GetName(), pEditorProject->GetPath(), pProjectGenerator->Generate(pEditorProject) });
 
                     solutionCode = pSolutionGenerator->Generate(pSolution);
                     
@@ -118,14 +133,14 @@ int main(int argc, char* argv[])
         }
         }
 
-        std::fstream f((projectPath + "PolluxEngine______SLN.sln").c_str(), std::ios::out);
+        std::fstream f((projectPath + "PolluxEngine.sln").c_str(), std::ios::out);
         f << solutionCode;
         f.close();
 
-        for (const std::string& projectCode : projectsCode)
+        for (const ProjectsCode& projectCode : projectsCode)
         {
-            std::fstream f((projectPath + "PolluxEngine______PROJ.vcxproj").c_str(), std::ios::out);
-            f << projectCode;
+            std::fstream f((projectPath + projectCode.path).c_str(), std::ios::out);
+            f << projectCode.code;
             f.close();
         }
     }

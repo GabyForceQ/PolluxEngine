@@ -6,19 +6,19 @@
 
 #include "EngineBuilder/enginebuilderpch.hpp"
 
-#include "EngineProject.hpp"
+#include "EditorProject.hpp"
 
 using namespace Pollux::BuildSystem;
 
 namespace Pollux::EngineBuilder
 {
-    EngineProject::EngineProject()
+    EditorProject::EditorProject()
     {
-        name = "Engine";
-        path = "Engine.vcxproj";
+        name = "Editor";
+        path = "Editor.vcxproj";
     }
 
-    void EngineProject::ConfigureWin64()
+    void EditorProject::ConfigureWin64()
     {
         configurations.push_back({ "Debug", BuildPlatform::Windows, "x64", BuildConfigurationType::Debug });
         configurations.push_back({ "Release", BuildPlatform::Windows, "x64", BuildConfigurationType::Release });

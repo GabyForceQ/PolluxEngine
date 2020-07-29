@@ -11,6 +11,16 @@
 
 namespace Pollux::BuildSystem
 {
+	const std::string& Project::GetName() const noexcept
+	{
+		return name;
+	}
+
+	const std::string& Project::GetPath() const noexcept
+	{
+		return path;
+	}
+
     void Project::SetProjectType(ProjectType projectType)
     {
 		this->projectType = projectType;
