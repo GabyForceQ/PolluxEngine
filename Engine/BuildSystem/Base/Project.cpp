@@ -21,6 +21,16 @@ namespace Pollux::BuildSystem
 		return path;
 	}
 
+	const std::string& Project::GetPrecompiledHeaderName() const noexcept
+	{
+		return precompiledHeaderName;
+	}
+
+	bool Project::UsePrecompiledHeaders() const noexcept
+	{
+		return bUsePrecompiledHeaders;
+	}
+
     void Project::SetProjectType(ProjectType projectType)
     {
 		this->projectType = projectType;
@@ -31,6 +41,11 @@ namespace Pollux::BuildSystem
 		{
 			pVSProject = new VSProject();
 		}
+		}
+
+		if (bUsePrecompiledHeaders)
+		{
+			precompiledHeaderName = name + "PCH";
 		}
     }
 }

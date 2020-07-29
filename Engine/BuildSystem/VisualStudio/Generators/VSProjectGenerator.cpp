@@ -72,6 +72,7 @@ namespace Pollux::BuildSystem
                 break; // todo. error
             }
             
+            res += "    <PreferredToolArchitecture>x64</PreferredToolArchitecture>\n";
             res += "    <CharacterSet>MultiByte</CharacterSet>\n";
             res += "  </PropertyGroup>\n";
         }
@@ -130,6 +131,24 @@ namespace Pollux::BuildSystem
             res += "      <WarningLevel>Level3</WarningLevel>\n";
             res += "      <SDLCheck>true</SDLCheck>\n";
             res += "      <ConformanceMode>true</ConformanceMode>\n";
+            res += "      <AdditionalOptions>/Zc:__cplusplus</AdditionalOptions>\n";
+            res += "      <ProgramDatabaseFileName>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
+                pProject->name + "\\" + configuration.name + "\\" + pProject->name +
+                configuration.name + "Compiler.pdb</ProgramDatabaseFileName>\n";
+
+            if (pProject->bUsePrecompiledHeaders)
+            {
+                res += "      <PrecompiledHeader>Use</PrecompiledHeader>\n";
+                res += "      <PrecompiledHeaderFile>" + pProject->precompiledHeaderName +
+                    ".hpp</PrecompiledHeaderFile>\n";
+                res += "      <PrecompiledHeaderOutputFile>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
+                    pProject->name + "\\" + configuration.name + "\\" + pProject->name +
+                    ".pch</PrecompiledHeaderOutputFile>\n";
+            }
+            else
+            {
+                res += "      <PrecompiledHeader>NotUsing</PrecompiledHeader>\n";
+            }
 
             switch (configuration.type)
             {
@@ -139,18 +158,21 @@ namespace Pollux::BuildSystem
                 //res += "        <FunctionLevelLinking>false</FunctionLevelLinking>\n";
                 
                 res += "        <IntrinsicFunctions>false</IntrinsicFunctions>\n";
+                res += "        <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>\n";
                 break;
             }
             case BuildConfigurationType::Release:
             {
                 res += "        <FunctionLevelLinking>true</FunctionLevelLinking>\n";
                 res += "        <IntrinsicFunctions>true</IntrinsicFunctions>\n";
+                res += "        <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>\n";
                 break;
             }
             case BuildConfigurationType::Retail:
             {
                 res += "        <FunctionLevelLinking>true</FunctionLevelLinking>\n";
                 res += "        <IntrinsicFunctions>true</IntrinsicFunctions>\n";
+                res += "        <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>\n";
                 break;
             }
             default:
@@ -221,11 +243,85 @@ namespace Pollux::BuildSystem
             res += "  </ItemDefinitionGroup>\n";
         }
 
+        if (pProject->bUsePrecompiledHeaders)
+        {
+            res += "  <ItemGroup>\n";
+            res += "    <ClInclude Include=\"..\\..\\..\\" + pProject->name + "\\" +
+                pProject->precompiledHeaderName + ".hpp\"/>\n";
+            res += "  </ItemGroup>\n";
+            res += "  <ItemGroup>\n";
+            res += "    <ClCompile Include=\"..\\..\\..\\" + pProject->name + "\\" +
+                pProject->precompiledHeaderName + ".cpp\">\n";
+        }
+
+        for (const auto& configuration : pProject->configurations)
+        {
+            res += "      <PrecompiledHeader Condition=\"'$(Configuration)|$(Platform)'=='" +
+                configuration.name + "|" + configuration.architecture + "'\">Create</PrecompiledHeader>\n";
+        }
+
+        res += "    </ClCompile>\n";
+        res += "  </ItemGroup>\n";
         res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.targets\"/>\n";
         res += "  <ImportGroup Label=\"ExtensionTargets\">\n";
         res += "  </ImportGroup>\n";
         res += "</Project>";
 
+        GenerateSourceDirectory(pProject);
+
+        if (pProject->bUsePrecompiledHeaders)
+        {
+            GeneratePrecompiledHeader(pProject);
+        }
+
         return std::move(res);
+    }
+
+    void VSProjectGenerator::GenerateSourceDirectory(Project* pProject)
+    {
+        if (!std::filesystem::is_directory(pProject->name))
+        {
+            std::filesystem::create_directory(pProject->name);
+        }
+    }
+
+    void VSProjectGenerator::GeneratePrecompiledHeader(Project* pProject)
+    {
+        // todo. generate only if they don't exist
+
+        // todo. LicenseType.hpp/.cpp (and load text from file) - and select in solution, and developer name
+        static std::string licenseStr =
+            "/*****************************************************************************************************************************\n"
+            " * Copyright 2020 Gabriel Gheorghe. All rights reserved.\n"
+            " * This code is licensed under the BSD 3-Clause \"New\" or \"Revised\" License\n"
+            " * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE\n"
+            " *****************************************************************************************************************************/\n";
+
+        std::string headerPath = pProject->name + "\\" + pProject->precompiledHeaderName + ".hpp";
+        std::string sourcePath = pProject->name + "\\" + pProject->precompiledHeaderName + ".cpp";
+
+        if (!std::filesystem::exists(headerPath))
+        {
+            std::fstream fHeader;
+
+            fHeader.open(headerPath.c_str(), std::ios::out);
+
+            fHeader << licenseStr + "\n";
+            fHeader << "#pragma once\n";
+
+            fHeader.close();
+        }
+
+        if (!std::filesystem::exists(sourcePath))
+        {
+            std::fstream fSource;
+
+            fSource.open(sourcePath.c_str(), std::ios::out);
+
+            fSource << licenseStr + "\n\n";
+            fSource << "#include <" + pProject->precompiledHeaderName + ".hpp>\n";
+
+            fSource.close();
+        }
     }
 }

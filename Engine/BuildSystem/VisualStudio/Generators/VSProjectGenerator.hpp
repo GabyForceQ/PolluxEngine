@@ -14,5 +14,9 @@ namespace Pollux::BuildSystem
 	{
 	public:
 		std::string Generate(Project* pProject) override;
+
+	private:
+		void GenerateSourceDirectory(Project* pProject);
+		void GeneratePrecompiledHeader(Project* pProject);
 	};
 }

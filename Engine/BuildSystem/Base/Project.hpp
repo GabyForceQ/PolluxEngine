@@ -25,6 +25,10 @@ namespace Pollux::BuildSystem
 		
 		const std::string& GetPath() const noexcept;
 
+		const std::string& GetPrecompiledHeaderName() const noexcept;
+
+		bool UsePrecompiledHeaders() const noexcept;
+
 	protected:
 		std::string name;
 
@@ -33,6 +37,10 @@ namespace Pollux::BuildSystem
 		std::vector<BuildConfiguration> configurations;
 
 		std::vector<std::string> preprocessorDefinitions;
+
+		std::string precompiledHeaderName;
+
+		bool bUsePrecompiledHeaders = true;
 
 	private:
 		void SetProjectType(ProjectType projectType) override;
