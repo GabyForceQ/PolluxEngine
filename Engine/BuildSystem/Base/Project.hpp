@@ -8,7 +8,7 @@
 
 #include "../Interfaces/IBuildConfiguration.hpp"
 #include "../Interfaces/IProjectConfiguration.hpp"
-#include "../BuildConfiguration.hpp"
+#include "../Configuration/BuildConfiguration.hpp"
 
 namespace Pollux::BuildSystem
 {
