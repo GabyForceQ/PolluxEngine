@@ -54,22 +54,23 @@ namespace Pollux::BuildSystem
             case BuildConfigurationType::Debug:
             {
                 res += "    <UseDebugLibraries>true</UseDebugLibraries>\n";
+                res += "    <Optimization>Disabled</Optimization>\n";
                 break;
             }
             case BuildConfigurationType::Release:
             {
                 res += "    <UseDebugLibraries>false</UseDebugLibraries>\n";
+                res += "    <Optimization>MaxSpeed</Optimization>\n";
                 res += "    <WholeProgramOptimization>true</WholeProgramOptimization>\n";
                 break;
             }
             case BuildConfigurationType::Retail:
             {
                 res += "    <UseDebugLibraries>false</UseDebugLibraries>\n";
+                res += "    <Optimization>MaxSpeed</Optimization>\n";
                 res += "    <WholeProgramOptimization>true</WholeProgramOptimization>\n";
                 break;
             }
-            default:
-                break; // todo. error
             }
             
             res += "    <PreferredToolArchitecture>x64</PreferredToolArchitecture>\n";
@@ -116,8 +117,6 @@ namespace Pollux::BuildSystem
                 res += "    <LinkIncremental>false</LinkIncremental>\n";
                 break;
             }
-            default:
-                break; // todo. error
             }
 
             res += "  </PropertyGroup>\n";
@@ -135,6 +134,65 @@ namespace Pollux::BuildSystem
             res += "      <ProgramDatabaseFileName>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
                 pProject->name + "\\" + configuration.name + "\\" + pProject->name +
                 configuration.name + "Compiler.pdb</ProgramDatabaseFileName>\n";
+            res += "      <SuppressStartupBanner>true</SuppressStartupBanner>\n";
+            res += "      <TreatWarningAsError>true</TreatWarningAsError>\n";
+            res += "      <MultiProcessorCompilation>true</MultiProcessorCompilation>\n";
+            res += "      <UseUnicodeForAssemblerListing>false</UseUnicodeForAssemblerListing>\n";
+            res += "      <InlineFunctionExpansion>Default</InlineFunctionExpansion>\n";
+            res += "      <OmitFramePointers>false</OmitFramePointers>\n";
+            res += "      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>\n";
+            res += "      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>\n";
+            res += "      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>\n";
+            res += "      <PreprocessToFile>false</PreprocessToFile>\n";
+            res += "      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>\n";
+            res += "      <PreprocessKeepComments>false</PreprocessKeepComments>\n";
+            res += "      <ExceptionHandling>Sync</ExceptionHandling>\n";
+            res += "      <SmallerTypeCheck>false</SmallerTypeCheck>\n";
+            res += "      <StructMemberAlignment>Default</StructMemberAlignment>\n";
+            res += "      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>\n";
+            res += "      <FloatingPointModel>Precise</FloatingPointModel>\n";
+            res += "      <FloatingPointExceptions>true</FloatingPointExceptions>\n";
+            res += "      <CreateHotpatchableImage>false</CreateHotpatchableImage>\n";
+            res += "      <DisableLanguageExtensions>false</DisableLanguageExtensions>\n";
+            res += "      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>\n";
+            res += "      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>\n";
+            res += "      <RuntimeTypeInfo>false</RuntimeTypeInfo>\n";
+            res += "      <OpenMPSupport>false</OpenMPSupport>\n";
+            res += "      <LanguageStandard>stdcpplatest</LanguageStandard>\n";
+            res += "      <ExpandAttributedSource>false</ExpandAttributedSource>\n";
+            res += "      <AssemblerOutput>NoListing</AssemblerOutput>\n";
+            res += "      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>\n";
+            res += "      <BrowseInformation>false</BrowseInformation>\n";
+            res += "      <CallingConvention>Cdecl</CallingConvention>\n";
+            res += "      <CompileAs>Default</CompileAs>\n";
+            res += "      <AdditionalIncludeDirectories>..\\..\\..</AdditionalIncludeDirectories>";
+            res += "      <PreprocessorDefinitions>";
+
+            switch (configuration.type)
+            {
+            case BuildConfigurationType::Debug:
+            {
+                res += "_DEBUG;";
+                break;
+            }
+            case BuildConfigurationType::Release:
+            {
+                res += "NDEBUG;";
+                break;
+            }
+            case BuildConfigurationType::Retail:
+            {
+                res += "NDEBUG;";
+                break;
+            }
+            }
+
+            for (const std::string& preprocessorDefinition : pProject->preprocessorDefinitions)
+            {
+                res += preprocessorDefinition + ";";
+            }
+
+            res += "%(PreprocessorDefinitions)</PreprocessorDefinitions>\n";
 
             if (pProject->bUsePrecompiledHeaders)
             {
@@ -157,31 +215,90 @@ namespace Pollux::BuildSystem
                 // Do not add this to Debug because /ZI and /Gy- or /Gy command line options are incompatible 
                 //res += "        <FunctionLevelLinking>false</FunctionLevelLinking>\n";
                 
-                res += "        <IntrinsicFunctions>false</IntrinsicFunctions>\n";
-                res += "        <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>\n";
+                res += "      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>\n";
+                res += "      <IntrinsicFunctions>false</IntrinsicFunctions>\n";
+                res += "      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>\n";
+                res += "      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>\n";
+                res += "      <StringPooling>false</StringPooling>\n";
+                res += "      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>\n";
+                res += "      <BufferSecurityCheck>true</BufferSecurityCheck>\n";
                 break;
             }
             case BuildConfigurationType::Release:
             {
-                res += "        <FunctionLevelLinking>true</FunctionLevelLinking>\n";
-                res += "        <IntrinsicFunctions>true</IntrinsicFunctions>\n";
-                res += "        <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>\n";
+                res += "     <FunctionLevelLinking>true</FunctionLevelLinking>\n";
+                res += "     <IntrinsicFunctions>true</IntrinsicFunctions>\n";
+                res += "     <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>\n";
+                res += "     <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>\n";
+                res += "     <StringPooling>true</StringPooling>\n";
+                res += "     <BasicRuntimeChecks>Default</BasicRuntimeChecks>\n";
+                res += "     <BufferSecurityCheck>false</BufferSecurityCheck>\n";
                 break;
             }
             case BuildConfigurationType::Retail:
             {
-                res += "        <FunctionLevelLinking>true</FunctionLevelLinking>\n";
-                res += "        <IntrinsicFunctions>true</IntrinsicFunctions>\n";
-                res += "        <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>\n";
+                res += "     <FunctionLevelLinking>true</FunctionLevelLinking>\n";
+                res += "     <IntrinsicFunctions>true</IntrinsicFunctions>\n";
+                res += "     <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>\n";
+                res += "     <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>\n";
+                res += "     <StringPooling>true</StringPooling>\n";
+                res += "     <BasicRuntimeChecks>Default</BasicRuntimeChecks>\n";
+                res += "     <BufferSecurityCheck>false</BufferSecurityCheck>\n";
                 break;
             }
-            default:
-                break; // todo. error
             }
 
             res += "    </ClCompile>\n";
             res += "    <Link>\n";
-            res += "      <SubSystem>Console</SubSystem>\n";
+            res += "    <FullProgramDatabaseFile>true</FullProgramDatabaseFile>\n";
+            res += "    <ShowProgress>NotSet</ShowProgress>\n";
+            res += "    <OutputFile>..\\..\\Output\\Win64_VS2019_" + configuration.name + "\\" +
+                pProject->name + "_" + configuration.name + ".exe</OutputFile>\n";
+            res += "    <AdditionalLibraryDirectories>..\\..\\Output\\Win64_VS2019_" +
+                configuration.name + "</AdditionalLibraryDirectories>\n";
+            res += "    <ProgramDatabaseFile>..\\..\\Output\\Win64_VS2019_" + configuration.name +
+                "\\" + pProject->name + "_" + configuration.name + ".pdb</ProgramDatabaseFile>\n";
+            res += "    <GenerateMapFile>true</GenerateMapFile>\n";
+            res += "    <MapExports>false</MapExports>\n";
+            res += "    <SwapRunFromCD>false</SwapRunFromCD>\n";
+            res += "    <SwapRunFromNET>false</SwapRunFromNET>\n";
+            res += "    <Driver>NotSet</Driver>\n";
+            res += "    <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>\n";
+            res += "    <IgnoreEmbeddedIDL>false</IgnoreEmbeddedIDL>\n";
+            res += "    <TypeLibraryResourceID>1</TypeLibraryResourceID>\n";
+            res += "    <NoEntryPoint>false</NoEntryPoint>\n";
+            res += "    <SetChecksum>false</SetChecksum>\n";
+            res += "    <TurnOffAssemblyGeneration>false</TurnOffAssemblyGeneration>\n";
+            res += "    <TargetMachine>MachineX64</TargetMachine>\n";
+            res += "    <Profile>false</Profile>\n";
+            res += "    <CLRImageType>Default</CLRImageType>\n";
+            res += "    <LinkErrorReporting>PromptImmediately</LinkErrorReporting>\n";
+            res += "    <AdditionalDependencies>..\\..\\..\\Lib\\vulkan-1.lib;Iphlpapi.lib;Shlwapi.lib;"
+                "%(AdditionalDependencies)</AdditionalDependencies>\n";
+            res += "    <SuppressStartupBanner>true</SuppressStartupBanner>\n";
+            res += "    <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>\n";
+            res += "    <LargeAddressAware>true</LargeAddressAware>\n";
+            res += "    <MapFileName>..\\..\\output\\Win64_VS2019_" + configuration.name +
+                "\\" + pProject->name + "_" + configuration.name + ".map</MapFileName>\n";
+
+            switch (pProject->buildSubSystem)
+            {
+            case BuildSubSystem::Console:
+            {
+                res += "      <SubSystem>Console</SubSystem>\n";
+                break;
+            }
+            case BuildSubSystem::Windows:
+            {
+                res += "      <SubSystem>Windows</SubSystem>\n";
+                break;
+            }
+            case BuildSubSystem::Native:
+            {
+                res += "      <SubSystem>Native</SubSystem>\n";
+                break;
+            }
+            }
 
             switch (configuration.type)
             {
@@ -206,39 +323,8 @@ namespace Pollux::BuildSystem
                 res += "        <EnableCOMDATFolding>true</EnableCOMDATFolding>\n";
                 break;
             }
-            default:
-                break; // todo. error
             }
 
-            res += "        <PreprocessorDefinitions>";
-
-            switch (configuration.type)
-            {
-            case BuildConfigurationType::Debug:
-            {
-                res += "_DEBUG;";
-                break;
-            }
-            case BuildConfigurationType::Release:
-            {
-                res += "NDEBUG;";
-                break;
-            }
-            case BuildConfigurationType::Retail:
-            {
-                res += "NDEBUG;";
-                break;
-            }
-            default:
-                break; // todo. error
-            }
-
-            for (const std::string& preprocessorDefinition : pProject->preprocessorDefinitions)
-            {
-                res += preprocessorDefinition + ";";
-            }
-
-            res += "%(PreprocessorDefinitions)</PreprocessorDefinitions>\n";
             res += "    </Link>\n";
             res += "  </ItemDefinitionGroup>\n";
         }
@@ -319,7 +405,7 @@ namespace Pollux::BuildSystem
             fSource.open(sourcePath.c_str(), std::ios::out);
 
             fSource << licenseStr + "\n\n";
-            fSource << "#include <" + pProject->precompiledHeaderName + ".hpp>\n";
+            fSource << "#include <" + pProject->name + "/" + pProject->precompiledHeaderName + ".hpp>\n";
 
             fSource.close();
         }

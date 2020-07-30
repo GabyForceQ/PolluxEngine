@@ -9,6 +9,7 @@
 #include "../Interfaces/IBuildConfiguration.hpp"
 #include "../Interfaces/IProjectConfiguration.hpp"
 #include "../Configuration/BuildConfiguration.hpp"
+#include "../Configuration/BuildSubSystem.hpp"
 
 namespace Pollux::BuildSystem
 {
@@ -41,6 +42,8 @@ namespace Pollux::BuildSystem
 		std::string precompiledHeaderName;
 
 		bool bUsePrecompiledHeaders = true;
+
+		BuildSubSystem buildSubSystem = BuildSubSystem::Console;
 
 	private:
 		void SetProjectType(ProjectType projectType) override;
