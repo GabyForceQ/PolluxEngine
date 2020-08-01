@@ -7,16 +7,16 @@
 #include "EngineBuilder/enginebuilderpch.hpp"
 
 #include "PolluxEngineSolution.hpp"
+#include "EngineProject.hpp"
+#include "EditorProject.hpp"
 
 namespace Pollux::EngineBuilder
 {
-	PolluxEngineSolution::PolluxEngineSolution(const std::vector<BuildSystem::Project*>& pProjects)
+	PolluxEngineSolution::PolluxEngineSolution(const std::string& path) noexcept
 		:
-		Solution{ pProjects }
+		Solution{ path }
 	{
-	}
-
-	void PolluxEngineSolution::ConfigureWin64()
-	{
+		pProjects.push_back(new EngineProject());
+		pProjects.push_back(new EditorProject());
 	}
 }

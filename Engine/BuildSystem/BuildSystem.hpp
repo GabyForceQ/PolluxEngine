@@ -4,16 +4,20 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#include "Engine/enginepch.hpp"
+#pragma once
 
-#include "BuildTarget.hpp"
+#include "Target/BuildTarget.hpp"
+#include "Configuration/BuildConfiguration.hpp"
 
 namespace Pollux::BuildSystem
 {
-	BuildTarget::BuildTarget(BuildPlatform platform, const std::string& name)
-		:
-		platform{ platform },
-		name{ name }
+	class BuildSystem final
 	{
-	}
+	public:
+		BuildTarget target;
+		BuildConfiguration* globalConfiguration;
+		std::unordered_map<BuildOptimization, BuildConfiguration*> configurationMap;
+
+		void Run();
+	};
 }

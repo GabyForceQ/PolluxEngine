@@ -11,11 +11,14 @@ namespace Pollux::BuildSystem
 	enum class BuildAction
 	{
 		None,
-		GenerateProject
+		GenerateSolution
 	};
 
+	extern const size_t g_BuildActionCount;
+
 	extern const char* g_BuildAction_None;
-	extern const char* g_BuildAction_GenerateProject;
+
+	extern const char* g_BuildAction_GenerateSolution;
 
 	extern const std::map<const char*, BuildAction> g_BuildActionMap;
 

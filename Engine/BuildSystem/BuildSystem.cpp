@@ -4,20 +4,13 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "Engine/enginepch.hpp"
+
+#include "BuildSystem.hpp"
 
 namespace Pollux::BuildSystem
 {
-	enum class ProjectType
+	void BuildSystem::Run()
 	{
-		VS2019
-	};
-
-	extern const char* g_ProjectType_VS2019;
-
-	extern const std::map<const char*, ProjectType> g_ProjectTypeMap;
-
-	ProjectType ProjectTypeToEnum(const char* projectType);
-
-	std::string ToString(const ProjectType projectType);
+	}
 }

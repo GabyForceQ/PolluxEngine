@@ -13,10 +13,14 @@ namespace Pollux::BuildSystem
 	class VSProjectGenerator final : public IProjectGenerator
 	{
 	public:
-		std::string Generate(Project* pProject) override;
+		std::string Generate(Project* pProject, BuildSystem* pBuildSystem) override;
 
 	private:
 		void GenerateSourceDirectory(Project* pProject);
-		void GeneratePrecompiledHeader(Project* pProject);
+		void GeneratePrecompiledHeader(Project* pProject, const std::string& precompiledHeaderName);
+		
+		std::string GetBuildOptimization(const BuildOptimization optimization) override;
+		std::string GetBuildBooleanType(const BuildBooleanType booleanType) override;
+		std::string BoolToString(const bool value) override;
 	};
 }

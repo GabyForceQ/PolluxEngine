@@ -6,19 +6,53 @@
 
 #pragma once
 
-#include "BuildPlatform.hpp"
-#include "BuildConfigurationType.hpp"
+#include "BuildBooleanType.hpp"
+#include "../Target/BuildOptimization.hpp"
 
 namespace Pollux::BuildSystem
 {
 	struct BuildConfiguration final
 	{
+		BuildConfiguration() = delete;
+
+		BuildConfiguration(BuildOptimization optimization) noexcept
+			:
+			optimization{ optimization }
+		{
+		}
+
+		const BuildOptimization optimization;
+		
 		std::string name;
 		
-		BuildPlatform platform = BuildPlatform::Windows;
+		std::string path;
 		
-		const std::string architecture = "x64";
+		std::vector<std::string> preprocessorDefinitions;
+		
+		bool bUsePrecompiledHeaders = false;
 
-		BuildConfigurationType type = BuildConfigurationType::Debug;
+		std::string precompiledHeaderName;
+
+		bool bUseDebugLibraries = false;
+
+		BuildBooleanType wholeProgramOptimization = BuildBooleanType::None;
+
+		bool bLinkIncremental = false;
+
+		BuildBooleanType functionLevelLinking = BuildBooleanType::None;
+
+		bool bIntrinsicFunctions = false;
+
+		bool bBufferSecurityCheck = false;
+
+		bool bStringPooling = false;
+
+
+
+		bool bGenerateDebugInformation = false;
+
+		bool bOptimizeReferences = false;
+
+		bool bEnableCOMDATFolding = false;
 	};
 }

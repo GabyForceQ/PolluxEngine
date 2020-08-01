@@ -8,9 +8,8 @@
 
 namespace Pollux::BuildSystem
 {
-	class VSSolution final
+	struct VSSolution final
 	{
-	public:
-
+	
 	};
 }

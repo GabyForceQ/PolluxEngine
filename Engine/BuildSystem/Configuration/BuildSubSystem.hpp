@@ -15,6 +15,8 @@ namespace Pollux::BuildSystem
 		Native
 	};
 
+	extern const size_t g_BuildSubSystemCount;
+
 	extern const char* g_BuildSubSystem_Console;
 
 	extern const char* g_BuildSubSystem_Windows;

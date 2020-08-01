@@ -10,13 +10,17 @@ namespace Pollux::BuildSystem
 {
 	enum class BuildOutputType
 	{
+		None,
 		Makefile,
 		Executable,
 		StaticLibrary,
 		DynamicLibrary,
 		Utility,
-		None
 	};
+
+	extern const size_t g_BuildOutputTypeCount;
+
+	extern const char* g_BuildOutputType_None;
 
 	extern const char* g_BuildOutputType_Makefile;
 	
@@ -28,8 +32,6 @@ namespace Pollux::BuildSystem
 	
 	extern const char* g_BuildOutputType_Utility;
 	
-	extern const char* g_BuildOutputType_None;
-
 	extern const std::map<const char*, BuildOutputType> g_BuildOutputTypeMap;
 
 	BuildOutputType BuildPlatformToEnum(const char* buildOutputType);

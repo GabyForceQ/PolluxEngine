@@ -8,22 +8,58 @@
 
 #include "Solution.hpp"
 #include "Project.hpp"
+#include "Engine/BuildSystem/BuildSystem.hpp"
 
 namespace Pollux::BuildSystem
 {
-    Solution::Solution(const std::vector<Project*>& pProjects)
+    Solution::Solution(const std::string& path) noexcept
         :
-        pProjects{ pProjects }
+        path{ path }
     {
     }
 
-    void Solution::SetProjectType(ProjectType projectType)
+    void Solution::Implement(BuildSystem* pBuildSystem)
     {
-        this->projectType = projectType;
+        for (type_t i = 0u; i < g_BuildOptimizationCount; i++)
+        {
+            const BuildOptimization platform = static_cast<BuildOptimization>(i);
 
+            if (pBuildSystem->configurationMap.contains(platform))
+            {
+                ConfigureWin64(*pBuildSystem->configurationMap[platform], pBuildSystem->target);
+                ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
+                PostConfig(*pBuildSystem->globalConfiguration,
+                    *pBuildSystem->configurationMap[platform], pBuildSystem->target);
+            }
+        }
+    }
+
+    const std::string& Solution::GetPath() const noexcept
+    {
+        return path;
+    }
+    
+    void Solution::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
+    {
         for (Project* pProject : pProjects)
         {
-            pProject->SetProjectType(projectType);
+            pProject->ConfigureWin64(config, target);
+        }
+    }
+
+    void Solution::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
+    {
+        for (Project* pProject : pProjects)
+        {
+            pProject->ConfigureAll(config, target);
+        }
+    }
+
+    void Solution::PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target)
+    {
+        for (Project* pProject : pProjects)
+        {
+            pProject->PostConfig(globalConfig, config, target);
         }
     }
 }

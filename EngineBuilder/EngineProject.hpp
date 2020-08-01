@@ -8,12 +8,13 @@
 
 namespace Pollux::EngineBuilder
 {
-	class EngineProject final : public BuildSystem::Project
+	class EngineProject final : public Project
 	{
 	public:
-		EngineProject();
+		EngineProject() noexcept;
 
-	public: //private:
-		virtual void ConfigureWin64() override;
+	private:
+		virtual void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+		virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
 	};
 }

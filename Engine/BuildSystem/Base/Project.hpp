@@ -7,48 +7,45 @@
 #pragma once
 
 #include "../Interfaces/IBuildConfiguration.hpp"
-#include "../Interfaces/IProjectConfiguration.hpp"
 #include "../Configuration/BuildConfiguration.hpp"
 #include "../Configuration/BuildSubSystem.hpp"
 
 namespace Pollux::BuildSystem
 {
-	class VSProject;
+	struct VSProject;
 	class VSProjectGenerator;
-	class VSSolution;
+	struct VSSolution;
 	class VSSolutionGenerator;
 	class Solution;
+	class BuildSystem;
 
-	class Project : protected IBuildConfiguration, private IProjectConfiguration
+	class Project : protected IBuildConfiguration
 	{
 	public:
+		Project() noexcept = default;
+
+		void Initialize(BuildSystem* pBuildSystem); ///////
+
 		const std::string& GetName() const noexcept;
 		
 		const std::string& GetPath() const noexcept;
 
-		const std::string& GetPrecompiledHeaderName() const noexcept;
-
-		bool UsePrecompiledHeaders() const noexcept;
+		VSProject* pVSProject = nullptr; ///////
 
 	protected:
+		void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+
+		void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
+
+		void PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target) override;
+
 		std::string name;
 
 		std::string path;
 
-		std::vector<BuildConfiguration> configurations;
-
-		std::vector<std::string> preprocessorDefinitions;
-
-		std::string precompiledHeaderName;
-
-		bool bUsePrecompiledHeaders = true;
-
 		BuildSubSystem buildSubSystem = BuildSubSystem::Console;
 
 	private:
-		void SetProjectType(ProjectType projectType) override;
-
-		VSProject* pVSProject = nullptr;
 		VSProjectGenerator* pVSProjectGenerator = nullptr;
 
 		friend VSProject;

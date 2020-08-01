@@ -10,9 +10,8 @@
 
 namespace Pollux::BuildSystem
 {
-	class VSProject final
+	struct VSProject final
 	{
-	public:
 		const VSGuid guid = VSGuid::Create();
 		
 		const VSGuid type = VSGuid::Create();

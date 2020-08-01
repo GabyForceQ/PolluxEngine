@@ -11,9 +11,10 @@ namespace Pollux::EngineBuilder
 	class EditorProject final : public BuildSystem::Project
 	{
 	public:
-		EditorProject();
+		EditorProject() noexcept;
 
-	public: //private:
-		virtual void ConfigureWin64() override;
+	private:
+		virtual void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+		virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
 	};
 }

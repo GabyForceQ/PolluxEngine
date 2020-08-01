@@ -4,18 +4,17 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "Engine/enginepch.hpp"
 
-#include "../ProjectType.hpp"
+#include "BuildTarget.hpp"
 
 namespace Pollux::BuildSystem
 {
-	class IProjectConfiguration
+	BuildTarget::BuildTarget(BuildOptimization optimization, BuildPlatform platform, DevelopmentEnvironment developmentEnvironment) noexcept
+		:
+		optimization{ std::move(optimization) },
+		platform{ std::move(platform) },
+		developmentEnvironment{ std::move(developmentEnvironment) }
 	{
-	protected:
-		inline ProjectType GetProjectType() const noexcept { return projectType; }
-
-		ProjectType projectType = ProjectType::VS2019;
-	};
-
+	}
 }

@@ -6,14 +6,18 @@
 
 #pragma once
 
-#include "../ProjectType.hpp"
+#include "../Target/BuildTarget.hpp"
+#include "../Configuration/BuildConfiguration.hpp"
 
 namespace Pollux::BuildSystem
 {
 	class IBuildConfiguration
 	{
 	protected:
-		virtual void SetProjectType(ProjectType projectType) = 0;
-		virtual void ConfigureWin64() = 0;
+		virtual void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) = 0;
+
+		virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) = 0;
+
+		virtual void PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target) = 0;
 	};
 }

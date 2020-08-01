@@ -48,11 +48,11 @@ namespace Pollux::BuildSystem
         res += "Gloabl\n"
             "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
 
-        const std::vector<BuildConfiguration> configurations =
+        /*const std::vector<BuildConfiguration> configurations =
         {
-            { "Debug", BuildPlatform::Windows, "x64", BuildConfigurationType::Debug },
-            { "Release", BuildPlatform::Windows, "x64", BuildConfigurationType::Release },
-            { "Retail", BuildPlatform::Windows, "x64", BuildConfigurationType::Retail },
+            { "Debug", BuildPlatform::Windows, "x64", BuildOptimization::Debug },
+            { "Release", BuildPlatform::Windows, "x64", BuildOptimization::Release },
+            { "Retail", BuildPlatform::Windows, "x64", BuildOptimization::Retail },
         };
 
         for (const auto& configuration : configurations)
@@ -75,7 +75,7 @@ namespace Pollux::BuildSystem
                 res += "\t\t{" + pVSProject->guid.ToString() + "}." + configuration.name + "|" + configuration.architecture +
                     ".Build.0 = " + configuration.name + "|" + configuration.architecture + "\n";
             }
-        }
+        }*/
 
         res += "\tEndGlobalSection\n"
             "\tGlobalSection(SolutionProperties) = preSolution\n"

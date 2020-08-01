@@ -15,4 +15,4 @@
 #include "VisualStudio/Objects/VSSolution.hpp"
 
 #include "BuildAction.hpp"
-#include "ProjectType.hpp"
+#include "BuildSystem.hpp"

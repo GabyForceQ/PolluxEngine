@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "DevelopmentEnvironment.hpp"
+#include "BuildOptimization.hpp"
 #include "BuildPlatform.hpp"
 
 namespace Pollux::BuildSystem
@@ -13,9 +15,13 @@ namespace Pollux::BuildSystem
 	struct BuildTarget final
 	{
 	public:
-		BuildTarget(BuildPlatform platform, const std::string& name);
+		BuildTarget() noexcept = default;
+		explicit BuildTarget(BuildOptimization optimization,
+			BuildPlatform platform,
+			DevelopmentEnvironment developmentEnvironment) noexcept;
 
-		const BuildPlatform platform;
-		const std::string name;
+		BuildOptimization optimization = BuildOptimization::Debug;
+		BuildPlatform platform = BuildPlatform::Windows;
+		DevelopmentEnvironment developmentEnvironment = DevelopmentEnvironment::Makefile;
 	};
 }

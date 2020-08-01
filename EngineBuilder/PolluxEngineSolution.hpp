@@ -11,9 +11,6 @@ namespace Pollux::EngineBuilder
 	class PolluxEngineSolution final : public BuildSystem::Solution
 	{
 	public:
-		PolluxEngineSolution(const std::vector<BuildSystem::Project*>& pProjects);
-
-	public: //private:
-		virtual void ConfigureWin64() override;
+		PolluxEngineSolution(const std::string& path) noexcept;
 	};
 }

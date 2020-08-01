@@ -10,6 +10,7 @@
 
 namespace Pollux::BuildSystem
 {
+	const size_t g_BuildSubSystemCount = 3;
 	const char* g_BuildSubSystem_Console = "BuildSubSystem::Console";
 	const char* g_BuildSubSystem_Windows = "BuildSubSystem::Windows";
 	const char* g_BuildSubSystem_Native = "BuildSubSystem::Native";

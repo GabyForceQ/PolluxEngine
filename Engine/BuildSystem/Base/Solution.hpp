@@ -7,27 +7,36 @@
 #pragma once
 
 #include "../Interfaces/IBuildConfiguration.hpp"
-#include "../Interfaces/IProjectConfiguration.hpp"
 
 namespace Pollux::BuildSystem
 {
-	class VSSolution;
+	struct VSSolution;
 	class VSSolutionGenerator;
-	class VSProject;
+	struct VSProject;
 	class VSProjectGenerator;
 	class Project;
+	class BuildSystem;
 
-	class Solution : protected IBuildConfiguration, private IProjectConfiguration
+	class Solution : protected IBuildConfiguration
 	{
 	public:
-		Solution(const std::vector<Project*>& pProjects);
+		Solution(const std::string& path) noexcept;
 
-		void SetProjectType(ProjectType projectType) override;
+		void Implement(BuildSystem* pBuildSystem);
 
-	protected:
+		const std::string& GetPath() const noexcept;
+
 		std::vector<Project*> pProjects;
 
+	protected:
+		void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+
+		void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
+
+		void PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target) override;
+		
 	private:
+		const std::string path;
 		VSSolution* pVSSolution = nullptr;
 		VSSolutionGenerator* pVSSolutionGenerator = nullptr;
 

@@ -12,16 +12,17 @@ using namespace Pollux::BuildSystem;
 
 namespace Pollux::EngineBuilder
 {
-    EngineProject::EngineProject()
+    EngineProject::EngineProject() noexcept
     {
         name = "Engine";
         path = "Engine.vcxproj";
     }
 
-    void EngineProject::ConfigureWin64()
+    void EngineProject::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
     {
-        configurations.push_back({ "Debug", BuildPlatform::Windows, "x64", BuildConfigurationType::Debug });
-        configurations.push_back({ "Release", BuildPlatform::Windows, "x64", BuildConfigurationType::Release });
-        configurations.push_back({ "Retail", BuildPlatform::Windows, "x64", BuildConfigurationType::Retail });
+    }
+
+    void EngineProject::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
+    {
     }
 }
