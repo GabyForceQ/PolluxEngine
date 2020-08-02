@@ -10,6 +10,7 @@
 #include "Engine/BuildSystem/Base/Project.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
+#include "Engine/Core/Storage/FileManager.hpp"
 
 namespace Pollux::BuildSystem
 {
@@ -277,26 +278,57 @@ namespace Pollux::BuildSystem
             res += "  </ItemDefinitionGroup>\n";
         }
 
-        if (pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+        const bool usePch = pBuildSystem->globalConfiguration->bUsePrecompiledHeaders;
+        const std::string pchName = pBuildSystem->globalConfiguration->precompiledHeaderName;
+        std::vector<std::string> hppFiles;
+        std::vector<std::string> cppFiles;
+
+        if (usePch)
         {
-            res += "  <ItemGroup>\n";
-            res += "    <ClInclude Include=\"..\\..\\..\\" + pProject->name + "\\" +
-                pBuildSystem->globalConfiguration->precompiledHeaderName + ".hpp\"/>\n";
-            res += "  </ItemGroup>\n";
-            res += "  <ItemGroup>\n";
-            res += "    <ClCompile Include=\"..\\..\\..\\" + pProject->name + "\\" +
-                pBuildSystem->globalConfiguration->precompiledHeaderName + ".cpp\">\n";
+            hppFiles = Core::FileManager::GetFilePaths(pProject->name, ".hpp", "..\\..\\..\\", { pchName + ".hpp" });
+            cppFiles = Core::FileManager::GetFilePaths(pProject->name, ".cpp", "..\\..\\..\\", { pchName + ".cpp" });
+        }
+        else
+        {
+            hppFiles = Core::FileManager::GetFilePaths(pProject->name, ".hpp", "..\\..\\..\\");
+            cppFiles = Core::FileManager::GetFilePaths(pProject->name, ".cpp", "..\\..\\..\\");
         }
 
-        for (const auto& config : pBuildSystem->configurationMap)
-        {
-            const std::string optimization = GetBuildOptimization(config.second->optimization);
+        res += "  <ItemGroup>\n";
 
-            res += "      <PrecompiledHeader Condition=\"'$(Configuration)|$(Platform)'=='" +
-                optimization + "|" + architecture + "'\">Create</PrecompiledHeader>\n";
+        if (usePch)
+        {
+            res += "    <ClInclude Include=\"..\\..\\..\\" + pProject->name + "\\" + pchName + ".hpp\"/>\n";
+        }
+
+        for (const std::string& hppFile : hppFiles)
+        {
+            res += "    <ClInclude Include=\"" + hppFile + "\"/>\n";
+        }
+
+        res += "  </ItemGroup>\n";
+        res += "  <ItemGroup>\n";
+        
+        if (usePch)
+        {
+            res += "    <ClCompile Include=\"..\\..\\..\\" + pProject->name + "\\" + pchName + ".cpp\">\n";
+
+            for (const auto& config : pBuildSystem->configurationMap)
+            {
+                const std::string optimization = GetBuildOptimization(config.second->optimization);
+
+                res += "      <PrecompiledHeader Condition=\"'$(Configuration)|$(Platform)'=='" +
+                    optimization + "|" + architecture + "'\">Create</PrecompiledHeader>\n";
+            }
         }
 
         res += "    </ClCompile>\n";
+
+        for (const std::string& cppFile : cppFiles)
+        {
+            res += "    <ClCompile Include=\"" + cppFile + "\"/>\n";
+        }
+
         res += "  </ItemGroup>\n";
         res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.targets\"/>\n";
         res += "  <ImportGroup Label=\"ExtensionTargets\">\n";
@@ -305,9 +337,9 @@ namespace Pollux::BuildSystem
 
         GenerateSourceDirectory(pProject);
 
-        if (pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+        if (usePch)
         {
-            GeneratePrecompiledHeader(pProject, pBuildSystem->globalConfiguration->precompiledHeaderName);
+            GeneratePrecompiledHeader(pProject, pchName);
         }
 
         pProject->generatedCode = res;
