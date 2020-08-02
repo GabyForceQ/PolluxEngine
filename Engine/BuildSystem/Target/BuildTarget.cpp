@@ -4,9 +4,17 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
-
-#define ENGINE_HEADERS
 #include "Engine/enginepch.hpp"
 
-using namespace Pollux::BuildSystem;
+#include "BuildTarget.hpp"
+
+namespace Pollux::BuildSystem
+{
+	BuildTarget::BuildTarget(BuildOptimization optimization, BuildPlatform platform, DevelopmentEnvironment developmentEnvironment) noexcept
+		:
+		optimization{ std::move(optimization) },
+		platform{ std::move(platform) },
+		developmentEnvironment{ std::move(developmentEnvironment) }
+	{
+	}
+}

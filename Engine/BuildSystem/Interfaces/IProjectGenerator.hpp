@@ -6,13 +6,23 @@
 
 #pragma once
 
+#include "../Target/BuildOptimization.hpp"
+#include "../Configuration/BuildBooleanType.hpp"
+
 namespace Pollux::BuildSystem
 {
 	class Project;
+	class BuildSystem;
 
 	class IProjectGenerator
 	{
 	public:
-		virtual std::string Generate(Project* pProject) = 0;
+		virtual void Generate(Project* pProject) = 0;
+
+	protected:
+		virtual std::string GetBuildOptimization(const BuildOptimization optimization) = 0;
+		virtual std::string GetBuildBooleanType(const BuildBooleanType booleanType) = 0;
+		
+		virtual std::string BoolToString(const bool value) = 0;
 	};
 }

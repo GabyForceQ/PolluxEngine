@@ -4,18 +4,28 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "Engine/enginepch.hpp"
 
-#include "../VSGuid.hpp"
+#include "BuildSystem.hpp"
 
 namespace Pollux::BuildSystem
 {
-	struct VSProject final
+	void BuildSystem::Run()
 	{
-		const VSGuid guid = VSGuid::Create();
-		
-		const VSGuid type = VSGuid::Create();
+	}
 
-		const std::vector<VSGuid> dependencies;
-	};
+	BuildSystem& BuildSystem::operator=(const BuildSystem& rhs)
+	{
+		target = rhs.target;
+		globalConfiguration = new BuildConfiguration(rhs.globalConfiguration->optimization);
+		*globalConfiguration = *rhs.globalConfiguration;
+		
+		for (const auto& e : rhs.configurationMap)
+		{
+			configurationMap[e.first] = new BuildConfiguration(e.second->optimization);
+			*configurationMap[e.first] = *e.second;
+		}
+
+		return *this;
+	}
 }

@@ -6,18 +6,11 @@
 
 #pragma once
 
-namespace Pollux::BuildSystem
+namespace Pollux::EngineBuilder
 {
-	enum class ProjectType
+	class PolluxEngineSolution final : public BuildSystem::Solution
 	{
-		VS2019
+	public:
+		PolluxEngineSolution(const std::string& path) noexcept;
 	};
-
-	extern const char* g_ProjectType_VS2019;
-
-	extern const std::map<const char*, ProjectType> g_ProjectTypeMap;
-
-	ProjectType ProjectTypeToEnum(const char* projectType);
-
-	std::string ToString(const ProjectType projectType);
 }

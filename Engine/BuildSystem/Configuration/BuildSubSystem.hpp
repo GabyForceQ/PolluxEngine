@@ -8,8 +8,24 @@
 
 namespace Pollux::BuildSystem
 {
-	struct VSSolution final
+	enum class BuildSubSystem
 	{
-	
+		Console,
+		Windows,
+		Native
 	};
+
+	extern const size_t g_BuildSubSystemCount;
+
+	extern const char* g_BuildSubSystem_Console;
+
+	extern const char* g_BuildSubSystem_Windows;
+
+	extern const char* g_BuildSubSystem_Native;
+
+	extern const std::map<const char*, BuildSubSystem> g_BuildSubSystemMap;
+
+	BuildSubSystem BuildSubSystemToEnum(const char* buildSubSystem);
+
+	std::string ToString(const BuildSubSystem buildSubSystem);
 }

@@ -7,15 +7,16 @@
 #include "Engine/enginepch.hpp"
 
 #include "VSSolutionGenerator.hpp"
+#include "Engine/BuildSystem/Base/Project.hpp"
+#include "Engine/BuildSystem/Base/Solution.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSSolution.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
-#include "Engine/Core/Generic/GenericUtils.hpp"
 
 namespace Pollux::BuildSystem
 {
     std::string VSSolutionGenerator::Generate(Solution* pSolution)
     {
-        auto pVSSolution = Core::Cast<VSSolution>(pSolution);
+        auto pVSSolution = pSolution->pVSSolution;
 
         std::string res = "Microsoft Visual Studio Solution File, Format Version 12.00\n"
             "# Visual Studio Version 16\n"
@@ -24,7 +25,7 @@ namespace Pollux::BuildSystem
 
         for (Project* pProject : pSolution->pProjects)
         {
-            auto pVSProject = Core::Cast<VSProject>(pProject);
+            auto pVSProject = pProject->pVSProject;
 
             res += "Project(\"{" + pVSProject->type.ToString() + "}\") = \"" + pProject->name +
                 "\", \"" + pProject->path + "\", \"{" + pVSProject->guid.ToString() + "}\"\n";
@@ -43,6 +44,44 @@ namespace Pollux::BuildSystem
 
             res += "EndProject\n";
         }
+
+        res += "Gloabl\n"
+            "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
+
+        /*const std::vector<BuildConfiguration> configurations =
+        {
+            { "Debug", BuildPlatform::Windows, "x64", BuildOptimization::Debug },
+            { "Release", BuildPlatform::Windows, "x64", BuildOptimization::Release },
+            { "Retail", BuildPlatform::Windows, "x64", BuildOptimization::Retail },
+        };
+
+        for (const auto& configuration : configurations)
+        {
+            res += "\t\t" + configuration.name + "|" + configuration.architecture + " = " + configuration.name + "|" +
+                configuration.architecture + "\n";
+        }
+
+        res += "\tEndGlobalSection\n"
+            "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n";
+
+        for (Project* pProject : pSolution->pProjects)
+        {
+            auto pVSProject = pProject->pVSProject;
+
+            for (const auto& configuration : pProject->configurations)
+            {
+                res += "\t\t{" + pVSProject->guid.ToString() + "}." + configuration.name + "|" + configuration.architecture +
+                    ".ActiveCfg = " + configuration.name + "|" + configuration.architecture + "\n";
+                res += "\t\t{" + pVSProject->guid.ToString() + "}." + configuration.name + "|" + configuration.architecture +
+                    ".Build.0 = " + configuration.name + "|" + configuration.architecture + "\n";
+            }
+        }*/
+
+        res += "\tEndGlobalSection\n"
+            "\tGlobalSection(SolutionProperties) = preSolution\n"
+            "\t\tHideSolutionNode = FALSE\n"
+            "\tEndGlobalSection\n"
+            "EndGlobal\n";
 
         return std::move(res);
     }

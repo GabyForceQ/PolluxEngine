@@ -6,7 +6,15 @@
 
 #pragma once
 
-#define ENGINE_HEADERS
-#include "Engine/enginepch.hpp"
+namespace Pollux::EngineBuilder
+{
+	class EngineProject final : public Project
+	{
+	public:
+		EngineProject() noexcept;
 
-using namespace Pollux::BuildSystem;
+	private:
+		virtual void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+		virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
+	};
+}

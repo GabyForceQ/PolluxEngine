@@ -6,19 +6,20 @@
 
 #pragma once
 
-#include "BuildPlatform.hpp"
-#include "BuildConfigurationType.hpp"
+#include "Target/BuildTarget.hpp"
+#include "Configuration/BuildConfiguration.hpp"
 
 namespace Pollux::BuildSystem
 {
-	struct BuildConfiguration final
+	class BuildSystem final
 	{
-		std::string name;
-		
-		BuildPlatform platform = BuildPlatform::Windows;
-		
-		const std::string architecture = "x64";
+	public:
+		BuildTarget target;
+		BuildConfiguration* globalConfiguration;
+		std::unordered_map<BuildOptimization, BuildConfiguration*> configurationMap;
 
-		BuildConfigurationType type = BuildConfigurationType::Debug;
+		void Run();
+
+		BuildSystem& operator=(const BuildSystem& rhs);
 	};
 }

@@ -10,13 +10,14 @@
 
 namespace Pollux::BuildSystem
 {
+	const size_t g_BuildActionCount = 2;
 	const char* g_BuildAction_None = "BuildAction::None";
-	const char* g_BuildAction_GenerateProject = "BuildAction::GenerateProject";
+	const char* g_BuildAction_GenerateSolution = "BuildAction::GenerateSolution";
 
 	const std::map<const char*, BuildAction> g_BuildActionmMap
 	{
 		{ g_BuildAction_None, BuildAction::None },
-		{ g_BuildAction_GenerateProject, BuildAction::GenerateProject }
+		{ g_BuildAction_GenerateSolution, BuildAction::GenerateSolution }
 	};
 
 	BuildAction BuildActionToEnum(const char* buildAction)
@@ -34,8 +35,7 @@ namespace Pollux::BuildSystem
 		switch (buildAction)
 		{
 		case BuildAction::None: return g_BuildAction_None;
-		case BuildAction::GenerateProject: return g_BuildAction_GenerateProject;
-		default:; // todo. Log a warning message
+		case BuildAction::GenerateSolution: return g_BuildAction_GenerateSolution;
 		}
 
 		return g_pEmptyString;
