@@ -6,18 +6,15 @@
 
 #pragma once
 
-namespace Pollux::BuildSystem
+namespace Pollux::EngineBuilder
 {
-	enum class BuildPlatform
+	class EditorProject final : public BuildSystem::Project
 	{
-		Windows
+	public:
+		EditorProject() noexcept;
+
+	private:
+		virtual void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+		virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
 	};
-
-	extern const char* g_BuildPlatform_Windows;
-
-	extern const std::map<const char*, BuildPlatform> g_BuildPlatformMap;
-
-	BuildPlatform BuildPlatformToEnum(const char* buildPlatform);
-
-	std::string ToString(const BuildPlatform buildPlatform);
 }

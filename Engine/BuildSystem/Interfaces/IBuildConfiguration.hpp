@@ -6,22 +6,18 @@
 
 #pragma once
 
+#include "../Target/BuildTarget.hpp"
+#include "../Configuration/BuildConfiguration.hpp"
+
 namespace Pollux::BuildSystem
 {
-	enum class BuildConfigurationType
+	class IBuildConfiguration
 	{
-		Debug,
-		Release,
-		Retail
+	protected:
+		virtual void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) = 0;
+
+		virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) = 0;
+
+		virtual void PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target) = 0;
 	};
-
-	extern const char* g_BuildConfigurationType_Debug;
-	extern const char* g_BuildConfigurationType_Release;
-	extern const char* g_BuildConfigurationType_Retail;
-
-	extern const std::map<const char*, BuildConfigurationType> g_BuildConfigurationTypeMap;
-
-	BuildConfigurationType BuildConfigurationTypeToEnum(const char* buildConfigurationType);
-
-	std::string ToString(const BuildConfigurationType buildConfigurationType);
 }

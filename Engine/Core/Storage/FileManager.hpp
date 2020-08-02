@@ -6,7 +6,12 @@
 
 #pragma once
 
-#define ENGINE_HEADERS
-#include "Engine/enginepch.hpp"
-
-using namespace Pollux::BuildSystem;
+namespace Pollux::Core
+{
+	class FileManager final
+	{
+	public:
+		static std::vector<std::string> GetFilePaths(const std::string& fromPath, const std::string& extension = "",
+			const std::string& startWith = "", const std::vector<std::string>& excludeList = {});
+	};
+}

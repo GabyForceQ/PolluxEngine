@@ -6,19 +6,57 @@
 
 #pragma once
 
-#include "../BuildConfiguration.hpp"
+#include "../Interfaces/IBuildConfiguration.hpp"
+#include "../Configuration/BuildConfiguration.hpp"
+#include "../Configuration/BuildSubSystem.hpp"
 
 namespace Pollux::BuildSystem
 {
-	class Project
+	struct VSProject;
+	class VSProjectGenerator;
+	struct VSSolution;
+	class VSSolutionGenerator;
+	class Solution;
+	class BuildSystem;
+
+	class Project : protected IBuildConfiguration
 	{
 	public:
+		Project() noexcept;
+
+		void Initialize(BuildSystem* pBuildSystem); ///////
+
+		const std::string& GetName() const noexcept;
+		
+		const std::string& GetPath() const noexcept;
+
+		VSProject* pVSProject = nullptr; ///////
+
+		const std::string& GetGeneratedCode() const noexcept;
+
+		BuildSystem* pBuildSystem = nullptr; //////
+
+	protected:
+		void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+
+		void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
+
+		void PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target) override;
+
 		std::string name;
 
 		std::string path;
 
-		std::vector<BuildConfiguration> configurations;
+		BuildSubSystem buildSubSystem = BuildSubSystem::Console;
 
-		std::vector<std::string> preprocessorDefinitions;
+	private:
+		VSProjectGenerator* pVSProjectGenerator = nullptr;
+		std::string generatedCode;
+
+		friend VSProject;
+		friend VSProjectGenerator;
+		friend VSSolution;
+		friend VSSolutionGenerator;
+		friend Solution;
 	};
 }
