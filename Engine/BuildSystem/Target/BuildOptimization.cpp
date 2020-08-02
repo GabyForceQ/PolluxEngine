@@ -41,6 +41,9 @@ namespace Pollux::BuildSystem
 	}
 
 	const size_t g_BuildOptimizationCount = 4;
+	const std::underlying_type_t<BuildOptimization> g_BuildOptimizationMin = +BuildOptimization::Debug;
+	const std::underlying_type_t<BuildOptimization> g_BuildOptimizationMax = +BuildOptimization::Retail;
+	const std::underlying_type_t<BuildOptimization> g_BuildOptimizationFlagArray[3] = { 0x0001, 0x0002, 0x0004 };
 	const char* g_BuildOptimization_None = "BuildOptimization::None";
 	const char* g_BuildOptimization_Debug = "BuildOptimization::Debug";
 	const char* g_BuildOptimization_Release = "BuildOptimization::Release";

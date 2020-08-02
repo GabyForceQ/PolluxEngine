@@ -148,6 +148,8 @@ int main(int argc, char* argv[])
                 {
                     throw std::runtime_error("Invalid optimization.");
                 }
+
+                pBuildSystem->globalConfiguration = new BuildConfiguration(BuildOptimization::None);
             }
             else if (std::string(argv[i]) == "--type")
             {
@@ -195,13 +197,13 @@ int main(int argc, char* argv[])
                 }
             }
 
-            pSolution->Implement(pBuildSystem);
+            pSolution->Implement(pBuildSystem, pProjectGenerator);
 
             if (+pBuildSystem->target.platform & +BuildPlatform::Windows)
             {
                 for (Project* pProject : pSolution->pProjects)
                 {
-                    projectsCode.push_back({ pProject->GetName(), pProject->GetPath(), pProjectGenerator->Generate(pProject, pBuildSystem) });
+                    projectsCode.push_back({ pProject->GetName(), pProject->GetPath(), pProject->GetGeneratedCode() });
                 }
 
                 solutionCode = pSolutionGenerator->Generate(pSolution);

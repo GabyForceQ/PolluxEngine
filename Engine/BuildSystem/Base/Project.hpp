@@ -22,7 +22,7 @@ namespace Pollux::BuildSystem
 	class Project : protected IBuildConfiguration
 	{
 	public:
-		Project() noexcept = default;
+		Project() noexcept;
 
 		void Initialize(BuildSystem* pBuildSystem); ///////
 
@@ -31,6 +31,10 @@ namespace Pollux::BuildSystem
 		const std::string& GetPath() const noexcept;
 
 		VSProject* pVSProject = nullptr; ///////
+
+		const std::string& GetGeneratedCode() const noexcept;
+
+		BuildSystem* pBuildSystem = nullptr; //////
 
 	protected:
 		void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
@@ -47,6 +51,7 @@ namespace Pollux::BuildSystem
 
 	private:
 		VSProjectGenerator* pVSProjectGenerator = nullptr;
+		std::string generatedCode;
 
 		friend VSProject;
 		friend VSProjectGenerator;

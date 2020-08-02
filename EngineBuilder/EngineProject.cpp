@@ -20,9 +20,11 @@ namespace Pollux::EngineBuilder
 
     void EngineProject::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
     {
+        Project::ConfigureWin64(config, target);
     }
 
     void EngineProject::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
     {
+        Project::ConfigureAll(config, target);
     }
 }

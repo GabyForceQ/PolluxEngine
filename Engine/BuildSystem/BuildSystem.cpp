@@ -13,4 +13,19 @@ namespace Pollux::BuildSystem
 	void BuildSystem::Run()
 	{
 	}
+
+	BuildSystem& BuildSystem::operator=(const BuildSystem& rhs)
+	{
+		target = rhs.target;
+		globalConfiguration = new BuildConfiguration(rhs.globalConfiguration->optimization);
+		*globalConfiguration = *rhs.globalConfiguration;
+		
+		for (const auto& e : rhs.configurationMap)
+		{
+			configurationMap[e.first] = new BuildConfiguration(e.second->optimization);
+			*configurationMap[e.first] = *e.second;
+		}
+
+		return *this;
+	}
 }

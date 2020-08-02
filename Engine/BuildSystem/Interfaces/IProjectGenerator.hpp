@@ -17,7 +17,7 @@ namespace Pollux::BuildSystem
 	class IProjectGenerator
 	{
 	public:
-		virtual std::string Generate(Project* pProject, BuildSystem* pBuildSystem) = 0;
+		virtual void Generate(Project* pProject) = 0;
 
 	protected:
 		virtual std::string GetBuildOptimization(const BuildOptimization optimization) = 0;

@@ -15,17 +15,15 @@ namespace Pollux::BuildSystem
 	{
 		BuildConfiguration() = delete;
 
-		BuildConfiguration(BuildOptimization optimization) noexcept
-			:
-			optimization{ optimization }
-		{
-		}
+		BuildConfiguration(BuildOptimization optimization) noexcept;
+
+		BuildConfiguration& operator=(const BuildConfiguration& rhs);
 
 		const BuildOptimization optimization;
 		
-		std::string name;
+		std::string projectName;
 		
-		std::string path;
+		std::string projectPath;
 		
 		std::vector<std::string> preprocessorDefinitions;
 		

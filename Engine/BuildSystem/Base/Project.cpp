@@ -12,6 +12,12 @@
 
 namespace Pollux::BuildSystem
 {
+	Project::Project() noexcept
+		:
+		pBuildSystem{ new BuildSystem() }
+	{
+	}
+
 	const std::string& Project::GetName() const noexcept
 	{
 		return name;
@@ -20,6 +26,11 @@ namespace Pollux::BuildSystem
 	const std::string& Project::GetPath() const noexcept
 	{
 		return path;
+	}
+
+	const std::string& Project::GetGeneratedCode() const noexcept
+	{
+		return generatedCode;
 	}
 
 	void Project::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
@@ -35,7 +46,7 @@ namespace Pollux::BuildSystem
 	void Project::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
 	{
 		config.bUsePrecompiledHeaders = true;
-		config.precompiledHeaderName = name + "PCH";
+		config.precompiledHeaderName = name + "PCH1";
 		config.preprocessorDefinitions.push_back("POLLUX_PLATFORM_X64");
 
 		switch (target.optimization)
@@ -102,13 +113,13 @@ namespace Pollux::BuildSystem
 
 	void Project::Initialize(BuildSystem* pBuildSystem)
 	{
-		pBuildSystem->globalConfiguration->name = name;
-		pBuildSystem->globalConfiguration->path = path;
+		pBuildSystem->globalConfiguration->projectName = name;
+		pBuildSystem->globalConfiguration->projectPath = path;
 
 		for (auto& config : pBuildSystem->configurationMap)
 		{
-			config.second->name = name;
-			config.second->path = path;
+			config.second->projectName = name;
+			config.second->projectPath = path;
 		}
 	}
 

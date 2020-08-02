@@ -19,5 +19,7 @@ namespace Pollux::BuildSystem
 		std::unordered_map<BuildOptimization, BuildConfiguration*> configurationMap;
 
 		void Run();
+
+		BuildSystem& operator=(const BuildSystem& rhs);
 	};
 }

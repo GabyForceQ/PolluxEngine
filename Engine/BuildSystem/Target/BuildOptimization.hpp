@@ -28,6 +28,12 @@ namespace Pollux::BuildSystem
 
 	extern const size_t g_BuildOptimizationCount;
 
+	extern const std::underlying_type_t<BuildOptimization> g_BuildOptimizationMin;
+
+	extern const std::underlying_type_t<BuildOptimization> g_BuildOptimizationMax;
+
+	extern const std::underlying_type_t<BuildOptimization> g_BuildOptimizationFlagArray[3];
+
 	extern const char* g_BuildOptimization_None;
 
 	extern const char* g_BuildOptimization_Debug;

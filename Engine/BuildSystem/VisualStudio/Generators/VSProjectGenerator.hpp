@@ -13,7 +13,7 @@ namespace Pollux::BuildSystem
 	class VSProjectGenerator final : public IProjectGenerator
 	{
 	public:
-		std::string Generate(Project* pProject, BuildSystem* pBuildSystem) override;
+		void Generate(Project* pProject) override;
 
 	private:
 		void GenerateSourceDirectory(Project* pProject);

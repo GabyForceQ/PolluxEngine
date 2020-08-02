@@ -9,6 +9,7 @@
 #include "Solution.hpp"
 #include "Project.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
+#include "Engine/BuildSystem/Interfaces/IProjectGenerator.hpp"
 
 namespace Pollux::BuildSystem
 {
@@ -18,18 +19,36 @@ namespace Pollux::BuildSystem
     {
     }
 
-    void Solution::Implement(BuildSystem* pBuildSystem)
+    void Solution::Implement(BuildSystem* pBuildSystem, IProjectGenerator* pProjectGenerator)
     {
-        for (type_t i = 0u; i < g_BuildOptimizationCount; i++)
-        {
-            const BuildOptimization platform = static_cast<BuildOptimization>(i);
+        this->pBuildSystem = pBuildSystem;
+        this->pProjectGenerator = pProjectGenerator;
 
-            if (pBuildSystem->configurationMap.contains(platform))
+        for (const type_t optimizationFlag : g_BuildOptimizationFlagArray)
+        {
+            const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
+
+            ConfigureWin64(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+            ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
+            PostConfig(*pBuildSystem->globalConfiguration,
+                *pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+        }
+
+        for (Project* pProject : pProjects)
+        {
+            for (const type_t optimizationFlag : g_BuildOptimizationFlagArray)
             {
-                ConfigureWin64(*pBuildSystem->configurationMap[platform], pBuildSystem->target);
-                ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
-                PostConfig(*pBuildSystem->globalConfiguration,
-                    *pBuildSystem->configurationMap[platform], pBuildSystem->target);
+                const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
+
+                if (pBuildSystem->configurationMap.contains(optimization))
+                {
+                    pProject->ConfigureWin64(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+                    pProject->ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
+                    pProject->PostConfig(*pBuildSystem->globalConfiguration,
+                        *pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+                    *pProject->pBuildSystem = *pBuildSystem;
+                    pProjectGenerator->Generate(pProject);
+                }
             }
         }
     }
@@ -41,25 +60,13 @@ namespace Pollux::BuildSystem
     
     void Solution::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
     {
-        for (Project* pProject : pProjects)
-        {
-            pProject->ConfigureWin64(config, target);
-        }
     }
 
     void Solution::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
     {
-        for (Project* pProject : pProjects)
-        {
-            pProject->ConfigureAll(config, target);
-        }
     }
 
     void Solution::PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target)
     {
-        for (Project* pProject : pProjects)
-        {
-            pProject->PostConfig(globalConfig, config, target);
-        }
     }
 }
