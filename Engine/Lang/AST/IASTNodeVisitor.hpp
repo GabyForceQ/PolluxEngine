@@ -27,7 +27,7 @@ namespace Pollux::Lang
 		
 		virtual void Visit(class ASTNodeAssign* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeVariable* pNode) = 0;
+		virtual void Visit(class ASTNodeVar* pNode) = 0;
 		
 		virtual void Visit(class ASTNodeLog* pNode) = 0;
 		
