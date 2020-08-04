@@ -8,33 +8,47 @@
 
 namespace Pollux::Lang
 {
+	class ASTNodeVarSymbol;
+	class ASTNodeTypeSymbol;
+	class ASTNodeDeclStatement;
+	class ASTNodeDeclHolder;
+	class ASTNodeType;
+	class ASTNodeExpression;
+	class ASTNodeCompound;
+	class ASTNodeAssign;
+	class ASTNodeVar;
+	class ASTNodeLog;
+	class ASTNodeIfStatement;
+	class ASTNodeFunction;
+	class ASTNodeEmptyStatement;
+
 	class IASTNodeVisitor
 	{
 	public:
-		virtual void Visit(class ASTNodeVarSymbol* pNode) = 0;
+		virtual void Visit(ASTNodeVarSymbol* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeTypeSymbol* pNode) = 0;
+		virtual void Visit(ASTNodeTypeSymbol* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeDeclStatement* pNode) = 0;
+		virtual void Visit(ASTNodeDeclStatement* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeDeclHolder* pNode) = 0;
+		virtual void Visit(ASTNodeDeclHolder* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeType* pNode) = 0;
+		virtual void Visit(ASTNodeType* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeExpression* pNode) = 0;
+		virtual void Visit(ASTNodeExpression* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeCompound* pNode) = 0;
+		virtual void Visit(ASTNodeCompound* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeAssign* pNode) = 0;
+		virtual void Visit(ASTNodeAssign* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeVar* pNode) = 0;
+		virtual void Visit(ASTNodeVar* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeLog* pNode) = 0;
+		virtual void Visit(ASTNodeLog* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeIfStatement* pNode) = 0;
+		virtual void Visit(ASTNodeIfStatement* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeFunction* pNode) = 0;
+		virtual void Visit(ASTNodeFunction* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeEmptyStatement* pNode) = 0;
+		virtual void Visit(ASTNodeEmptyStatement* pNode) = 0;
 	};
 }
