@@ -14,7 +14,7 @@ namespace Pollux::Lang
 	class ASTNodeDeclHolder;
 	class ASTNodeType;
 	class ASTNodeExpression;
-	class ASTNodeCompound;
+	class ASTNodeScope;
 	class ASTNodeAssign;
 	class ASTNodeVar;
 	class ASTNodeLog;
@@ -37,7 +37,7 @@ namespace Pollux::Lang
 		
 		virtual void Visit(ASTNodeExpression* pNode) = 0;
 		
-		virtual void Visit(ASTNodeCompound* pNode) = 0;
+		virtual void Visit(ASTNodeScope* pNode) = 0;
 		
 		virtual void Visit(ASTNodeAssign* pNode) = 0;
 		

@@ -17,6 +17,6 @@ namespace Pollux::Lang
 
 		void Accept(IASTNodeVisitor* pVisitor);
 
-		std::vector<ASTNode> statements;
+		std::vector<ASTNodeBase*> pStatements;
 	};
 }

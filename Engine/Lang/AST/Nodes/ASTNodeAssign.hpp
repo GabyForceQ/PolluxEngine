@@ -17,7 +17,7 @@ namespace Pollux::Lang
 
 		void Accept(IASTNodeVisitor* pVisitor);
 
-		ASTNodeVariable* pHolder = nullptr;
+		ASTNodeVar* pHolder = nullptr;
 
 		ASTNodeExpression* pExpression = nullptr;
 	};
