@@ -24,29 +24,44 @@ namespace Pollux::Lang
 		ASTNodeVarSymbol,
 		ASTNodeDeclHolder,
 		ASTNodeDeclStatement,
-		ASTNodeIfElse
+		ASTNodeIfStatement
 	};
 
 	MAKE_ENUM_CONVERTIBLE_TO(ASTNodeKind, type_t)
 
 	extern const char* g_ASTNodeKind_ASTNodeBase;
+
 	extern const char* g_ASTNodeKind_ASTNodeAssign;
+
 	extern const char* g_ASTNodeKind_ASTNodeLog;
+
 	extern const char* g_ASTNodeKind_ASTNodeEmptyStatement;
+
 	extern const char* g_ASTNodeKind_ASTNodeExpression;
+
 	extern const char* g_ASTNodeKind_ASTNodeFunction;
+
 	extern const char* g_ASTNodeKind_ASTNodeScope;
+
 	extern const char* g_ASTNodeKind_ASTNodeType;
+
 	extern const char* g_ASTNodeKind_ASTNodeVar;
+
 	extern const char* g_ASTNodeKind_ASTNodeSymbol;
+
 	extern const char* g_ASTNodeKind_ASTNodeTypeSymbol;
+
 	extern const char* g_ASTNodeKind_ASTNodeVarSymbol;
+
 	extern const char* g_ASTNodeKind_ASTNodeDeclHolder;
+
 	extern const char* g_ASTNodeKind_ASTNodeDeclStatement;
-	extern const char* g_ASTNodeKind_ASTNodeIfElse;
+
+	extern const char* g_ASTNodeKind_ASTNodeIfStatement;
 
 	extern const std::map<const char*, ASTNodeKind> g_ASTNodeKindMap;
 
 	ASTNodeKind ASTNodeKindToEnum(const char* astNodeKind);
+
 	std::string ToString(const ASTNodeKind astNodeKind);
 }

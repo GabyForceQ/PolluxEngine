@@ -18,13 +18,18 @@ namespace Pollux::Lang
 	};
 
 	extern const char* g_pExpressionKind_NumberLiteral;
+
 	extern const char* g_pExpressionKind_StringLiteral;
+
 	extern const char* g_pExpressionKind_DynamicHolder;
+
 	extern const char* g_pExpressionKind_Unary;
+
 	extern const char* g_pExpressionKind_Binary;
 
 	extern const std::map<const char*, ExpressionKind> g_ExpressionKindMap;
 
 	ExpressionKind ExpressionKindToEnum(const char* expressionKind);
+
 	std::string ToString(const ExpressionKind expressionKind);
 }

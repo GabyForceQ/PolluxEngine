@@ -14,7 +14,7 @@ namespace Pollux::Lang
 		:
 		ASTNodeBase{ std::move(token) }
 	{
-		ASTNodeBase::RegisterType("ASTNodeScope", +ASTNodeKind::ASTNodeScope);
+		RegisterType("ASTNodeScope", +ASTNodeKind::ASTNodeScope);
 	}
 
 	void ASTNodeScope::Accept(IASTNodeVisitor* pVisitor)

@@ -15,7 +15,7 @@ namespace Pollux::Lang
 	public:
 		explicit ASTNodeAssign(Token token) noexcept;
 
-		void Accept(IASTNodeVisitor* pVisitor);
+		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		ASTNodeVar* pHolder = nullptr;
 

@@ -15,6 +15,6 @@ namespace Pollux::Lang
 	public:
 		explicit ASTNodeEmptyStatement() noexcept;
 
-		void Accept(IASTNodeVisitor* pVisitor);
+		void Accept(IASTNodeVisitor* pVisitor) override;
 	};
 }

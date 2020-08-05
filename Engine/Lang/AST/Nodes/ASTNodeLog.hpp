@@ -15,7 +15,7 @@ namespace Pollux::Lang
 	public:
 		explicit ASTNodeLog(ASTNodeExpression* pExression) noexcept;
 
-		void Accept(IASTNodeVisitor* pVisitor);
+		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		ASTNodeExpression* pExression = nullptr;
 	};

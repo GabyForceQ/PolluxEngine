@@ -14,6 +14,7 @@ namespace Pollux::Lang
 		:
 		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } }
 	{
+		RegisterType("ASTNodeEmptyStatement", +ASTNodeKind::ASTNodeEmptyStatement);
 	}
 
 	void ASTNodeEmptyStatement::Accept(IASTNodeVisitor* pVisitor)

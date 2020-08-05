@@ -24,7 +24,7 @@ namespace Pollux::Lang
 	const char* g_ASTNodeKind_ASTNodeVarSymbol = "ASTNodeKind::ASTNodeVarSymbol";
 	const char* g_ASTNodeKind_ASTNodeDeclHolder = "ASTNodeKind::ASTNodeDeclHolder";
 	const char* g_ASTNodeKind_ASTNodeDeclStatement = "ASTNodeKind::ASTNodeDeclStatement";
-	const char* g_ASTNodeKind_ASTNodeIfElse = "ASTNodeKind::ASTNodeIfElse";
+	const char* g_ASTNodeKind_ASTNodeIfStatement = "ASTNodeKind::ASTNodeIfStatement";
 
 	const std::map<const char*, ASTNodeKind> g_ASTNodeKindMap
 	{
@@ -42,7 +42,7 @@ namespace Pollux::Lang
 		{ g_ASTNodeKind_ASTNodeVarSymbol, ASTNodeKind::ASTNodeVarSymbol },
 		{ g_ASTNodeKind_ASTNodeDeclHolder, ASTNodeKind::ASTNodeDeclHolder },
 		{ g_ASTNodeKind_ASTNodeDeclStatement, ASTNodeKind::ASTNodeDeclStatement },
-		{ g_ASTNodeKind_ASTNodeIfElse, ASTNodeKind::ASTNodeIfElse },
+		{ g_ASTNodeKind_ASTNodeIfStatement, ASTNodeKind::ASTNodeIfStatement },
 	};
 
 	ASTNodeKind ASTNodeKindToEnum(const char* astNodeKind)
@@ -73,7 +73,7 @@ namespace Pollux::Lang
 		case ASTNodeKind::ASTNodeVarSymbol: return g_ASTNodeKind_ASTNodeVarSymbol;
 		case ASTNodeKind::ASTNodeDeclHolder: return g_ASTNodeKind_ASTNodeDeclHolder;
 		case ASTNodeKind::ASTNodeDeclStatement: return g_ASTNodeKind_ASTNodeDeclStatement;
-		case ASTNodeKind::ASTNodeIfElse: return g_ASTNodeKind_ASTNodeIfElse;
+		case ASTNodeKind::ASTNodeIfStatement: return g_ASTNodeKind_ASTNodeIfStatement;
 		default:; // todo. Log a warning message
 		}
 

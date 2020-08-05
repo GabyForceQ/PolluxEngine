@@ -15,7 +15,7 @@ namespace Pollux::Lang
 	public:
 		explicit ASTNodeScope(Token token) noexcept;
 
-		void Accept(IASTNodeVisitor* pVisitor);
+		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		std::vector<ASTNodeBase*> pStatements;
 	};
