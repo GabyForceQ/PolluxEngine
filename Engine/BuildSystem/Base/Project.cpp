@@ -47,6 +47,7 @@ namespace Pollux::BuildSystem
 		config.preprocessorDefinitions.push_back("STRICT");
 		config.preprocessorDefinitions.push_back("_USE_MATH_DEFINES");
 		config.preprocessorDefinitions.push_back("POLLUX_DRIVER_VULKAN");
+		config.preprocessorDefinitions.push_back("VK_USE_PLATFORM_WIN32_KHR");
 	}
 
 	void Project::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
@@ -134,5 +135,10 @@ namespace Pollux::BuildSystem
 	{
 		config.bUsePrecompiledHeaders = globalConfig.bUsePrecompiledHeaders;
 		config.precompiledHeaderName = globalConfig.precompiledHeaderName;
+
+		if (globalConfig.buildOutputType != BuildOutputType::None)
+		{
+			config.buildOutputType = globalConfig.buildOutputType;
+		}
 	}
 }

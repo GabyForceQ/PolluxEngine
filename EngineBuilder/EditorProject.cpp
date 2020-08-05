@@ -27,5 +27,7 @@ namespace Pollux::EngineBuilder
     void EditorProject::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
     {
         Project::ConfigureAll(config, target);
+
+        config.buildOutputType = BuildOutputType::Executable;
     }
 }

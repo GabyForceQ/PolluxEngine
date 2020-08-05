@@ -8,6 +8,7 @@
 
 #include "BuildBooleanType.hpp"
 #include "../Target/BuildOptimization.hpp"
+#include "../Configuration/BuildOutputType.hpp"
 
 namespace Pollux::BuildSystem
 {
@@ -27,6 +28,8 @@ namespace Pollux::BuildSystem
 		
 		std::string projectPath;
 		
+		BuildOutputType buildOutputType = BuildOutputType::None;
+
 		std::vector<std::string> preprocessorDefinitions;
 		
 		std::vector<std::string> includeDirectories;

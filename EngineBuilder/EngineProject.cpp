@@ -27,5 +27,7 @@ namespace Pollux::EngineBuilder
     void EngineProject::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
     {
         Project::ConfigureAll(config, target);
+
+        config.buildOutputType = BuildOutputType::StaticLibrary;
     }
 }

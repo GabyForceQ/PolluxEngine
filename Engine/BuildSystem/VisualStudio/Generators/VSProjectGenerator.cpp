@@ -55,7 +55,37 @@ namespace Pollux::BuildSystem
 
             res += "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='" + optimization + "|" +
                 architecture + "'\" Label=\"Configuration\">\n";
-            res += "    <ConfigurationType>Application</ConfigurationType>\n";
+
+            switch (config.second->buildOutputType)
+            {
+            case BuildOutputType::Executable:
+            {
+                res += "    <ConfigurationType>Application</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::StaticLibrary:
+            {
+                res += "    <ConfigurationType>StaticLibrary</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::DynamicLibrary:
+            {
+                res += "    <ConfigurationType>DynamicLibrary</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::Makefile:
+            {
+                res += "    <ConfigurationType>Makefile</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::Utility:
+            {
+                res += "    <ConfigurationType>Utility</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::None: break;
+            }
+
             res += "    <PlatformToolset>v142</PlatformToolset>\n";
             res += "    <UseDebugLibraries>" + BoolToString(config.second->bUseDebugLibraries) +
                 "</UseDebugLibraries>\n";
@@ -124,7 +154,7 @@ namespace Pollux::BuildSystem
             res += "    <ClCompile>\n";
             res += "      <WarningLevel>Level3</WarningLevel>\n";
             res += "      <SDLCheck>true</SDLCheck>\n";
-            res += "      <ConformanceMode>true</ConformanceMode>\n";
+            res += "      <ConformanceMode>false</ConformanceMode>\n";
             res += "      <AdditionalOptions>/Zc:__cplusplus</AdditionalOptions>\n";
             res += "      <ProgramDatabaseFileName>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
                 pProject->name + "\\" + optimization + "\\" + pProject->name +
@@ -160,6 +190,7 @@ namespace Pollux::BuildSystem
             res += "      <BrowseInformation>false</BrowseInformation>\n";
             res += "      <CallingConvention>Cdecl</CallingConvention>\n";
             res += "      <CompileAs>Default</CompileAs>\n";
+            res += "      <DisableSpecificWarnings>4005</DisableSpecificWarnings>\n";
             res += "      <AdditionalIncludeDirectories>..\\..\\..;";
 
             for (const std::string& includeDirectory : pBuildSystem->globalConfiguration->includeDirectories)
@@ -208,7 +239,8 @@ namespace Pollux::BuildSystem
             //    res += "      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>\n";
             //    res += "      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>\n";
             //    res += "      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>\n";
-            //    res += "      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>\n";
+            //    //res += "      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>\n";
+            //    res += "      <BasicRuntimeChecks>Default</BasicRuntimeChecks>\n";
             //    break;
             //}
             //case BuildOptimization::Release:

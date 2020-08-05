@@ -20,6 +20,7 @@ namespace Pollux::BuildSystem
     {
         projectName = rhs.projectName;
         projectPath = rhs.projectPath;
+        buildOutputType = rhs.buildOutputType;
         preprocessorDefinitions = rhs.preprocessorDefinitions;
         includeDirectories = rhs.includeDirectories;
         bUsePrecompiledHeaders = rhs.bUsePrecompiledHeaders;
@@ -43,6 +44,7 @@ namespace Pollux::BuildSystem
     {
         projectName = "";
         projectPath = "";
+        buildOutputType = BuildOutputType::None;
         preprocessorDefinitions.clear();
         includeDirectories.clear();
         bUsePrecompiledHeaders = false;
