@@ -4,15 +4,4 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
-
-#include "../../Filters/ProjectFilters.hpp"
-#include "../VSGuid.hpp"
-
-namespace Pollux::BuildSystem
-{
-	struct VSProjectFilters final
-	{
-		std::vector<VSGuid> idGuids;
-	};
-}
+#include <Editor/EditorPCH.hpp>

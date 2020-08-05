@@ -14,6 +14,8 @@ namespace Pollux::BuildSystem
 {
 	struct VSProject;
 	class VSProjectGenerator;
+	class ProjectFilters;
+	class VSProjectFiltersGenerator;
 	struct VSSolution;
 	class VSSolutionGenerator;
 	class Solution;
@@ -31,6 +33,7 @@ namespace Pollux::BuildSystem
 		const std::string& GetPath() const noexcept;
 
 		VSProject* pVSProject = nullptr; ///////
+		ProjectFilters* pProjectFilters = nullptr; ///////
 
 		const std::string& GetGeneratedCode() const noexcept;
 
@@ -50,7 +53,6 @@ namespace Pollux::BuildSystem
 		BuildSubSystem buildSubSystem = BuildSubSystem::Console;
 
 	private:
-		VSProjectGenerator* pVSProjectGenerator = nullptr;
 		std::string generatedCode;
 
 		friend VSProject;

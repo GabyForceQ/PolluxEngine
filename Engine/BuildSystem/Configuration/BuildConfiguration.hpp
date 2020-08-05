@@ -8,6 +8,7 @@
 
 #include "BuildBooleanType.hpp"
 #include "../Target/BuildOptimization.hpp"
+#include "../Configuration/BuildOutputType.hpp"
 
 namespace Pollux::BuildSystem
 {
@@ -19,14 +20,20 @@ namespace Pollux::BuildSystem
 
 		BuildConfiguration& operator=(const BuildConfiguration& rhs);
 
+		void Reset();
+
 		const BuildOptimization optimization;
 		
 		std::string projectName;
 		
 		std::string projectPath;
 		
+		BuildOutputType buildOutputType = BuildOutputType::None;
+
 		std::vector<std::string> preprocessorDefinitions;
 		
+		std::vector<std::string> includeDirectories;
+
 		bool bUsePrecompiledHeaders = false;
 
 		std::string precompiledHeaderName;

@@ -9,9 +9,13 @@
 #include "Base/Project.hpp"
 #include "Base/Solution.hpp"
 
+#include "Filters/ProjectFilters.hpp"
+
 #include "VisualStudio/Generators/VSProjectGenerator.hpp"
+#include "VisualStudio/Generators/VSProjectFiltersGenerator.hpp"
 #include "VisualStudio/Generators/VSSolutionGenerator.hpp"
 #include "VisualStudio/Objects/VSProject.hpp"
+#include "VisualStudio/Filters/VSProjectFilters.hpp"
 #include "VisualStudio/Objects/VSSolution.hpp"
 
 #include "BuildAction.hpp"

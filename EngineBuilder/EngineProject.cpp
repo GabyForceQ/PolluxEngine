@@ -16,6 +16,7 @@ namespace Pollux::EngineBuilder
     {
         name = "Engine";
         path = "Engine.vcxproj";
+        pProjectFilters->path = "Engine.vcxproj.filters";
     }
 
     void EngineProject::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
@@ -26,5 +27,7 @@ namespace Pollux::EngineBuilder
     void EngineProject::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
     {
         Project::ConfigureAll(config, target);
+
+        config.buildOutputType = BuildOutputType::StaticLibrary;
     }
 }

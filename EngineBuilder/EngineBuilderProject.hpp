@@ -6,13 +6,15 @@
 
 #pragma once
 
-#include "../../Filters/ProjectFilters.hpp"
-#include "../VSGuid.hpp"
-
-namespace Pollux::BuildSystem
+namespace Pollux::EngineBuilder
 {
-	struct VSProjectFilters final
-	{
-		std::vector<VSGuid> idGuids;
-	};
+    class EngineBuilderProject final : public BuildSystem::Project
+    {
+    public:
+        EngineBuilderProject() noexcept;
+
+    private:
+        virtual void ConfigureWin64(BuildConfiguration& config, const BuildTarget& target) override;
+        virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
+    };
 }

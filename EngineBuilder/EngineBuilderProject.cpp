@@ -6,25 +6,25 @@
 
 #include "EngineBuilder/enginebuilderpch.hpp"
 
-#include "EditorProject.hpp"
+#include "EngineBuilderProject.hpp"
 
 using namespace Pollux::BuildSystem;
 
 namespace Pollux::EngineBuilder
 {
-    EditorProject::EditorProject() noexcept
+    EngineBuilderProject::EngineBuilderProject() noexcept
     {
-        name = "Editor";
-        path = "Editor.vcxproj";
-        pProjectFilters->path = "Editor.vcxproj.filters";
+        name = "EngineBuilder";
+        path = "EngineBuilder.vcxproj";
+        pProjectFilters->path = "EngineBuilder.vcxproj.filters";
     }
 
-    void EditorProject::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
+    void EngineBuilderProject::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)
     {
         Project::ConfigureWin64(config, target);
     }
 
-    void EditorProject::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
+    void EngineBuilderProject::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
     {
         Project::ConfigureAll(config, target);
 

@@ -9,6 +9,7 @@
 #include "PolluxEngineSolution.hpp"
 #include "EngineProject.hpp"
 #include "EditorProject.hpp"
+#include "EngineBuilderProject.hpp"
 
 namespace Pollux::EngineBuilder
 {
@@ -18,5 +19,6 @@ namespace Pollux::EngineBuilder
 	{
 		pProjects.push_back(new EngineProject());
 		pProjects.push_back(new EditorProject());
+		pProjects.push_back(new EngineBuilderProject());
 	}
 }
