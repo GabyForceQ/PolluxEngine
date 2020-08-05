@@ -6,6 +6,13 @@
 
 #pragma once
 
+#include "../../Filters/ProjectFilters.hpp"
+#include "../VSGuid.hpp"
+
 namespace Pollux::BuildSystem
 {
+	struct VSProjectFilters final
+	{
+		std::vector<VSGuid> idGuids;
+	};
 }

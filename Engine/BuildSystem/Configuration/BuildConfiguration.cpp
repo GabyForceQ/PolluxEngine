@@ -21,6 +21,7 @@ namespace Pollux::BuildSystem
         projectName = rhs.projectName;
         projectPath = rhs.projectPath;
         preprocessorDefinitions = rhs.preprocessorDefinitions;
+        includeDirectories = rhs.includeDirectories;
         bUsePrecompiledHeaders = rhs.bUsePrecompiledHeaders;
         precompiledHeaderName = rhs.precompiledHeaderName;
         bUseDebugLibraries = rhs.bUseDebugLibraries;
@@ -36,5 +37,26 @@ namespace Pollux::BuildSystem
         bEnableCOMDATFolding = rhs.bEnableCOMDATFolding;
 
         return *this;
+    }
+
+    void BuildConfiguration::Reset()
+    {
+        projectName = "";
+        projectPath = "";
+        preprocessorDefinitions.clear();
+        includeDirectories.clear();
+        bUsePrecompiledHeaders = false;
+        precompiledHeaderName = "";
+        bUseDebugLibraries = false;
+        wholeProgramOptimization = BuildBooleanType::None;
+        bLinkIncremental = false;
+        functionLevelLinking = BuildBooleanType::None;
+        bIntrinsicFunctions = false;
+        bBufferSecurityCheck = false;
+        bStringPooling = false;
+
+        bGenerateDebugInformation = false;
+        bOptimizeReferences = false;
+        bEnableCOMDATFolding = false;
     }
 }

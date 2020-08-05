@@ -8,19 +8,20 @@
 
 #include "VSProjectGenerator.hpp"
 #include "Engine/BuildSystem/Base/Project.hpp"
+#include "Engine/BuildSystem/Filters/ProjectFilters.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
-#include "Engine/Core/Storage/FileManager.hpp"
 
 namespace Pollux::BuildSystem
 {
     void VSProjectGenerator::Generate(Project* pProject)
     {
-        auto pVSProject = pProject->pVSProject;
-        BuildSystem* pBuildSystem = pProject->pBuildSystem;
-        std::string architecture = "x64"; // todo. add an enum
+        std::string& res = pProject->generatedCode;
+        const VSProject* pVSProject = pProject->pVSProject;
+        const BuildSystem* pBuildSystem = pProject->pBuildSystem;
+        const std::string architecture = "x64"; // todo. add an enum
 
-        std::string res = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+        res = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
             "<Project DefaultTargets=\"Build\" ToolsVersion=\"16.0\" "
             "xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n";
 
@@ -159,8 +160,25 @@ namespace Pollux::BuildSystem
             res += "      <BrowseInformation>false</BrowseInformation>\n";
             res += "      <CallingConvention>Cdecl</CallingConvention>\n";
             res += "      <CompileAs>Default</CompileAs>\n";
-            res += "      <AdditionalIncludeDirectories>..\\..\\..</AdditionalIncludeDirectories>\n";
+            res += "      <AdditionalIncludeDirectories>..\\..\\..;";
+
+            for (const std::string& includeDirectory : pBuildSystem->globalConfiguration->includeDirectories)
+            {
+                res += includeDirectory + ";";
+            }
+
+            for (const std::string& includeDirectory : config.second->includeDirectories)
+            {
+                res += includeDirectory + ";";
+            }
+
+            res += "</AdditionalIncludeDirectories>\n";
             res += "      <PreprocessorDefinitions>";
+
+            for (const std::string& preprocessorDefinition : pBuildSystem->globalConfiguration->preprocessorDefinitions)
+            {
+                res += preprocessorDefinition + ";";
+            }
 
             for (const std::string& preprocessorDefinition : config.second->preprocessorDefinitions)
             {
@@ -172,8 +190,8 @@ namespace Pollux::BuildSystem
             if (config.second->bUsePrecompiledHeaders)
             {
                 res += "      <PrecompiledHeader>Use</PrecompiledHeader>\n";
-                res += "      <PrecompiledHeaderFile>" + config.second->precompiledHeaderName +
-                    ".hpp</PrecompiledHeaderFile>\n";
+                res += "      <PrecompiledHeaderFile>" + pProject->name + "\\" +
+                    config.second->precompiledHeaderName + ".hpp</PrecompiledHeaderFile>\n";
                 res += "      <PrecompiledHeaderOutputFile>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
                     pProject->name + "\\" + optimization + "\\" + pProject->name +
                     ".pch</PrecompiledHeaderOutputFile>\n";
@@ -278,21 +296,8 @@ namespace Pollux::BuildSystem
             res += "  </ItemDefinitionGroup>\n";
         }
 
-        const bool usePch = pBuildSystem->globalConfiguration->bUsePrecompiledHeaders;
-        const std::string pchName = pBuildSystem->globalConfiguration->precompiledHeaderName;
-        std::vector<std::string> hppFiles;
-        std::vector<std::string> cppFiles;
-
-        if (usePch)
-        {
-            hppFiles = Core::FileManager::GetFilePaths(pProject->name, ".hpp", "..\\..\\..\\", { pchName + ".hpp" });
-            cppFiles = Core::FileManager::GetFilePaths(pProject->name, ".cpp", "..\\..\\..\\", { pchName + ".cpp" });
-        }
-        else
-        {
-            hppFiles = Core::FileManager::GetFilePaths(pProject->name, ".hpp", "..\\..\\..\\");
-            cppFiles = Core::FileManager::GetFilePaths(pProject->name, ".cpp", "..\\..\\..\\");
-        }
+        const bool& usePch = pBuildSystem->globalConfiguration->bUsePrecompiledHeaders;
+        const std::string& pchName = pBuildSystem->globalConfiguration->precompiledHeaderName;
 
         res += "  <ItemGroup>\n";
 
@@ -301,9 +306,9 @@ namespace Pollux::BuildSystem
             res += "    <ClInclude Include=\"..\\..\\..\\" + pProject->name + "\\" + pchName + ".hpp\"/>\n";
         }
 
-        for (const std::string& hppFile : hppFiles)
+        for (const std::string& headerFile : pProject->pProjectFilters->GetHeaderFiles())
         {
-            res += "    <ClInclude Include=\"" + hppFile + "\"/>\n";
+            res += "    <ClInclude Include=\"" + headerFile + "\"/>\n";
         }
 
         res += "  </ItemGroup>\n";
@@ -324,9 +329,9 @@ namespace Pollux::BuildSystem
 
         res += "    </ClCompile>\n";
 
-        for (const std::string& cppFile : cppFiles)
+        for (const std::string& sourceFile : pProject->pProjectFilters->GetSourceFiles())
         {
-            res += "    <ClCompile Include=\"" + cppFile + "\"/>\n";
+            res += "    <ClCompile Include=\"" + sourceFile + "\"/>\n";
         }
 
         res += "  </ItemGroup>\n";
@@ -341,8 +346,6 @@ namespace Pollux::BuildSystem
         {
             GeneratePrecompiledHeader(pProject, pchName);
         }
-
-        pProject->generatedCode = res;
     }
 
     void VSProjectGenerator::GenerateSourceDirectory(Project* pProject)
@@ -386,7 +389,7 @@ namespace Pollux::BuildSystem
 
             fSource.open(sourcePath.c_str(), std::ios::out);
 
-            fSource << licenseStr + "\n\n";
+            fSource << licenseStr + "\n";
             fSource << "#include <" + pProject->name + "/" + precompiledHeaderName + ".hpp>\n";
 
             fSource.close();

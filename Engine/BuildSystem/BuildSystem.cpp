@@ -10,8 +10,14 @@
 
 namespace Pollux::BuildSystem
 {
-	void BuildSystem::Run()
+	void BuildSystem::Reset()
 	{
+		globalConfiguration->Reset();
+		
+		for (const auto& configuration : configurationMap)
+		{
+			configuration.second->Reset();
+		}
 	}
 
 	BuildSystem& BuildSystem::operator=(const BuildSystem& rhs)
@@ -20,10 +26,10 @@ namespace Pollux::BuildSystem
 		globalConfiguration = new BuildConfiguration(rhs.globalConfiguration->optimization);
 		*globalConfiguration = *rhs.globalConfiguration;
 		
-		for (const auto& e : rhs.configurationMap)
+		for (const auto& configuration : rhs.configurationMap)
 		{
-			configurationMap[e.first] = new BuildConfiguration(e.second->optimization);
-			*configurationMap[e.first] = *e.second;
+			configurationMap[configuration.first] = new BuildConfiguration(configuration.second->optimization);
+			*configurationMap[configuration.first] = *configuration.second;
 		}
 
 		return *this;

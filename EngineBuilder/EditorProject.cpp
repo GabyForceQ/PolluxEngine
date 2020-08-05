@@ -16,6 +16,7 @@ namespace Pollux::EngineBuilder
     {
         name = "Editor";
         path = "Editor.vcxproj";
+        pProjectFilters->path = "Editor.vcxproj.filters";
     }
 
     void EditorProject::ConfigureWin64(BuildConfiguration& config, const BuildTarget& target)

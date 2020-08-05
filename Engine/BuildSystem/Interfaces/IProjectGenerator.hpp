@@ -12,7 +12,6 @@
 namespace Pollux::BuildSystem
 {
 	class Project;
-	class BuildSystem;
 
 	class IProjectGenerator
 	{

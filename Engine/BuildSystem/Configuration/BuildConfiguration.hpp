@@ -19,6 +19,8 @@ namespace Pollux::BuildSystem
 
 		BuildConfiguration& operator=(const BuildConfiguration& rhs);
 
+		void Reset();
+
 		const BuildOptimization optimization;
 		
 		std::string projectName;
@@ -27,6 +29,8 @@ namespace Pollux::BuildSystem
 		
 		std::vector<std::string> preprocessorDefinitions;
 		
+		std::vector<std::string> includeDirectories;
+
 		bool bUsePrecompiledHeaders = false;
 
 		std::string precompiledHeaderName;
