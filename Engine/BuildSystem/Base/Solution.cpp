@@ -10,6 +10,9 @@
 #include "Project.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
 #include "Engine/BuildSystem/Interfaces/IProjectGenerator.hpp"
+#include "Engine/BuildSystem/Interfaces/IProjectFilterGenerator.hpp"
+#include "Engine/BuildSystem/Filters/ProjectFilters.hpp"
+#include "Engine/Core/Storage/FileManager.hpp"
 
 namespace Pollux::BuildSystem
 {
@@ -19,7 +22,8 @@ namespace Pollux::BuildSystem
     {
     }
 
-    void Solution::Implement(BuildSystem* pBuildSystem, IProjectGenerator* pProjectGenerator)
+    void Solution::Implement(BuildSystem* pBuildSystem, IProjectGenerator* pProjectGenerator,
+        IProjectFiltersGenerator* pProjectFiltersGenerator)
     {
         this->pBuildSystem = pBuildSystem;
         this->pProjectGenerator = pProjectGenerator;
@@ -36,6 +40,8 @@ namespace Pollux::BuildSystem
 
         for (Project* pProject : pProjects)
         {
+            pProject->ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
+
             for (const type_t optimizationFlag : g_BuildOptimizationFlagArray)
             {
                 const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
@@ -43,13 +49,41 @@ namespace Pollux::BuildSystem
                 if (pBuildSystem->configurationMap.contains(optimization))
                 {
                     pProject->ConfigureWin64(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
-                    pProject->ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
                     pProject->PostConfig(*pBuildSystem->globalConfiguration,
                         *pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+                    
                     *pProject->pBuildSystem = *pBuildSystem;
-                    pProjectGenerator->Generate(pProject);
                 }
             }
+
+            const std::string& pchName = pBuildSystem->globalConfiguration->precompiledHeaderName;
+
+            if (pProject->pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+            {
+                pProject->pProjectFilters->headerFiles = Core::FileManager::GetFilePaths(
+                    pProject->name, ".hpp", "..\\..\\..\\", { pchName + ".hpp" });
+                pProject->pProjectFilters->sourceFiles = Core::FileManager::GetFilePaths(
+                    pProject->name, ".cpp", "..\\..\\..\\", { pchName + ".cpp" });
+            }
+            else
+            {
+                pProject->pProjectFilters->headerFiles = Core::FileManager::GetFilePaths(
+                    pProject->name, ".hpp", "..\\..\\..\\");
+                pProject->pProjectFilters->sourceFiles = Core::FileManager::GetFilePaths(
+                    pProject->name, ".cpp", "..\\..\\..\\");
+            }
+
+            pProjectGenerator->Generate(pProject);
+
+            if (pProject->pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+            {
+                pProject->pProjectFilters->headerFiles.push_back(pProject->name + "\\" + pchName + ".hpp");
+                pProject->pProjectFilters->sourceFiles.push_back(pProject->name + "\\" + pchName + ".cpp");
+            }
+
+            pProjectFiltersGenerator->Generate(pProject->pProjectFilters);
+
+            pBuildSystem->Reset();
         }
     }
 

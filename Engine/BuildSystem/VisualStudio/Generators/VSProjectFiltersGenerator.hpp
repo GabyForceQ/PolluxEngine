@@ -6,25 +6,16 @@
 
 #pragma once
 
-#include "DevelopmentEnvironment.hpp"
-#include "BuildOptimization.hpp"
-#include "BuildPlatform.hpp"
+#include "../../Interfaces/IProjectFilterGenerator.hpp"
 
 namespace Pollux::BuildSystem
 {
-	struct BuildTarget final
+	class VSProjectFiltersGenerator final : public IProjectFiltersGenerator
 	{
 	public:
-		BuildTarget() noexcept = default;
+		void Generate(ProjectFilters* pProjectFilters) override;
 
-		explicit BuildTarget(BuildOptimization optimization,
-			BuildPlatform platform,
-			DevelopmentEnvironment developmentEnvironment) noexcept;
-
-		BuildOptimization optimization = BuildOptimization::Debug;
-
-		BuildPlatform platform = BuildPlatform::Windows;
-
-		DevelopmentEnvironment developmentEnvironment = DevelopmentEnvironment::Makefile;
+	private:
+		std::string GetFilterBasePath(const std::string& fullPath, const std::string& projectName) override;
 	};
 }

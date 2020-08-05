@@ -17,13 +17,15 @@ namespace Pollux::BuildSystem
 	class Project;
 	class BuildSystem;
 	class IProjectGenerator;
+	class IProjectFiltersGenerator;
 
 	class Solution : protected IBuildConfiguration
 	{
 	public:
 		Solution(const std::string& path) noexcept;
 
-		void Implement(BuildSystem* pBuildSystem, IProjectGenerator* pProjectGenerator);
+		void Implement(BuildSystem* pBuildSystem, IProjectGenerator* pProjectGenerator,
+			IProjectFiltersGenerator* pProjectFiltersGenerator);
 
 		const std::string& GetPath() const noexcept;
 
@@ -41,6 +43,7 @@ namespace Pollux::BuildSystem
 		VSSolution* pVSSolution = nullptr;
 		VSSolutionGenerator* pVSSolutionGenerator = nullptr;
 		IProjectGenerator* pProjectGenerator = nullptr;
+		IProjectFiltersGenerator* pProjectFiltersGenerator = nullptr;
 		BuildSystem* pBuildSystem = nullptr;
 
 		friend VSSolution;

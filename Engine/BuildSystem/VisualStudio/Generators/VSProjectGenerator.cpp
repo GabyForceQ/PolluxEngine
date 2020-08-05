@@ -8,6 +8,7 @@
 
 #include "VSProjectGenerator.hpp"
 #include "Engine/BuildSystem/Base/Project.hpp"
+#include "Engine/BuildSystem/Filters/ProjectFilters.hpp"
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
 
@@ -15,11 +16,12 @@ namespace Pollux::BuildSystem
 {
     void VSProjectGenerator::Generate(Project* pProject)
     {
-        auto pVSProject = pProject->pVSProject;
-        BuildSystem* pBuildSystem = pProject->pBuildSystem;
-        std::string architecture = "x64"; // todo. add an enum
+        std::string& res = pProject->generatedCode;
+        const VSProject* pVSProject = pProject->pVSProject;
+        const BuildSystem* pBuildSystem = pProject->pBuildSystem;
+        const std::string architecture = "x64"; // todo. add an enum
 
-        std::string res = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+        res = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
             "<Project DefaultTargets=\"Build\" ToolsVersion=\"16.0\" "
             "xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n";
 
@@ -53,7 +55,37 @@ namespace Pollux::BuildSystem
 
             res += "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='" + optimization + "|" +
                 architecture + "'\" Label=\"Configuration\">\n";
-            res += "    <ConfigurationType>Application</ConfigurationType>\n";
+
+            switch (config.second->buildOutputType)
+            {
+            case BuildOutputType::Executable:
+            {
+                res += "    <ConfigurationType>Application</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::StaticLibrary:
+            {
+                res += "    <ConfigurationType>StaticLibrary</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::DynamicLibrary:
+            {
+                res += "    <ConfigurationType>DynamicLibrary</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::Makefile:
+            {
+                res += "    <ConfigurationType>Makefile</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::Utility:
+            {
+                res += "    <ConfigurationType>Utility</ConfigurationType>\n";
+                break;
+            }
+            case BuildOutputType::None: break;
+            }
+
             res += "    <PlatformToolset>v142</PlatformToolset>\n";
             res += "    <UseDebugLibraries>" + BoolToString(config.second->bUseDebugLibraries) +
                 "</UseDebugLibraries>\n";
@@ -122,7 +154,7 @@ namespace Pollux::BuildSystem
             res += "    <ClCompile>\n";
             res += "      <WarningLevel>Level3</WarningLevel>\n";
             res += "      <SDLCheck>true</SDLCheck>\n";
-            res += "      <ConformanceMode>true</ConformanceMode>\n";
+            res += "      <ConformanceMode>false</ConformanceMode>\n";
             res += "      <AdditionalOptions>/Zc:__cplusplus</AdditionalOptions>\n";
             res += "      <ProgramDatabaseFileName>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
                 pProject->name + "\\" + optimization + "\\" + pProject->name +
@@ -158,8 +190,26 @@ namespace Pollux::BuildSystem
             res += "      <BrowseInformation>false</BrowseInformation>\n";
             res += "      <CallingConvention>Cdecl</CallingConvention>\n";
             res += "      <CompileAs>Default</CompileAs>\n";
-            res += "      <AdditionalIncludeDirectories>..\\..\\..</AdditionalIncludeDirectories>\n";
+            res += "      <DisableSpecificWarnings>4005</DisableSpecificWarnings>\n";
+            res += "      <AdditionalIncludeDirectories>..\\..\\..;";
+
+            for (const std::string& includeDirectory : pBuildSystem->globalConfiguration->includeDirectories)
+            {
+                res += includeDirectory + ";";
+            }
+
+            for (const std::string& includeDirectory : config.second->includeDirectories)
+            {
+                res += includeDirectory + ";";
+            }
+
+            res += "</AdditionalIncludeDirectories>\n";
             res += "      <PreprocessorDefinitions>";
+
+            for (const std::string& preprocessorDefinition : pBuildSystem->globalConfiguration->preprocessorDefinitions)
+            {
+                res += preprocessorDefinition + ";";
+            }
 
             for (const std::string& preprocessorDefinition : config.second->preprocessorDefinitions)
             {
@@ -171,8 +221,8 @@ namespace Pollux::BuildSystem
             if (config.second->bUsePrecompiledHeaders)
             {
                 res += "      <PrecompiledHeader>Use</PrecompiledHeader>\n";
-                res += "      <PrecompiledHeaderFile>" + config.second->precompiledHeaderName +
-                    ".hpp</PrecompiledHeaderFile>\n";
+                res += "      <PrecompiledHeaderFile>" + pProject->name + "\\" +
+                    config.second->precompiledHeaderName + ".hpp</PrecompiledHeaderFile>\n";
                 res += "      <PrecompiledHeaderOutputFile>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
                     pProject->name + "\\" + optimization + "\\" + pProject->name +
                     ".pch</PrecompiledHeaderOutputFile>\n";
@@ -189,7 +239,8 @@ namespace Pollux::BuildSystem
             //    res += "      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>\n";
             //    res += "      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>\n";
             //    res += "      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>\n";
-            //    res += "      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>\n";
+            //    //res += "      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>\n";
+            //    res += "      <BasicRuntimeChecks>Default</BasicRuntimeChecks>\n";
             //    break;
             //}
             //case BuildOptimization::Release:
@@ -277,26 +328,44 @@ namespace Pollux::BuildSystem
             res += "  </ItemDefinitionGroup>\n";
         }
 
-        if (pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+        const bool& usePch = pBuildSystem->globalConfiguration->bUsePrecompiledHeaders;
+        const std::string& pchName = pBuildSystem->globalConfiguration->precompiledHeaderName;
+
+        res += "  <ItemGroup>\n";
+
+        if (usePch)
         {
-            res += "  <ItemGroup>\n";
-            res += "    <ClInclude Include=\"..\\..\\..\\" + pProject->name + "\\" +
-                pBuildSystem->globalConfiguration->precompiledHeaderName + ".hpp\"/>\n";
-            res += "  </ItemGroup>\n";
-            res += "  <ItemGroup>\n";
-            res += "    <ClCompile Include=\"..\\..\\..\\" + pProject->name + "\\" +
-                pBuildSystem->globalConfiguration->precompiledHeaderName + ".cpp\">\n";
+            res += "    <ClInclude Include=\"..\\..\\..\\" + pProject->name + "\\" + pchName + ".hpp\"/>\n";
         }
 
-        for (const auto& config : pBuildSystem->configurationMap)
+        for (const std::string& headerFile : pProject->pProjectFilters->GetHeaderFiles())
         {
-            const std::string optimization = GetBuildOptimization(config.second->optimization);
+            res += "    <ClInclude Include=\"" + headerFile + "\"/>\n";
+        }
 
-            res += "      <PrecompiledHeader Condition=\"'$(Configuration)|$(Platform)'=='" +
-                optimization + "|" + architecture + "'\">Create</PrecompiledHeader>\n";
+        res += "  </ItemGroup>\n";
+        res += "  <ItemGroup>\n";
+        
+        if (usePch)
+        {
+            res += "    <ClCompile Include=\"..\\..\\..\\" + pProject->name + "\\" + pchName + ".cpp\">\n";
+
+            for (const auto& config : pBuildSystem->configurationMap)
+            {
+                const std::string optimization = GetBuildOptimization(config.second->optimization);
+
+                res += "      <PrecompiledHeader Condition=\"'$(Configuration)|$(Platform)'=='" +
+                    optimization + "|" + architecture + "'\">Create</PrecompiledHeader>\n";
+            }
         }
 
         res += "    </ClCompile>\n";
+
+        for (const std::string& sourceFile : pProject->pProjectFilters->GetSourceFiles())
+        {
+            res += "    <ClCompile Include=\"" + sourceFile + "\"/>\n";
+        }
+
         res += "  </ItemGroup>\n";
         res += "  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.targets\"/>\n";
         res += "  <ImportGroup Label=\"ExtensionTargets\">\n";
@@ -305,12 +374,10 @@ namespace Pollux::BuildSystem
 
         GenerateSourceDirectory(pProject);
 
-        if (pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+        if (usePch)
         {
-            GeneratePrecompiledHeader(pProject, pBuildSystem->globalConfiguration->precompiledHeaderName);
+            GeneratePrecompiledHeader(pProject, pchName);
         }
-
-        pProject->generatedCode = res;
     }
 
     void VSProjectGenerator::GenerateSourceDirectory(Project* pProject)
@@ -354,7 +421,7 @@ namespace Pollux::BuildSystem
 
             fSource.open(sourcePath.c_str(), std::ios::out);
 
-            fSource << licenseStr + "\n\n";
+            fSource << licenseStr + "\n";
             fSource << "#include <" + pProject->name + "/" + precompiledHeaderName + ".hpp>\n";
 
             fSource.close();

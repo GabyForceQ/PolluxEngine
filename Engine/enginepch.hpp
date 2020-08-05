@@ -6,10 +6,6 @@
 
 #pragma once
 
-#define NOMINMAX
-#define STRICT
-#define _USE_MATH_DEFINES
-
 #pragma region CPP_STL_HEADERS
 #include <atomic>
 #include <iostream>
@@ -81,7 +77,7 @@ void operator delete(void* p);
 #pragma endregion OS_HEADERS
 
 #ifdef POLLUX_DRIVER_VULKAN
-#include "vulkan/vulkan.hpp"
+#include <vulkan/vulkan.hpp>
 #endif
 
 namespace Pollux

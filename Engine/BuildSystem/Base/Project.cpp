@@ -10,11 +10,14 @@
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
 
+#include "Engine/BuildSystem/VisualStudio/Filters/VSProjectFilters.hpp"
+
 namespace Pollux::BuildSystem
 {
 	Project::Project() noexcept
 		:
-		pBuildSystem{ new BuildSystem() }
+		pBuildSystem{ new BuildSystem() },
+		pProjectFilters{ new ProjectFilters(this) }
 	{
 	}
 
@@ -40,14 +43,19 @@ namespace Pollux::BuildSystem
 		config.preprocessorDefinitions.push_back("_CRT_SECURE_NO_WARNINGS");
 		config.preprocessorDefinitions.push_back("_SCL_SECURE_NO_WARNINGS");
 		config.preprocessorDefinitions.push_back("_WINSOCKAPI_");
+		config.preprocessorDefinitions.push_back("NOMINMAX");
+		config.preprocessorDefinitions.push_back("STRICT");
+		config.preprocessorDefinitions.push_back("_USE_MATH_DEFINES");
 		config.preprocessorDefinitions.push_back("POLLUX_DRIVER_VULKAN");
+		config.preprocessorDefinitions.push_back("VK_USE_PLATFORM_WIN32_KHR");
 	}
 
 	void Project::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
 	{
 		config.bUsePrecompiledHeaders = true;
-		config.precompiledHeaderName = name + "PCH1";
+		config.precompiledHeaderName = name + "PCH";
 		config.preprocessorDefinitions.push_back("POLLUX_PLATFORM_X64");
+		config.includeDirectories.push_back("..\\..\\..\\extern\\singleinclude");
 
 		switch (target.optimization)
 		{
@@ -127,6 +135,10 @@ namespace Pollux::BuildSystem
 	{
 		config.bUsePrecompiledHeaders = globalConfig.bUsePrecompiledHeaders;
 		config.precompiledHeaderName = globalConfig.precompiledHeaderName;
-		config.preprocessorDefinitions = globalConfig.preprocessorDefinitions;
+
+		if (globalConfig.buildOutputType != BuildOutputType::None)
+		{
+			config.buildOutputType = globalConfig.buildOutputType;
+		}
 	}
 }

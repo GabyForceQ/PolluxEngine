@@ -14,12 +14,14 @@ namespace Pollux::BuildSystem
 	class BuildSystem final
 	{
 	public:
-		BuildTarget target;
-		BuildConfiguration* globalConfiguration;
-		std::unordered_map<BuildOptimization, BuildConfiguration*> configurationMap;
-
-		void Run();
-
 		BuildSystem& operator=(const BuildSystem& rhs);
+
+		void Reset();
+
+		BuildTarget target;
+
+		BuildConfiguration* globalConfiguration;
+
+		std::unordered_map<BuildOptimization, BuildConfiguration*> configurationMap;
 	};
 }

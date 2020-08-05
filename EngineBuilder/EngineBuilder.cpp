@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
         BuildAction buildAction = BuildAction::None;
         ISolutionGenerator* pSolutionGenerator = nullptr;
         IProjectGenerator* pProjectGenerator = nullptr;
+        IProjectFiltersGenerator* pProjectFiltersGenerator = nullptr;
         std::string solutionCode;
         std::vector<Project*> pProjects;
 
@@ -34,6 +35,8 @@ int main(int argc, char* argv[])
             std::string name;
             std::string path;
             std::string code;
+            std::string filtersPath;
+            std::string filtersCode;
         };
 
         std::vector<ProjectsCode> projectsCode;
@@ -189,21 +192,24 @@ int main(int argc, char* argv[])
             {
                 pSolutionGenerator = new VSSolutionGenerator();
                 pProjectGenerator = new VSProjectGenerator();
+                pProjectFiltersGenerator = new VSProjectFiltersGenerator();
 
                 for (Project* pProject : pSolution->pProjects)
                 {
                     pProject->pVSProject = new VSProject();
+                    pProject->pProjectFilters->pVSProjectFilters = new VSProjectFilters();
                     pProject->Initialize(pBuildSystem);
                 }
             }
 
-            pSolution->Implement(pBuildSystem, pProjectGenerator);
+            pSolution->Implement(pBuildSystem, pProjectGenerator, pProjectFiltersGenerator);
 
             if (+pBuildSystem->target.platform & +BuildPlatform::Windows)
             {
                 for (Project* pProject : pSolution->pProjects)
                 {
-                    projectsCode.push_back({ pProject->GetName(), pProject->GetPath(), pProject->GetGeneratedCode() });
+                    projectsCode.push_back({ pProject->GetName(), pProject->GetPath(), pProject->GetGeneratedCode(),
+                        pProject->pProjectFilters->GetPath(), pProject->pProjectFilters->GetGeneratedCode() });
                 }
 
                 solutionCode = pSolutionGenerator->Generate(pSolution);
@@ -303,6 +309,10 @@ int main(int argc, char* argv[])
                 std::fstream f(("Build\\Projects\\Win64_VS2019\\" + projectCode.path).c_str(), std::ios::out);
                 f << projectCode.code;
                 f.close();
+
+                std::fstream g(("Build\\Projects\\Win64_VS2019\\" + projectCode.filtersPath).c_str(), std::ios::out);
+                g << projectCode.filtersCode;
+                g.close();
             }
 
             break;

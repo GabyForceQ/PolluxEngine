@@ -34,7 +34,7 @@ namespace Pollux::BuildSystem
 	
 	extern const std::map<const char*, BuildOutputType> g_BuildOutputTypeMap;
 
-	BuildOutputType BuildPlatformToEnum(const char* buildOutputType);
+	BuildOutputType BuildOutputTypeToEnum(const char* buildOutputType);
 
 	std::string ToString(const BuildOutputType buildOutputType);
 }
