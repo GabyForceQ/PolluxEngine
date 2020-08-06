@@ -21,6 +21,8 @@ namespace Pollux::Lang
 	class ASTNodeIfStatement;
 	class ASTNodeFunction;
 	class ASTNodeEmptyStatement;
+	class ASTNodeFun;
+	class ASTNodeFunParamDeclStatement;
 
 	class IASTNodeVisitor
 	{
@@ -50,5 +52,9 @@ namespace Pollux::Lang
 		virtual void Visit(ASTNodeFunction* pNode) = 0;
 		
 		virtual void Visit(ASTNodeEmptyStatement* pNode) = 0;
+
+		virtual void Visit(ASTNodeFun* pNode) = 0;
+
+		virtual void Visit(ASTNodeFunParamDeclStatement* pNode) = 0;
 	};
 }

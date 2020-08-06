@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../../ASTNodeBase.hpp"
+#include "../ASTNodeBase.hpp"
 
 namespace Pollux::Lang
 {

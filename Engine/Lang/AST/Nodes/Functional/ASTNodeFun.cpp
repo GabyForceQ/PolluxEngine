@@ -4,25 +4,21 @@
  * License url: https://github.com/GabyForceQ/PolluxEngine/blob/master/LICENSE
  *****************************************************************************************************************************/
 
-#pragma once
+#include "Engine/enginepch.hpp"
 
-#include "../ASTNodeBase.hpp"
+#include "ASTNodeFun.hpp"
 
 namespace Pollux::Lang
 {
-	class ASTNodeDeclHolder final : public ASTNodeBase
+	ASTNodeFun::ASTNodeFun() noexcept
+		:
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } }
 	{
-	public:
-		ASTNodeDeclHolder() noexcept;
+		RegisterType("ASTNodeFun", +ASTNodeKind::ASTNodeFun);
+	}
 
-		void Accept(IASTNodeVisitor* pVisitor) override;
-
-		ASTNodeType* pType = nullptr;
-
-		ASTNodeAssign* pAssignment = nullptr;
-
-		bool bAutoDeduction = true;
-
-		bool bComptimeEval = false;
-	};
+	void ASTNodeFun::Accept(IASTNodeVisitor* pVisitor)
+	{
+		return pVisitor->Visit(this);
+	}
 }

@@ -6,23 +6,17 @@
 
 #pragma once
 
-#include "../ASTNodeBase.hpp"
+#include "../../ASTNodeBase.hpp"
 
 namespace Pollux::Lang
 {
-	class ASTNodeDeclHolder final : public ASTNodeBase
+	class ASTNodeFunParamDeclStatement final : public ASTNodeBase
 	{
 	public:
-		ASTNodeDeclHolder() noexcept;
+		ASTNodeFunParamDeclStatement() noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
-		ASTNodeType* pType = nullptr;
-
-		ASTNodeAssign* pAssignment = nullptr;
-
-		bool bAutoDeduction = true;
-
-		bool bComptimeEval = false;
+		std::deque<ASTNodeDeclHolder*> pDeclHolders;
 	};
 }

@@ -15,7 +15,8 @@ namespace Pollux::Lang
 		ASTNodeLog,
 		ASTNodeEmptyStatement,
 		ASTNodeExpression,
-		ASTNodeFunction,
+		ASTNodeFunParamDeclStatement,
+		ASTNodeFun,
 		ASTNodeScope,
 		ASTNodeType,
 		ASTNodeVar,
@@ -39,7 +40,9 @@ namespace Pollux::Lang
 
 	extern const char* g_ASTNodeKind_ASTNodeExpression;
 
-	extern const char* g_ASTNodeKind_ASTNodeFunction;
+	extern const char* g_ASTNodeKind_ASTNodeFun;
+
+	extern const char* g_ASTNodeKind_ASTNodeFunParamDeclStatement;
 
 	extern const char* g_ASTNodeKind_ASTNodeScope;
 
