@@ -37,4 +37,49 @@ namespace Pollux::Lang
 	{
 		return value[0] == '"' && value[value.length() - 1] == '"';
 	}
+
+	std::string CompilerUtils::BoolToString(const bool& value) noexcept
+	{
+		return value ? "true" : "false";
+	}
+
+	std::string CompilerUtils::BoolToString(const int32_t& value) noexcept
+	{
+		return value != 0 ? "true" : "false";
+	}
+
+	bool CompilerUtils::StringToBoolean(const std::string& value) noexcept
+	{
+		return value == "true";
+	}
+
+	void CompilerUtils::RemoveLastZerosFromFloat(std::string& value) noexcept
+	{
+		for (size_t i = value.length() - 1, j = 0; i >= 0; i--, j++)
+		{
+			if (value[i] != '0')
+			{
+				value = value.substr(0, value.length() - j);
+				break;
+			}
+		}
+	}
+
+	void CompilerUtils::RemoveParensIf(std::string& value) noexcept
+	{
+		if (value[0] == '(' && value[value.length() - 1] == ')')
+		{
+			value = value.substr(1, value.length() - 2);
+		}
+	}
+
+	std::string CompilerUtils::CombineStrings(const std::string& lhs, const std::string& rhs) noexcept
+	{
+		return lhs.substr(0, lhs.length() - 1) + rhs.substr(1, rhs.length() - 1);
+	}
+
+	bool CompilerUtils::IsSubExpression(const std::string& value) noexcept
+	{
+		return value[0] == '(' && value[value.size() - 1] == ')';
+	}
 }
