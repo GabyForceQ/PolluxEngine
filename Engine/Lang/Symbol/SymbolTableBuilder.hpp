@@ -12,7 +12,7 @@ namespace Pollux::Lang
 {
 	class SymbolTable;
 
-	class SymbolTableBuilder : public IASTNodeVisitor
+	class SymbolTableBuilder final : public IASTNodeVisitor
 	{
 	public:
 		SymbolTableBuilder() noexcept;
