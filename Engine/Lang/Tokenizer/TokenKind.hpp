@@ -78,7 +78,7 @@ namespace Pollux::Lang
 		KeywordIf,				///	if
 		KeywordElse,			///	else
 		KeywordReturn,			///	return
-		KeywordFunc,			///	func
+		KeywordFun,				///	fun
 		KeywordAnnot,			///	annot
 		KeywordObject,			/// object
 		KeywordClass,			/// class
@@ -219,7 +219,7 @@ namespace Pollux::Lang
 	
 	extern const char* g_pTokenKind_KeywordReturn;
 	
-	extern const char* g_pTokenKind_KeywordFunc;
+	extern const char* g_pTokenKind_KeywordFun;
 	
 	extern const char* g_pTokenKind_KeywordAnnot;
 	

@@ -75,7 +75,7 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_KeywordIf = "TokenKind::KeywordIf";
 	const char* g_pTokenKind_KeywordElse = "TokenKind::KeywordElse";
 	const char* g_pTokenKind_KeywordReturn = "TokenKind::KeywordReturn";
-	const char* g_pTokenKind_KeywordFunc = "TokenKind::KeywordFunc";
+	const char* g_pTokenKind_KeywordFun = "TokenKind::KeywordFun";
 	const char* g_pTokenKind_KeywordAnnot = "TokenKind::KeywordAnnot";
 	const char* g_pTokenKind_KeywordObject = "TokenKind::KeywordObject";
 	const char* g_pTokenKind_KeywordClass = "TokenKind::KeywordClass";
@@ -152,7 +152,7 @@ namespace Pollux::Lang
 		{ g_pTokenKind_KeywordIf, TokenKind::KeywordIf },
 		{ g_pTokenKind_KeywordElse, TokenKind::KeywordElse },
 		{ g_pTokenKind_KeywordReturn, TokenKind::KeywordReturn },
-		{ g_pTokenKind_KeywordFunc, TokenKind::KeywordFunc },
+		{ g_pTokenKind_KeywordFun, TokenKind::KeywordFun },
 		{ g_pTokenKind_KeywordAnnot, TokenKind::KeywordAnnot },
 		{ g_pTokenKind_KeywordObject, TokenKind::KeywordObject },
 		{ g_pTokenKind_KeywordClass, TokenKind::KeywordClass },
@@ -173,7 +173,7 @@ namespace Pollux::Lang
 		{ "if", TokenKind::KeywordIf },
 		{ "else", TokenKind::KeywordElse },
 		{ "return", TokenKind::KeywordReturn },
-		{ "func", TokenKind::KeywordFunc },
+		{ "fun", TokenKind::KeywordFun },
 		{ "annot", TokenKind::KeywordAnnot },
 		{ "object", TokenKind::KeywordObject },
 		{ "class", TokenKind::KeywordClass },
@@ -263,7 +263,7 @@ namespace Pollux::Lang
 		case TokenKind::KeywordIf: return g_pTokenKind_KeywordIf;
 		case TokenKind::KeywordElse: return g_pTokenKind_KeywordElse;
 		case TokenKind::KeywordReturn: return g_pTokenKind_KeywordReturn;
-		case TokenKind::KeywordFunc: return g_pTokenKind_KeywordFunc;
+		case TokenKind::KeywordFun: return g_pTokenKind_KeywordFun;
 		case TokenKind::KeywordAnnot: return g_pTokenKind_KeywordAnnot;
 		case TokenKind::KeywordObject: return g_pTokenKind_KeywordObject;
 		case TokenKind::KeywordClass: return g_pTokenKind_KeywordClass;
