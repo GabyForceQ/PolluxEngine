@@ -83,7 +83,7 @@ namespace Pollux::Lang
 	const char* g_pTokenKind_KeywordEnum = "TokenKind::KeywordEnum";
 	const char* g_pTokenKind_KeywordComptime = "TokenKind::KeywordComptime";
 	const char* g_pTokenKind_KeywordAlways = "TokenKind::KeywordAlways";
-	const char* g_pTokenKind_KeywordPackage = "TokenKind::KeywordPackage";
+	const char* g_pTokenKind_KeywordUnit = "TokenKind::KeywordUnit";
 
 	const std::map<const char*, TokenKind> g_TokenKindMap
 	{
@@ -160,7 +160,7 @@ namespace Pollux::Lang
 		{ g_pTokenKind_KeywordEnum, TokenKind::KeywordEnum },
 		{ g_pTokenKind_KeywordComptime, TokenKind::KeywordComptime },
 		{ g_pTokenKind_KeywordAlways, TokenKind::KeywordAlways },
-		{ g_pTokenKind_KeywordPackage, TokenKind::KeywordPackage }
+		{ g_pTokenKind_KeywordUnit, TokenKind::KeywordUnit }
 	};
 
 	const std::map<const char*, TokenKind> g_TokenKindKeywordMap
@@ -181,7 +181,7 @@ namespace Pollux::Lang
 		{ "enum", TokenKind::KeywordEnum },
 		{ "comptime", TokenKind::KeywordComptime },
 		{ "always", TokenKind::KeywordAlways },
-		{ "package", TokenKind::KeywordPackage }
+		{ "unit", TokenKind::KeywordUnit }
 	};
 
 	TokenKind TokenKindToEnum(const char* tokenKind)
@@ -271,8 +271,7 @@ namespace Pollux::Lang
 		case TokenKind::KeywordEnum: return g_pTokenKind_KeywordEnum;
 		case TokenKind::KeywordComptime: return g_pTokenKind_KeywordComptime;
 		case TokenKind::KeywordAlways: return g_pTokenKind_KeywordAlways;
-		case TokenKind::KeywordPackage: return g_pTokenKind_KeywordPackage;
-		default: ; // todo. Log a warning message
+		case TokenKind::KeywordUnit: return g_pTokenKind_KeywordUnit;
 		}
 
 		return g_pEmptyString;
