@@ -10,9 +10,11 @@
 
 namespace Pollux::Lang
 {
-	ASTNodeVarSymbol::ASTNodeVarSymbol(std::string name, SymbolKind symbolKind, ASTNodeTypeSymbol* pTypeSymbol) noexcept
+	ASTNodeVarSymbol::ASTNodeVarSymbol(std::string name, SymbolKind symbolKind,
+		ASTNodeTypeSymbol* pTypeSymbol, bool bComptimeEval) noexcept
 		:
-		ASTNodeSymbol{ std::move(name), std::move(symbolKind), pTypeSymbol }
+		ASTNodeSymbol{ std::move(name), std::move(symbolKind), pTypeSymbol },
+		bComptimeEval{ std::move(bComptimeEval) }
 	{
 		RegisterType("ASTNodeVarSymbol", +ASTNodeKind::ASTNodeVarSymbol);
 	}
@@ -20,5 +22,15 @@ namespace Pollux::Lang
 	void ASTNodeVarSymbol::Accept(IASTNodeVisitor* pVisitor)
 	{
 		return pVisitor->Visit(this);
+	}
+
+	const std::string& ASTNodeVarSymbol::GetValue() const noexcept
+	{
+		return value;
+	}
+
+	bool ASTNodeVarSymbol::IsComptimeEval() const noexcept
+	{
+		return bComptimeEval;
 	}
 }

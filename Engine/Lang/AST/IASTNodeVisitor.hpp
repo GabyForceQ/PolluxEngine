@@ -13,6 +13,10 @@ namespace Pollux::Lang
 	class IASTNodeVisitor
 	{
 	public:
+		IASTNodeVisitor() noexcept = default;
+
+		virtual ~IASTNodeVisitor() = default;
+
 		virtual void Visit(ASTNodeVarSymbol* pNode) = 0;
 		
 		virtual void Visit(ASTNodeTypeSymbol* pNode) = 0;

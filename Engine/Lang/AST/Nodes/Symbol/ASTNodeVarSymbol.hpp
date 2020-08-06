@@ -13,8 +13,17 @@ namespace Pollux::Lang
 	class ASTNodeVarSymbol final : public ASTNodeSymbol
 	{
 	public:
-		explicit ASTNodeVarSymbol(std::string name, SymbolKind symbolKind, ASTNodeTypeSymbol* pTypeSymbol) noexcept;
+		explicit ASTNodeVarSymbol(std::string name, SymbolKind symbolKind,
+			ASTNodeTypeSymbol* pTypeSymbol, bool bComptimeEval = false) noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
+
+		const std::string& GetValue() const noexcept;
+		
+		bool IsComptimeEval() const noexcept;
+
+	private:
+		std::string value;
+		bool bComptimeEval = false;
 	};
 }
