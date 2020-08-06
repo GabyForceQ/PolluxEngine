@@ -25,5 +25,7 @@ namespace Pollux::Lang
 	private:
 		std::string value;
 		bool bComptimeEval = false;
+
+		AST_FRIENDS_BODY
 	};
 }

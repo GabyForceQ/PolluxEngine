@@ -16,5 +16,7 @@ namespace Pollux::Lang
 		explicit ASTNodeEmptyStatement() noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
+		
+		AST_FRIENDS_BODY
 	};
 }

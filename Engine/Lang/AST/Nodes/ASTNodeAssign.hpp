@@ -20,5 +20,7 @@ namespace Pollux::Lang
 		ASTNodeVar* pHolder = nullptr;
 
 		ASTNodeExpression* pExpression = nullptr;
+
+		AST_FRIENDS_BODY
 	};
 }

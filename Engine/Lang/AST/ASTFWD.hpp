@@ -24,3 +24,8 @@ namespace Pollux::Lang
 	class ASTNodeFun;
 	class ASTNodeFunParamDeclStatement;
 }
+
+#define AST_FRIENDS_BODY friend class Parser; \
+	friend class SymbolTableBuilder; \
+	friend class SemanticAnalyser; \
+	friend class CXXCodegen;

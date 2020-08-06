@@ -23,5 +23,7 @@ namespace Pollux::Lang
 
 	private:
 		std::vector<ASTNodeBase*> pStatements;
+
+		AST_FRIENDS_BODY
 	};
 }

@@ -24,5 +24,7 @@ namespace Pollux::Lang
 		bool bAutoDeduction = true;
 
 		bool bComptimeEval = false;
+
+		AST_FRIENDS_BODY
 	};
 }

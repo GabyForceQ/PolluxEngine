@@ -26,5 +26,7 @@ namespace Pollux::Lang
 		bool bHasElseScope = false;
 		
 		bool bComptimeEval = false;
+
+		AST_FRIENDS_BODY
 	};
 }

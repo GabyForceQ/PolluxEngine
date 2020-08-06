@@ -18,5 +18,7 @@ namespace Pollux::Lang
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		ASTNodeExpression* pExression = nullptr;
+
+		AST_FRIENDS_BODY
 	};
 }

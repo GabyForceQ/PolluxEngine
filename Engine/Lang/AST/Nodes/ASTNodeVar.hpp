@@ -18,5 +18,7 @@ namespace Pollux::Lang
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		std::string value;
+
+		AST_FRIENDS_BODY
 	};
 }

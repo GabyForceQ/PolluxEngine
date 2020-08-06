@@ -24,5 +24,7 @@ namespace Pollux::Lang
 	private:
 		std::deque<ASTNodeDeclHolder*> pDeclHolders;
 		bool bComptimeEval = false;
+
+		AST_FRIENDS_BODY
 	};
 }

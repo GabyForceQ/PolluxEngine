@@ -18,5 +18,7 @@ namespace Pollux::Lang
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		std::deque<ASTNodeDeclHolder*> pDeclHolders;
+
+		AST_FRIENDS_BODY
 	};
 }

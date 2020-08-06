@@ -16,5 +16,7 @@ namespace Pollux::Lang
 		explicit ASTNodeTypeSymbol(std::string name, SymbolKind symbolKind, ASTNodeTypeSymbol* pTypeSymbol) noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
+
+		AST_FRIENDS_BODY
 	};
 }

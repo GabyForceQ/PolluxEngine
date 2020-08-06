@@ -24,5 +24,7 @@ namespace Pollux::Lang
 		ASTNodeType* pReturType;
 
 		ASTNodeScope* pScope = nullptr;
+
+		AST_FRIENDS_BODY
 	};
 }

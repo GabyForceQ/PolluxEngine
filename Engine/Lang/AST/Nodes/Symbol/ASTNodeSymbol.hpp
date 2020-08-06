@@ -26,5 +26,7 @@ namespace Pollux::Lang
 		std::string name;
 		SymbolKind symbolKind = SymbolKind::Undefined;
 		ASTNodeTypeSymbol* pTypeSymbol = nullptr;
+
+		AST_FRIENDS_BODY
 	};
 }

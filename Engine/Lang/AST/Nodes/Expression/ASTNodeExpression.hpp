@@ -27,5 +27,7 @@ namespace Pollux::Lang
 		ASTNodeExpression* pBinaryOpRight = nullptr;
 		
 		ASTNodeType* pBinaryOpType = nullptr;
+
+		AST_FRIENDS_BODY
 	};
 }
