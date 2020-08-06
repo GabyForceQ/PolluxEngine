@@ -10,9 +10,11 @@
 
 namespace Pollux::Lang
 {
-	ASTNodeDeclStatement::ASTNodeDeclStatement() noexcept
+	ASTNodeDeclStatement::ASTNodeDeclStatement(const std::deque<ASTNodeDeclHolder*>& pDeclHolders, bool bComptimeEval) noexcept
 		:
-		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } }
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } },
+		pDeclHolders{ pDeclHolders },
+		bComptimeEval{ std::move(bComptimeEval) }
 	{
 		RegisterType("ASTNodeDeclStatement", +ASTNodeKind::ASTNodeDeclStatement);
 	}
@@ -20,5 +22,15 @@ namespace Pollux::Lang
 	void ASTNodeDeclStatement::Accept(IASTNodeVisitor* pVisitor)
 	{
 		return pVisitor->Visit(this);
+	}
+
+	const std::deque<ASTNodeDeclHolder*> ASTNodeDeclStatement::GetDeclHolders() const noexcept
+	{
+		return pDeclHolders;
+	}
+
+	bool ASTNodeDeclStatement::IsComptimeEval() const noexcept
+	{
+		return bComptimeEval;
 	}
 }

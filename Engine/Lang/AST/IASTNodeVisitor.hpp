@@ -34,9 +34,7 @@ namespace Pollux::Lang
 		virtual void Visit(ASTNodeLog* pNode) = 0;
 		
 		virtual void Visit(ASTNodeIfStatement* pNode) = 0;
-		
-		virtual void Visit(ASTNodeFunction* pNode) = 0;
-		
+				
 		virtual void Visit(ASTNodeEmptyStatement* pNode) = 0;
 
 		virtual void Visit(ASTNodeFun* pNode) = 0;

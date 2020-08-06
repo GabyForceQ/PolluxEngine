@@ -8,6 +8,7 @@
 
 namespace Pollux::Lang
 {
+	class ASTNodeBase;
 	class ASTNodeVarSymbol;
 	class ASTNodeTypeSymbol;
 	class ASTNodeDeclStatement;
@@ -19,7 +20,6 @@ namespace Pollux::Lang
 	class ASTNodeVar;
 	class ASTNodeLog;
 	class ASTNodeIfStatement;
-	class ASTNodeFunction;
 	class ASTNodeEmptyStatement;
 	class ASTNodeFun;
 	class ASTNodeFunParamDeclStatement;

@@ -10,9 +10,9 @@
 
 namespace Pollux::Lang
 {
-	ASTNodeScope::ASTNodeScope(Token token) noexcept
+	ASTNodeScope::ASTNodeScope() noexcept
 		:
-		ASTNodeBase{ std::move(token) }
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } }
 	{
 		RegisterType("ASTNodeScope", +ASTNodeKind::ASTNodeScope);
 	}
@@ -20,5 +20,15 @@ namespace Pollux::Lang
 	void ASTNodeScope::Accept(IASTNodeVisitor* pVisitor)
 	{
 		return pVisitor->Visit(this);
+	}
+
+	void ASTNodeScope::InsertStatement(ASTNodeBase* pStatement)
+	{
+		pStatements.push_back(pStatement);
+	}
+
+	const std::vector<ASTNodeBase*>& ASTNodeScope::GetStatements() const noexcept
+	{
+		return pStatements;
 	}
 }

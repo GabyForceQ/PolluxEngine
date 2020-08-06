@@ -13,10 +13,15 @@ namespace Pollux::Lang
 	class ASTNodeScope final : public ASTNodeBase
 	{
 	public:
-		explicit ASTNodeScope(Token token) noexcept;
+		explicit ASTNodeScope() noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
+		void InsertStatement(ASTNodeBase* pStatement);
+
+		const std::vector<ASTNodeBase*>& GetStatements() const noexcept;
+
+	private:
 		std::vector<ASTNodeBase*> pStatements;
 	};
 }

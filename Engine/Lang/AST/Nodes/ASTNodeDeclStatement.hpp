@@ -13,12 +13,16 @@ namespace Pollux::Lang
 	class ASTNodeDeclStatement final : public ASTNodeBase
 	{
 	public:
-		ASTNodeDeclStatement() noexcept;
+		explicit ASTNodeDeclStatement(const std::deque<ASTNodeDeclHolder*>& pDeclHolders, bool bComptimeEval) noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
-		std::deque<ASTNodeDeclHolder*> pDeclHolders;
+		const std::deque<ASTNodeDeclHolder*> GetDeclHolders() const noexcept;
 
+		bool IsComptimeEval() const noexcept;
+
+	private:
+		std::deque<ASTNodeDeclHolder*> pDeclHolders;
 		bool bComptimeEval = false;
 	};
 }
