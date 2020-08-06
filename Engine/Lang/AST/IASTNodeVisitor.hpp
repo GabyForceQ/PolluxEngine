@@ -6,24 +6,10 @@
 
 #pragma once
 
+#include "ASTFWD.hpp"
+
 namespace Pollux::Lang
 {
-	class ASTNodeVarSymbol;
-	class ASTNodeTypeSymbol;
-	class ASTNodeDeclStatement;
-	class ASTNodeDeclHolder;
-	class ASTNodeType;
-	class ASTNodeExpression;
-	class ASTNodeScope;
-	class ASTNodeAssign;
-	class ASTNodeVar;
-	class ASTNodeLog;
-	class ASTNodeIfStatement;
-	class ASTNodeFunction;
-	class ASTNodeEmptyStatement;
-	class ASTNodeFun;
-	class ASTNodeFunParamDeclStatement;
-
 	class IASTNodeVisitor
 	{
 	public:
