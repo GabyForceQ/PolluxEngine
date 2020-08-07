@@ -86,7 +86,8 @@ namespace Pollux::Lang
 		KeywordEnum,			/// enum
 		KeywordComptime,		///	comptime
 		KeywordAlways,			///	always
-		KeywordUnit				///	unit
+		KeywordUnit,			///	unit
+		KeywordUse,				/// use
 	};
 
 	extern const char* g_pTokenKind_Undefined;
@@ -236,6 +237,8 @@ namespace Pollux::Lang
 	extern const char* g_pTokenKind_KeywordAlways;
 	
 	extern const char* g_pTokenKind_KeywordUnit;
+
+	extern const char* g_pTokenKind_KeywordUse;
 
 	extern const std::map<const char*, TokenKind> g_TokenKindMap;
 
