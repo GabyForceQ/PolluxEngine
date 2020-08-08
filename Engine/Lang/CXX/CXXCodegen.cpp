@@ -387,7 +387,7 @@ namespace Pollux::Lang
 	{
 		pNode->pScope->Accept(this);
 		const std::string returnType = pCXXCompilerUtils->ToPrimitive(pNode->pReturType->token.value);
-		generatedCode = returnType + " " + pNode->name + "(){\n" + generatedCode + "}";
+		generatedCode = "\n" + returnType + " " + pNode->name + "()\n{\n" + generatedCode + "}";
 	}
 
 	void CXXCodegen::Visit(ASTNodeFunParamDeclStatement* pNode)
