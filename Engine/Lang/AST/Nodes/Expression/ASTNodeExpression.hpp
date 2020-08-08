@@ -16,7 +16,7 @@ namespace Pollux::Lang
 	public:
 		explicit ASTNodeExpression(ExpressionKind kind) noexcept;
 
-		void Accept(IASTNodeVisitor* pVisitor);
+		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		ExpressionKind kind;
 		
@@ -26,6 +26,8 @@ namespace Pollux::Lang
 		
 		ASTNodeExpression* pBinaryOpRight = nullptr;
 		
-		Type* pBinaryOpType = nullptr;
+		ASTNodeType* pBinaryOpType = nullptr;
+
+		AST_FRIENDS_BODY
 	};
 }

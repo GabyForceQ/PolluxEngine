@@ -119,4 +119,5 @@ size_t operator "" _sz(uint64_t x);
 #ifdef ENGINE_HEADERS
 #include "Core/CoreModule.hpp"
 #include "BuildSystem/BuildSystemModule.hpp"
+#include "Lang/LangModule.hpp"
 #endif

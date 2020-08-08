@@ -260,9 +260,9 @@ namespace Pollux::Lang
 			Advance();
 		}
 
-		if (g_TokenKindKeywordMap.contains(value.c_str()))
+		if (g_TokenKindKeywordMap.contains(value))
 		{
-			return std::move(Token{ TokenKindToEnum(value.c_str()), value });
+			return std::move(Token{ g_TokenKindKeywordMap.at(value), value });
 		}
 
 		return std::move(Token{ TokenKind::Identifier, value });
@@ -301,6 +301,7 @@ namespace Pollux::Lang
 				return StringLiteral();
 			}
 			case '\n':
+			case '\t':
 			{
 				Advance();
 				return std::move(Token{ TokenKind::Eol, "\n" });

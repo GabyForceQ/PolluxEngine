@@ -6,35 +6,43 @@
 
 #pragma once
 
+#include "ASTFWD.hpp"
+
 namespace Pollux::Lang
 {
 	class IASTNodeVisitor
 	{
 	public:
-		virtual void Visit(class ASTNodeVarSymbol* pNode) = 0;
+		IASTNodeVisitor() noexcept = default;
+
+		virtual ~IASTNodeVisitor() = default;
+
+		virtual void Visit(ASTNodeVarSymbol* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeTypeSymbol* pNode) = 0;
+		virtual void Visit(ASTNodeTypeSymbol* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeDeclStatement* pNode) = 0;
+		virtual void Visit(ASTNodeDeclStatement* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeDeclHolder* pNode) = 0;
+		virtual void Visit(ASTNodeDeclHolder* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeType* pNode) = 0;
+		virtual void Visit(ASTNodeType* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeExpression* pNode) = 0;
+		virtual void Visit(ASTNodeExpression* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeCompound* pNode) = 0;
+		virtual void Visit(ASTNodeScope* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeAssign* pNode) = 0;
+		virtual void Visit(ASTNodeAssign* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeVariable* pNode) = 0;
+		virtual void Visit(ASTNodeVar* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeLog* pNode) = 0;
+		virtual void Visit(ASTNodeLog* pNode) = 0;
 		
-		virtual void Visit(class ASTNodeIfStatement* pNode) = 0;
-		
-		virtual void Visit(class ASTNodeFunction* pNode) = 0;
-		
-		virtual void Visit(class ASTNodeEmptyStatement* pNode) = 0;
+		virtual void Visit(ASTNodeIfStatement* pNode) = 0;
+				
+		virtual void Visit(ASTNodeEmptyStatement* pNode) = 0;
+
+		virtual void Visit(ASTNodeFun* pNode) = 0;
+
+		virtual void Visit(ASTNodeFunParamDeclStatement* pNode) = 0;
 	};
 }

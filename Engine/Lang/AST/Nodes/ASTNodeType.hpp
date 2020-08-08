@@ -15,8 +15,10 @@ namespace Pollux::Lang
 	public:
 		explicit ASTNodeType(Token token) noexcept;
 
-		void Accept(IASTNodeVisitor* pVisitor);
+		void Accept(IASTNodeVisitor* pVisitor) override;
 
 		std::string value;
+
+		AST_FRIENDS_BODY
 	};
 }

@@ -10,82 +10,83 @@
 
 namespace Pollux::Lang
 {
-	const char* g_pTokenKind_Undefined = "TokenKind::Undefined";
-	const char* g_pTokenKind_Eof = "TokenKind::Eof";
-	const char* g_pTokenKind_Eol = "TokenKind::Eol";
-	const char* g_pTokenKind_Identifier = "TokenKind::Identifier";
-	const char* g_pTokenKind_LiteralBinary = "TokenKind::LiteralBinary";
-	const char* g_pTokenKind_LiteralOctal = "TokenKind::LiteralOctal";
-	const char* g_pTokenKind_LiteralHexa = "TokenKind::LiteralHexa";
-	const char* g_pTokenKind_LiteralInteger = "TokenKind::LiteralInteger";
-	const char* g_pTokenKind_LiteralFloat = "TokenKind::LiteralFloat";
-	const char* g_pTokenKind_LiteralDouble = "TokenKind::LiteralDouble";
-	const char* g_pTokenKind_LiteralString = "TokenKind::LiteralString";
-	const char* g_pTokenKind_OperatorAdd = "TokenKind::OperatorAdd";
-	const char* g_pTokenKind_OperatorSub = "TokenKind::OperatorSub";
-	const char* g_pTokenKind_OperatorMul = "TokenKind::OperatorMul";
-	const char* g_pTokenKind_OperatorDiv = "TokenKind::OperatorDiv";
-	const char* g_pTokenKind_OperatorMod = "TokenKind::OperatorMod";
-	const char* g_pTokenKind_OperatorPow = "TokenKind::OperatorPow";
-	const char* g_pTokenKind_OperatorRoot = "TokenKind::OperatorRoot";
-	const char* g_pTokenKind_OperatorAssign = "TokenKind::OperatorAssign";
-	const char* g_pTokenKind_OperatorAddAssign = "TokenKind::OperatorAddAssign";
-	const char* g_pTokenKind_OperatorSubAssign = "TokenKind::OperatorSubAssign";
-	const char* g_pTokenKind_OperatorMulAssign = "TokenKind::OperatorMulAssign";
-	const char* g_pTokenKind_OperatorDivAssign = "TokenKind::OperatorDivAssign";
-	const char* g_pTokenKind_OperatorModAssign = "TokenKind::OperatorModAssign";
-	const char* g_pTokenKind_OperatorPowAssign = "TokenKind::OperatorPowAssign";
-	const char* g_pTokenKind_OperatorRootAssign = "TokenKind::OperatorRootAssign";
-	const char* g_pTokenKind_OperatorEq = "TokenKind::OperatorEq";
-	const char* g_pTokenKind_OperatorNe = "TokenKind::OperatorNe";
-	const char* g_pTokenKind_OperatorLe = "TokenKind::OperatorLe";
-	const char* g_pTokenKind_OperatorLt = "TokenKind::OperatorLt";
-	const char* g_pTokenKind_OperatorGe = "TokenKind::OperatorGe";
-	const char* g_pTokenKind_OperatorGt = "TokenKind::OperatorGt";
-	const char* g_pTokenKind_OpenParen = "TokenKind::OpenParen";
-	const char* g_pTokenKind_CloseParen = "TokenKind::CloseParen";
-	const char* g_pTokenKind_OpenBrace = "TokenKind::OpenBrace";
-	const char* g_pTokenKind_CloseBrace = "TokenKind::CloseBrace";
-	const char* g_pTokenKind_OpenBracket = "TokenKind::OpenBracket";
-	const char* g_pTokenKind_CloseBracket = "TokenKind::CloseBracket";
-	const char* g_pTokenKind_Colon = "TokenKind::Colon";
-	const char* g_pTokenKind_Semicolon = "TokenKind::Semicolon";
-	const char* g_pTokenKind_Comma = "TokenKind::Comma";
-	const char* g_pTokenKind_Dot = "TokenKind::Dot";
-	const char* g_pTokenKind_RangeExclusive = "TokenKind::RangeExclusive";
-	const char* g_pTokenKind_RangeInclusive = "TokenKind::RangeInclusive";
-	const char* g_pTokenKind_Follow = "TokenKind::Follow";
-	const char* g_pTokenKind_Arrow = "TokenKind::Arrow";
-	const char* g_pTokenKind_At = "TokenKind::At";
-	const char* g_pTokenKind_LogicalNot = "TokenKind::LogicalNot";
-	const char* g_pTokenKind_LogicalAnd = "TokenKind::LogicalAnd";
-	const char* g_pTokenKind_LogicalOr = "TokenKind::LogicalOr";
-	const char* g_pTokenKind_BitNot = "TokenKind::BitNot";
-	const char* g_pTokenKind_BitAnd = "TokenKind::BitAnd";
-	const char* g_pTokenKind_BitOr = "TokenKind::BitOr";
-	const char* g_pTokenKind_BitXor = "TokenKind::BitXor";
-	const char* g_pTokenKind_BitLeftShift = "TokenKind::BitLeftShift";
-	const char* g_pTokenKind_BitRightShift = "TokenKind::BitRightShift";
-	const char* g_pTokenKind_BitUnsignedRightShift = "TokenKind::BitUnsignedRightShift";
-	const char* g_pTokenKind_KeywordVar = "TokenKind::KeywordVar";
-	const char* g_pTokenKind_KeywordVal = "TokenKind::KeywordVal";
-	const char* g_pTokenKind_KeywordTrue = "TokenKind::KeywordTrue";
-	const char* g_pTokenKind_KeywordFalse = "TokenKind::KeywordFalse";
-	const char* g_pTokenKind_KeywordLog = "TokenKind::KeywordLog";
-	const char* g_pTokenKind_KeywordIf = "TokenKind::KeywordIf";
-	const char* g_pTokenKind_KeywordElse = "TokenKind::KeywordElse";
-	const char* g_pTokenKind_KeywordReturn = "TokenKind::KeywordReturn";
-	const char* g_pTokenKind_KeywordFunc = "TokenKind::KeywordFunc";
-	const char* g_pTokenKind_KeywordAnnot = "TokenKind::KeywordAnnot";
-	const char* g_pTokenKind_KeywordObject = "TokenKind::KeywordObject";
-	const char* g_pTokenKind_KeywordClass = "TokenKind::KeywordClass";
-	const char* g_pTokenKind_KeywordStruct = "TokenKind::KeywordStruct";
-	const char* g_pTokenKind_KeywordEnum = "TokenKind::KeywordEnum";
-	const char* g_pTokenKind_KeywordComptime = "TokenKind::KeywordComptime";
-	const char* g_pTokenKind_KeywordAlways = "TokenKind::KeywordAlways";
-	const char* g_pTokenKind_KeywordPackage = "TokenKind::KeywordPackage";
+	const std::string g_pTokenKind_Undefined = "TokenKind::Undefined";
+	const std::string g_pTokenKind_Eof = "TokenKind::Eof";
+	const std::string g_pTokenKind_Eol = "TokenKind::Eol";
+	const std::string g_pTokenKind_Identifier = "TokenKind::Identifier";
+	const std::string g_pTokenKind_LiteralBinary = "TokenKind::LiteralBinary";
+	const std::string g_pTokenKind_LiteralOctal = "TokenKind::LiteralOctal";
+	const std::string g_pTokenKind_LiteralHexa = "TokenKind::LiteralHexa";
+	const std::string g_pTokenKind_LiteralInteger = "TokenKind::LiteralInteger";
+	const std::string g_pTokenKind_LiteralFloat = "TokenKind::LiteralFloat";
+	const std::string g_pTokenKind_LiteralDouble = "TokenKind::LiteralDouble";
+	const std::string g_pTokenKind_LiteralString = "TokenKind::LiteralString";
+	const std::string g_pTokenKind_OperatorAdd = "TokenKind::OperatorAdd";
+	const std::string g_pTokenKind_OperatorSub = "TokenKind::OperatorSub";
+	const std::string g_pTokenKind_OperatorMul = "TokenKind::OperatorMul";
+	const std::string g_pTokenKind_OperatorDiv = "TokenKind::OperatorDiv";
+	const std::string g_pTokenKind_OperatorMod = "TokenKind::OperatorMod";
+	const std::string g_pTokenKind_OperatorPow = "TokenKind::OperatorPow";
+	const std::string g_pTokenKind_OperatorRoot = "TokenKind::OperatorRoot";
+	const std::string g_pTokenKind_OperatorAssign = "TokenKind::OperatorAssign";
+	const std::string g_pTokenKind_OperatorAddAssign = "TokenKind::OperatorAddAssign";
+	const std::string g_pTokenKind_OperatorSubAssign = "TokenKind::OperatorSubAssign";
+	const std::string g_pTokenKind_OperatorMulAssign = "TokenKind::OperatorMulAssign";
+	const std::string g_pTokenKind_OperatorDivAssign = "TokenKind::OperatorDivAssign";
+	const std::string g_pTokenKind_OperatorModAssign = "TokenKind::OperatorModAssign";
+	const std::string g_pTokenKind_OperatorPowAssign = "TokenKind::OperatorPowAssign";
+	const std::string g_pTokenKind_OperatorRootAssign = "TokenKind::OperatorRootAssign";
+	const std::string g_pTokenKind_OperatorEq = "TokenKind::OperatorEq";
+	const std::string g_pTokenKind_OperatorNe = "TokenKind::OperatorNe";
+	const std::string g_pTokenKind_OperatorLe = "TokenKind::OperatorLe";
+	const std::string g_pTokenKind_OperatorLt = "TokenKind::OperatorLt";
+	const std::string g_pTokenKind_OperatorGe = "TokenKind::OperatorGe";
+	const std::string g_pTokenKind_OperatorGt = "TokenKind::OperatorGt";
+	const std::string g_pTokenKind_OpenParen = "TokenKind::OpenParen";
+	const std::string g_pTokenKind_CloseParen = "TokenKind::CloseParen";
+	const std::string g_pTokenKind_OpenBrace = "TokenKind::OpenBrace";
+	const std::string g_pTokenKind_CloseBrace = "TokenKind::CloseBrace";
+	const std::string g_pTokenKind_OpenBracket = "TokenKind::OpenBracket";
+	const std::string g_pTokenKind_CloseBracket = "TokenKind::CloseBracket";
+	const std::string g_pTokenKind_Colon = "TokenKind::Colon";
+	const std::string g_pTokenKind_Semicolon = "TokenKind::Semicolon";
+	const std::string g_pTokenKind_Comma = "TokenKind::Comma";
+	const std::string g_pTokenKind_Dot = "TokenKind::Dot";
+	const std::string g_pTokenKind_RangeExclusive = "TokenKind::RangeExclusive";
+	const std::string g_pTokenKind_RangeInclusive = "TokenKind::RangeInclusive";
+	const std::string g_pTokenKind_Follow = "TokenKind::Follow";
+	const std::string g_pTokenKind_Arrow = "TokenKind::Arrow";
+	const std::string g_pTokenKind_At = "TokenKind::At";
+	const std::string g_pTokenKind_LogicalNot = "TokenKind::LogicalNot";
+	const std::string g_pTokenKind_LogicalAnd = "TokenKind::LogicalAnd";
+	const std::string g_pTokenKind_LogicalOr = "TokenKind::LogicalOr";
+	const std::string g_pTokenKind_BitNot = "TokenKind::BitNot";
+	const std::string g_pTokenKind_BitAnd = "TokenKind::BitAnd";
+	const std::string g_pTokenKind_BitOr = "TokenKind::BitOr";
+	const std::string g_pTokenKind_BitXor = "TokenKind::BitXor";
+	const std::string g_pTokenKind_BitLeftShift = "TokenKind::BitLeftShift";
+	const std::string g_pTokenKind_BitRightShift = "TokenKind::BitRightShift";
+	const std::string g_pTokenKind_BitUnsignedRightShift = "TokenKind::BitUnsignedRightShift";
+	const std::string g_pTokenKind_KeywordVar = "TokenKind::KeywordVar";
+	const std::string g_pTokenKind_KeywordVal = "TokenKind::KeywordVal";
+	const std::string g_pTokenKind_KeywordTrue = "TokenKind::KeywordTrue";
+	const std::string g_pTokenKind_KeywordFalse = "TokenKind::KeywordFalse";
+	const std::string g_pTokenKind_KeywordLog = "TokenKind::KeywordLog";
+	const std::string g_pTokenKind_KeywordIf = "TokenKind::KeywordIf";
+	const std::string g_pTokenKind_KeywordElse = "TokenKind::KeywordElse";
+	const std::string g_pTokenKind_KeywordReturn = "TokenKind::KeywordReturn";
+	const std::string g_pTokenKind_KeywordFun = "TokenKind::KeywordFun";
+	const std::string g_pTokenKind_KeywordAnnot = "TokenKind::KeywordAnnot";
+	const std::string g_pTokenKind_KeywordObject = "TokenKind::KeywordObject";
+	const std::string g_pTokenKind_KeywordClass = "TokenKind::KeywordClass";
+	const std::string g_pTokenKind_KeywordStruct = "TokenKind::KeywordStruct";
+	const std::string g_pTokenKind_KeywordEnum = "TokenKind::KeywordEnum";
+	const std::string g_pTokenKind_KeywordComptime = "TokenKind::KeywordComptime";
+	const std::string g_pTokenKind_KeywordAlways = "TokenKind::KeywordAlways";
+	const std::string g_pTokenKind_KeywordUnit = "TokenKind::KeywordUnit";
+	const std::string g_pTokenKind_KeywordUse = "TokenKind::KeywordUse";
 
-	const std::map<const char*, TokenKind> g_TokenKindMap
+	const std::map<std::string, TokenKind> g_TokenKindMap
 	{
 		{ g_pTokenKind_Undefined, TokenKind::Undefined },
 		{ g_pTokenKind_Eof, TokenKind::Eof },
@@ -152,7 +153,7 @@ namespace Pollux::Lang
 		{ g_pTokenKind_KeywordIf, TokenKind::KeywordIf },
 		{ g_pTokenKind_KeywordElse, TokenKind::KeywordElse },
 		{ g_pTokenKind_KeywordReturn, TokenKind::KeywordReturn },
-		{ g_pTokenKind_KeywordFunc, TokenKind::KeywordFunc },
+		{ g_pTokenKind_KeywordFun, TokenKind::KeywordFun },
 		{ g_pTokenKind_KeywordAnnot, TokenKind::KeywordAnnot },
 		{ g_pTokenKind_KeywordObject, TokenKind::KeywordObject },
 		{ g_pTokenKind_KeywordClass, TokenKind::KeywordClass },
@@ -160,10 +161,11 @@ namespace Pollux::Lang
 		{ g_pTokenKind_KeywordEnum, TokenKind::KeywordEnum },
 		{ g_pTokenKind_KeywordComptime, TokenKind::KeywordComptime },
 		{ g_pTokenKind_KeywordAlways, TokenKind::KeywordAlways },
-		{ g_pTokenKind_KeywordPackage, TokenKind::KeywordPackage }
+		{ g_pTokenKind_KeywordUnit, TokenKind::KeywordUnit },
+		{ g_pTokenKind_KeywordUse, TokenKind::KeywordUse }
 	};
 
-	const std::map<const char*, TokenKind> g_TokenKindKeywordMap
+	const std::map<std::string, TokenKind> g_TokenKindKeywordMap
 	{
 		{ "var", TokenKind::KeywordVar },
 		{ "val", TokenKind::KeywordVal },
@@ -173,7 +175,7 @@ namespace Pollux::Lang
 		{ "if", TokenKind::KeywordIf },
 		{ "else", TokenKind::KeywordElse },
 		{ "return", TokenKind::KeywordReturn },
-		{ "func", TokenKind::KeywordFunc },
+		{ "fun", TokenKind::KeywordFun },
 		{ "annot", TokenKind::KeywordAnnot },
 		{ "object", TokenKind::KeywordObject },
 		{ "class", TokenKind::KeywordClass },
@@ -181,10 +183,11 @@ namespace Pollux::Lang
 		{ "enum", TokenKind::KeywordEnum },
 		{ "comptime", TokenKind::KeywordComptime },
 		{ "always", TokenKind::KeywordAlways },
-		{ "package", TokenKind::KeywordPackage }
+		{ "unit", TokenKind::KeywordUnit },
+		{ "use", TokenKind::KeywordUse }
 	};
 
-	TokenKind TokenKindToEnum(const char* tokenKind)
+	TokenKind TokenKindToEnum(const std::string& tokenKind)
 	{
 		if (g_TokenKindMap.contains(tokenKind))
 		{
@@ -263,7 +266,7 @@ namespace Pollux::Lang
 		case TokenKind::KeywordIf: return g_pTokenKind_KeywordIf;
 		case TokenKind::KeywordElse: return g_pTokenKind_KeywordElse;
 		case TokenKind::KeywordReturn: return g_pTokenKind_KeywordReturn;
-		case TokenKind::KeywordFunc: return g_pTokenKind_KeywordFunc;
+		case TokenKind::KeywordFun: return g_pTokenKind_KeywordFun;
 		case TokenKind::KeywordAnnot: return g_pTokenKind_KeywordAnnot;
 		case TokenKind::KeywordObject: return g_pTokenKind_KeywordObject;
 		case TokenKind::KeywordClass: return g_pTokenKind_KeywordClass;
@@ -271,8 +274,8 @@ namespace Pollux::Lang
 		case TokenKind::KeywordEnum: return g_pTokenKind_KeywordEnum;
 		case TokenKind::KeywordComptime: return g_pTokenKind_KeywordComptime;
 		case TokenKind::KeywordAlways: return g_pTokenKind_KeywordAlways;
-		case TokenKind::KeywordPackage: return g_pTokenKind_KeywordPackage;
-		default: ; // todo. Log a warning message
+		case TokenKind::KeywordUnit: return g_pTokenKind_KeywordUnit;
+		case TokenKind::KeywordUse: return g_pTokenKind_KeywordUse;
 		}
 
 		return g_pEmptyString;

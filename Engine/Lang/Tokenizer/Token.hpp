@@ -12,13 +12,20 @@ namespace Pollux::Lang
 {
 	struct Token final
 	{
-		TokenKind kind = TokenKind::Undefined;
-		std::string value;
+		explicit Token(TokenKind kind, std::string_view value) noexcept;
 
-		explicit Token(TokenKind tokenKind, std::string_view value) noexcept;
+		Token(const Token& other) noexcept;
+
+		Token(Token&& other) noexcept;
+
+		Token& operator=(const Token& rhs) noexcept;
 
 		std::string ToString() const;
 
 		bool IsKeyword() const noexcept;
+
+		TokenKind kind = TokenKind::Undefined;
+
+		std::string value;
 	};
 }

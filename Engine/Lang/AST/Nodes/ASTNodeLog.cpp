@@ -15,6 +15,7 @@ namespace Pollux::Lang
 		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } },
 		pExression{ pExression }
 	{
+		RegisterType("ASTNodeLog", +ASTNodeKind::ASTNodeLog);
 	}
 
 	void ASTNodeLog::Accept(IASTNodeVisitor* pVisitor)

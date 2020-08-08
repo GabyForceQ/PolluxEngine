@@ -10,11 +10,33 @@
 
 namespace Pollux::Lang
 {
-	Token::Token(TokenKind tokenKind, std::string_view value) noexcept
+	Token::Token(TokenKind kind, std::string_view value) noexcept
 		:
 		kind{ std::move(kind) },
 		value{ std::move(value) }
 	{
+	}
+
+	Token::Token(const Token& other) noexcept
+		:
+		kind{ other.kind },
+		value{ other.value }
+	{
+	}
+
+	Token::Token(Token&& other) noexcept
+		:
+		kind{ std::move(other.kind) },
+		value{ std::move(other.value) }
+	{
+	}
+
+	Token& Token::operator=(const Token& rhs) noexcept
+	{
+		kind = rhs.kind;
+		value = rhs.value;
+
+		return *this;
 	}
 
 	std::string Token::ToString() const

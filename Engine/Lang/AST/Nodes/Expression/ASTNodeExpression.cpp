@@ -15,6 +15,7 @@ namespace Pollux::Lang
 		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } },
 		kind{ std::move(kind) }
 	{
+		RegisterType("ASTNodeExpression", +ASTNodeKind::ASTNodeExpression);
 	}
 
 	void ASTNodeExpression::Accept(IASTNodeVisitor* pVisitor)

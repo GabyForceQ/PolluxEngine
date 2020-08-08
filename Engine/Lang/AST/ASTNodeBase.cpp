@@ -15,6 +15,6 @@ namespace Pollux::Lang
 		Type{},
 		token{ std::move(token) }
 	{
-		ASTNodeBase::RegisterType("ASTNodeBase", +ASTNodeKind::ASTNodeBase);
+		RegisterType("ASTNodeBase", +ASTNodeKind::ASTNodeBase);
 	}
 }
