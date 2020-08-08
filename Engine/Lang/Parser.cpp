@@ -162,7 +162,7 @@ namespace Pollux::Lang
         return pNode;
     }
     
-    ASTNodeScope* Parser::ParseFunScope()
+    ASTNodeScope* Parser::ParseScope(const ScopeKindFlag scopeKindFlag)
     {
         Eat(TokenKind::OpenBrace);
 
@@ -171,6 +171,7 @@ namespace Pollux::Lang
         Eat(TokenKind::CloseBrace);
 
         ASTNodeScope* pNode = new ASTNodeScope();
+        pNode->kindFlag |= scopeKindFlag;
 
         for (ASTNodeBase* pStatement : pStatements)
         {
@@ -202,7 +203,7 @@ namespace Pollux::Lang
         {
             if (currentToken.kind == TokenKind::OpenBrace)
             {
-                ASTNodeScope* pScope = ParseFunScope(); //////
+                ASTNodeScope* pScope = ParseScope(ScopeKindFlag::Fun);
             }
 
             if (currentToken.kind != TokenKind::CloseBrace)
@@ -512,12 +513,12 @@ namespace Pollux::Lang
         pNode->bComptimeEval = bComptimeEval;
         pNode->pExpression = ParseExpression();
 
-        pNode->pIfScope = ParseFunScope(); // todo? globla or local
+        pNode->pIfScope = ParseScope(ScopeKindFlag::IfElse); // todo? globla or local
 
         if (Eat(TokenKind::KeywordElse))
         {
             pNode->bHasElseScope = true;
-            pNode->pElseScope = ParseFunScope();
+            pNode->pElseScope = ParseScope(ScopeKindFlag::IfElse);
         }
 
         return pNode;
@@ -560,7 +561,7 @@ namespace Pollux::Lang
                         //	throw std::runtime_error("Expected: identifier.");
                     }
 
-                    pNode->pScope = ParseFunScope();
+                    pNode->pScope = ParseScope(ScopeKindFlag::Fun);
                 }
             }
         }

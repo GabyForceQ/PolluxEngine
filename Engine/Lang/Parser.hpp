@@ -8,6 +8,7 @@
 
 #include "Tokenizer/Token.hpp"
 #include "AST/ASTFWD.hpp"
+#include "Scope/ScopeKindFlag.hpp"
 
 namespace Pollux::Lang
 {
@@ -30,7 +31,7 @@ namespace Pollux::Lang
 		
 		ASTNodeScope* ParseUnit();
 		
-		ASTNodeScope* ParseFunScope();
+		ASTNodeScope* ParseScope(const ScopeKindFlag scopeKindFlag);
 		
 		ASTNodeScope* ParseGlobalScope();
 

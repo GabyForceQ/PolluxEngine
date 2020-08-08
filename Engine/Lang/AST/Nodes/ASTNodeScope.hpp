@@ -7,6 +7,7 @@
 #pragma once
 
 #include "../ASTNodeBase.hpp"
+#include "../../Scope/ScopeKindFlag.hpp"
 
 namespace Pollux::Lang
 {
@@ -23,6 +24,7 @@ namespace Pollux::Lang
 
 	private:
 		std::vector<ASTNodeBase*> pStatements;
+		ScopeKindFlag kindFlag = ScopeKindFlag::Global;
 
 		AST_FRIENDS_BODY
 	};
