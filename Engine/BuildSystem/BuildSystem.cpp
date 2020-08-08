@@ -12,8 +12,7 @@ namespace Pollux::BuildSystem
 {
 	void BuildSystem::Reset()
 	{
-		globalConfiguration->Reset();
-		
+
 		for (const auto& configuration : configurationMap)
 		{
 			configuration.second->Reset();
@@ -23,8 +22,6 @@ namespace Pollux::BuildSystem
 	BuildSystem& BuildSystem::operator=(const BuildSystem& rhs)
 	{
 		target = rhs.target;
-		globalConfiguration = new BuildConfiguration(rhs.globalConfiguration->optimization);
-		*globalConfiguration = *rhs.globalConfiguration;
 		
 		for (const auto& configuration : rhs.configurationMap)
 		{

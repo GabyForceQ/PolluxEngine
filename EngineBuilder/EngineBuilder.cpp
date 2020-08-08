@@ -151,8 +151,6 @@ int main(int argc, char* argv[])
                 {
                     throw std::runtime_error("Invalid optimization.");
                 }
-
-                pBuildSystem->globalConfiguration = new BuildConfiguration(BuildOptimization::None);
             }
             else if (std::string(argv[i]) == "--type")
             {
@@ -163,15 +161,39 @@ int main(int argc, char* argv[])
 
                 if (std::string(argv[i]) == "engine")
                 {
-                    pBuildSystem->globalConfiguration->preprocessorDefinitions.push_back("POLLUX_ENGINE");
+                    for (const Pollux::type_t optimizationFlag : g_BuildOptimizationFlagArray)
+                    {
+                        const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
+
+                        if (pBuildSystem->configurationMap.contains(optimization))
+                        {
+                            pBuildSystem->configurationMap.at(optimization)->preprocessorDefinitions.push_back("POLLUX_ENGINE");
+                        }
+                    }
                 }
                 else if (std::string() == "compiler")
                 {
-                    pBuildSystem->globalConfiguration->preprocessorDefinitions.push_back("POLLUX_COMPILER");
+                    for (const Pollux::type_t optimizationFlag : g_BuildOptimizationFlagArray)
+                    {
+                        const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
+
+                        if (pBuildSystem->configurationMap.contains(optimization))
+                        {
+                            pBuildSystem->configurationMap.at(optimization)->preprocessorDefinitions.push_back("POLLUX_COMPILER");
+                        }
+                    }
                 }
                 else if (std::string(argv[i]) == "make")
                 {
-                    pBuildSystem->globalConfiguration->preprocessorDefinitions.push_back("POLLUX_MAKE");
+                    for (const Pollux::type_t optimizationFlag : g_BuildOptimizationFlagArray)
+                    {
+                        const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
+
+                        if (pBuildSystem->configurationMap.contains(optimization))
+                        {
+                            pBuildSystem->configurationMap.at(optimization)->preprocessorDefinitions.push_back("POLLUX_MAKE");
+                        }
+                    }
                 }
                 else
                 {

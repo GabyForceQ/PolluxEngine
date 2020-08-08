@@ -20,8 +20,6 @@ namespace Pollux::BuildSystem
 
 		BuildTarget target;
 
-		BuildConfiguration* globalConfiguration;
-
 		std::unordered_map<BuildOptimization, BuildConfiguration*> configurationMap;
 	};
 }

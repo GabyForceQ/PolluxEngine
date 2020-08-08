@@ -48,6 +48,10 @@ namespace Pollux::BuildSystem
 		config.preprocessorDefinitions.push_back("_USE_MATH_DEFINES");
 		config.preprocessorDefinitions.push_back("POLLUX_DRIVER_VULKAN");
 		config.preprocessorDefinitions.push_back("VK_USE_PLATFORM_WIN32_KHR");
+
+		config.linkerInputLibraries.push_back("Iphlpapi.lib");
+		config.linkerInputLibraries.push_back("Shlwapi.lib");
+		config.linkerInputLibraries.push_back("..\\..\\..\\Lib\\vulkan-1.lib");
 	}
 
 	void Project::ConfigureAll(BuildConfiguration& config, const BuildTarget& target)
@@ -57,7 +61,7 @@ namespace Pollux::BuildSystem
 		config.preprocessorDefinitions.push_back("POLLUX_PLATFORM_X64");
 		config.includeDirectories.push_back("..\\..\\..\\extern\\singleinclude");
 
-		switch (target.optimization)
+		switch (target.currentOptimization)
 		{
 		case BuildOptimization::Debug:
 		{
@@ -79,7 +83,7 @@ namespace Pollux::BuildSystem
 		}
 		}
 
-		switch (target.optimization)
+		switch (target.currentOptimization)
 		{
 		case BuildOptimization::Debug:
 		{
@@ -121,9 +125,6 @@ namespace Pollux::BuildSystem
 
 	void Project::Initialize(BuildSystem* pBuildSystem)
 	{
-		pBuildSystem->globalConfiguration->projectName = name;
-		pBuildSystem->globalConfiguration->projectPath = path;
-
 		for (auto& config : pBuildSystem->configurationMap)
 		{
 			config.second->projectName = name;
@@ -131,14 +132,7 @@ namespace Pollux::BuildSystem
 		}
 	}
 
-	void Project::PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target)
+	void Project::PostConfig(BuildConfiguration& config, const BuildTarget& target)
 	{
-		config.bUsePrecompiledHeaders = globalConfig.bUsePrecompiledHeaders;
-		config.precompiledHeaderName = globalConfig.precompiledHeaderName;
-
-		if (globalConfig.buildOutputType != BuildOutputType::None)
-		{
-			config.buildOutputType = globalConfig.buildOutputType;
-		}
 	}
 }

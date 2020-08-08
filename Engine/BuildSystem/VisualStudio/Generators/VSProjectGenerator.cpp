@@ -12,6 +12,8 @@
 #include "Engine/BuildSystem/VisualStudio/Objects/VSProject.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
 
+#define GLOBAL_CONFIG pBuildSystem->configurationMap.at(BuildOptimization::Debug)
+
 namespace Pollux::BuildSystem
 {
     void VSProjectGenerator::Generate(Project* pProject)
@@ -142,6 +144,14 @@ namespace Pollux::BuildSystem
             res += "  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='" +
                 optimization + "|" + architecture + "'\">\n";
             res += "    <LinkIncremental>" + BoolToString(config.second->bLinkIncremental) + "</LinkIncremental>\n";
+            res += "    <LibraryPath>";
+
+            for (const std::string& libraryPath : config.second->libraryPaths)
+            {
+                res += libraryPath + ";";
+            }
+
+            res += "$(LibraryPath)</LibraryPath>\n";
             res += "  </PropertyGroup>\n";
         }
 
@@ -156,9 +166,8 @@ namespace Pollux::BuildSystem
             res += "      <SDLCheck>true</SDLCheck>\n";
             res += "      <ConformanceMode>false</ConformanceMode>\n";
             res += "      <AdditionalOptions>/Zc:__cplusplus</AdditionalOptions>\n";
-            res += "      <ProgramDatabaseFileName>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
-                pProject->name + "\\" + optimization + "\\" + pProject->name +
-                optimization + "Compiler.pdb</ProgramDatabaseFileName>\n";
+            res += "      <ProgramDatabaseFileName>" + architecture + "\\" + optimization + "\\" +
+                pProject->name + "Compiler.pdb</ProgramDatabaseFileName>\n";
             res += "      <SuppressStartupBanner>true</SuppressStartupBanner>\n";
             res += "      <TreatWarningAsError>true</TreatWarningAsError>\n";
             res += "      <MultiProcessorCompilation>true</MultiProcessorCompilation>\n";
@@ -193,11 +202,6 @@ namespace Pollux::BuildSystem
             res += "      <DisableSpecificWarnings>4005</DisableSpecificWarnings>\n";
             res += "      <AdditionalIncludeDirectories>..\\..\\..;";
 
-            for (const std::string& includeDirectory : pBuildSystem->globalConfiguration->includeDirectories)
-            {
-                res += includeDirectory + ";";
-            }
-
             for (const std::string& includeDirectory : config.second->includeDirectories)
             {
                 res += includeDirectory + ";";
@@ -205,11 +209,6 @@ namespace Pollux::BuildSystem
 
             res += "</AdditionalIncludeDirectories>\n";
             res += "      <PreprocessorDefinitions>";
-
-            for (const std::string& preprocessorDefinition : pBuildSystem->globalConfiguration->preprocessorDefinitions)
-            {
-                res += preprocessorDefinition + ";";
-            }
 
             for (const std::string& preprocessorDefinition : config.second->preprocessorDefinitions)
             {
@@ -223,9 +222,8 @@ namespace Pollux::BuildSystem
                 res += "      <PrecompiledHeader>Use</PrecompiledHeader>\n";
                 res += "      <PrecompiledHeaderFile>" + pProject->name + "\\" +
                     config.second->precompiledHeaderName + ".hpp</PrecompiledHeaderFile>\n";
-                res += "      <PrecompiledHeaderOutputFile>..\\..\\Temp\\Obj\\Win64_VS2019\\" +
-                    pProject->name + "\\" + optimization + "\\" + pProject->name +
-                    ".pch</PrecompiledHeaderOutputFile>\n";
+                res += "      <PrecompiledHeaderOutputFile>" + architecture + "\\" + optimization +
+                    "\\" + pProject->name + ".pch</PrecompiledHeaderOutputFile>\n";
             }
             else
             {
@@ -270,12 +268,12 @@ namespace Pollux::BuildSystem
             res += "    <Link>\n";
             res += "      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>\n";
             res += "      <ShowProgress>NotSet</ShowProgress>\n";
-            res += "      <OutputFile>..\\..\\Output\\Win64_VS2019_" + optimization + "\\" +
-                pProject->name + "_" + optimization + ".exe</OutputFile>\n";
-            res += "      <AdditionalLibraryDirectories>..\\..\\Output\\Win64_VS2019_" +
-                optimization + "</AdditionalLibraryDirectories>\n";
-            res += "      <ProgramDatabaseFile>..\\..\\Output\\Win64_VS2019_" + optimization +
-                "\\" + pProject->name + "_" + optimization + ".pdb</ProgramDatabaseFile>\n";
+            res += "      <OutputFile>" + architecture + "\\" + optimization + "\\" +
+                pProject->name + ".exe</OutputFile>\n";
+            res += "      <AdditionalLibraryDirectories>" + architecture + "\\" + optimization  +
+                "</AdditionalLibraryDirectories>\n";
+            res += "      <ProgramDatabaseFile>" + architecture + "\\" + optimization + "\\" +
+                pProject->name + ".pdb</ProgramDatabaseFile>\n";
             res += "      <GenerateMapFile>true</GenerateMapFile>\n";
             res += "      <MapExports>false</MapExports>\n";
             res += "      <SwapRunFromCD>false</SwapRunFromCD>\n";
@@ -291,13 +289,19 @@ namespace Pollux::BuildSystem
             res += "      <Profile>false</Profile>\n";
             res += "      <CLRImageType>Default</CLRImageType>\n";
             res += "      <LinkErrorReporting>PromptImmediately</LinkErrorReporting>\n";
-            res += "      <AdditionalDependencies>..\\..\\..\\Lib\\vulkan-1.lib;Iphlpapi.lib;Shlwapi.lib;"
-                "%(AdditionalDependencies)</AdditionalDependencies>\n";
+            res += "      <AdditionalDependencies>";
+            
+            for (const std::string& linkerInputLibrary : config.second->linkerInputLibraries)
+            {
+                res += linkerInputLibrary + ";";
+            }
+
+            res += "%(AdditionalDependencies)</AdditionalDependencies>\n";
             res += "      <SuppressStartupBanner>true</SuppressStartupBanner>\n";
             res += "      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>\n";
             res += "      <LargeAddressAware>true</LargeAddressAware>\n";
-            res += "      <MapFileName>..\\..\\output\\Win64_VS2019_" + optimization +
-                "\\" + pProject->name + "_" + optimization + ".map</MapFileName>\n";
+            res += "      <MapFileName>" + architecture + "\\" + optimization + "\\" +
+                pProject->name + ".map</MapFileName>\n";
 
             switch (pProject->buildSubSystem)
             {
@@ -328,8 +332,8 @@ namespace Pollux::BuildSystem
             res += "  </ItemDefinitionGroup>\n";
         }
 
-        const bool& usePch = pBuildSystem->globalConfiguration->bUsePrecompiledHeaders;
-        const std::string& pchName = pBuildSystem->globalConfiguration->precompiledHeaderName;
+        const bool& usePch = GLOBAL_CONFIG->bUsePrecompiledHeaders;
+        const std::string& pchName = GLOBAL_CONFIG->precompiledHeaderName;
 
         res += "  <ItemGroup>\n";
 

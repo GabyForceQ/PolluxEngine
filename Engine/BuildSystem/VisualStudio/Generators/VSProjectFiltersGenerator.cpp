@@ -11,6 +11,8 @@
 #include "Engine/BuildSystem/Base/Project.hpp"
 #include "Engine/BuildSystem/BuildSystem.hpp"
 
+#define GLOBAL_CONFIG pProjectFilters->pProject->pBuildSystem->configurationMap.at(BuildOptimization::Debug)
+
 namespace Pollux::BuildSystem
 {
 	void VSProjectFiltersGenerator::Generate(ProjectFilters* pProjectFilters)
@@ -20,7 +22,7 @@ namespace Pollux::BuildSystem
 
 		auto IsPchFile = [=](const std::string& path) -> bool
 		{
-			const std::string& pchName = pProjectFilters->pProject->pBuildSystem->globalConfiguration->precompiledHeaderName;
+			const std::string& pchName = GLOBAL_CONFIG->precompiledHeaderName;
 			const size_t found = path.find_last_of("\\");
 			const std::string fileName = path.substr(found + 1, path.length() - 1);
 			return fileName == pchName + ".cpp" || fileName == pchName + ".hpp";
@@ -42,7 +44,7 @@ namespace Pollux::BuildSystem
 
 			res += "    <ClCompile Include=\"" + path + "\">\n";
 
-			if (!pProjectFilters->pProject->pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+			if (!GLOBAL_CONFIG->bUsePrecompiledHeaders)
 			{
 				res += "      <Filter>" + basePath + "</Filter>\n";
 			}
@@ -68,7 +70,7 @@ namespace Pollux::BuildSystem
 
 			res += "    <ClInclude Include=\"" + path + "\">\n";
 
-			if (!pProjectFilters->pProject->pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+			if (!GLOBAL_CONFIG->bUsePrecompiledHeaders)
 			{
 				res += "      <Filter>" + basePath + "</Filter>\n";
 			}

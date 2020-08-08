@@ -1,1 +1,1 @@
-.\Tools\EngineBuilder_alpha_0001.exe --generate-solution vs2019 --platform windows --optimization basic --type engine
+.\Tools\EngineBuilder_alpha_0002.exe --generate-solution vs2019 --platform windows --optimization basic --type engine

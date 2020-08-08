@@ -18,6 +18,6 @@ namespace Pollux::BuildSystem
 
 		virtual void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) = 0;
 
-		virtual void PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target) = 0;
+		virtual void PostConfig(BuildConfiguration& config, const BuildTarget& target) = 0;
 	};
 }

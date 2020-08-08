@@ -29,6 +29,7 @@ namespace Pollux::BuildSystem
         wholeProgramOptimization = rhs.wholeProgramOptimization;
         bLinkIncremental = rhs.bLinkIncremental;
         functionLevelLinking = rhs.functionLevelLinking;
+        linkerInputLibraries = rhs.linkerInputLibraries;
         bIntrinsicFunctions = rhs.bIntrinsicFunctions;
         bBufferSecurityCheck = rhs.bBufferSecurityCheck;
         bStringPooling = rhs.bStringPooling;
@@ -53,6 +54,7 @@ namespace Pollux::BuildSystem
         wholeProgramOptimization = BuildBooleanType::None;
         bLinkIncremental = false;
         functionLevelLinking = BuildBooleanType::None;
+        linkerInputLibraries.clear();
         bIntrinsicFunctions = false;
         bBufferSecurityCheck = false;
         bStringPooling = false;

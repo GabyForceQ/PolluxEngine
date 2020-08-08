@@ -46,6 +46,10 @@ namespace Pollux::BuildSystem
 
 		BuildBooleanType functionLevelLinking = BuildBooleanType::None;
 
+		std::vector<std::string> linkerInputLibraries;
+
+		std::vector<std::string> libraryPaths;
+
 		bool bIntrinsicFunctions = false;
 
 		bool bBufferSecurityCheck = false;

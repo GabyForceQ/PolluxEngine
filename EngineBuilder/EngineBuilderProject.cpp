@@ -29,5 +29,6 @@ namespace Pollux::EngineBuilder
         Project::ConfigureAll(config, target);
 
         config.buildOutputType = BuildOutputType::Executable;
+        config.linkerInputLibraries.push_back("Engine.lib");
     }
 }

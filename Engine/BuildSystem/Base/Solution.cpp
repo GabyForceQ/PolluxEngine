@@ -31,34 +31,45 @@ namespace Pollux::BuildSystem
         for (const type_t optimizationFlag : g_BuildOptimizationFlagArray)
         {
             const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
+            pBuildSystem->target.currentOptimization = optimization;
 
-            ConfigureWin64(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
-            ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
-            PostConfig(*pBuildSystem->globalConfiguration,
-                *pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+            if (pBuildSystem->configurationMap.contains(optimization))
+            {
+                ConfigureAll(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+                ConfigureWin64(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+                //PostConfig(*pBuildSystem->globalConfiguration,
+                //    *pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+            }
         }
 
         for (Project* pProject : pProjects)
         {
-            pProject->ConfigureAll(*pBuildSystem->globalConfiguration, pBuildSystem->target);
+            std::string pchName;
+            bool bUsePch = false;
 
             for (const type_t optimizationFlag : g_BuildOptimizationFlagArray)
             {
                 const BuildOptimization optimization = static_cast<BuildOptimization>(optimizationFlag);
+                pBuildSystem->target.currentOptimization = optimization;
 
                 if (pBuildSystem->configurationMap.contains(optimization))
                 {
+                    pProject->ConfigureAll(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
                     pProject->ConfigureWin64(*pBuildSystem->configurationMap[optimization], pBuildSystem->target);
-                    pProject->PostConfig(*pBuildSystem->globalConfiguration,
-                        *pBuildSystem->configurationMap[optimization], pBuildSystem->target);
+                    //pProject->PostConfig(*pBuildSystem->globalConfiguration,
+                    //    *pBuildSystem->configurationMap[optimization], pBuildSystem->target);
                     
                     *pProject->pBuildSystem = *pBuildSystem;
+
+                    if (pBuildSystem->configurationMap[optimization]->bUsePrecompiledHeaders)
+                    {
+                        bUsePch = true;
+                        pchName = pBuildSystem->configurationMap[optimization]->precompiledHeaderName;
+                    }
                 }
             }
 
-            const std::string& pchName = pBuildSystem->globalConfiguration->precompiledHeaderName;
-
-            if (pProject->pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+            if (bUsePch)
             {
                 pProject->pProjectFilters->headerFiles = Core::FileManager::GetFilePaths(
                     pProject->name, ".hpp", "..\\..\\..\\", { pchName + ".hpp" });
@@ -75,7 +86,7 @@ namespace Pollux::BuildSystem
 
             pProjectGenerator->Generate(pProject);
 
-            if (pProject->pBuildSystem->globalConfiguration->bUsePrecompiledHeaders)
+            if (bUsePch)
             {
                 pProject->pProjectFilters->headerFiles.push_back(pProject->name + "\\" + pchName + ".hpp");
                 pProject->pProjectFilters->sourceFiles.push_back(pProject->name + "\\" + pchName + ".cpp");
@@ -100,7 +111,7 @@ namespace Pollux::BuildSystem
     {
     }
 
-    void Solution::PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target)
+    void Solution::PostConfig(BuildConfiguration& config, const BuildTarget& target)
     {
     }
 }

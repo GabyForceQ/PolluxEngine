@@ -36,7 +36,7 @@ namespace Pollux::BuildSystem
 
 		void ConfigureAll(BuildConfiguration& config, const BuildTarget& target) override;
 
-		void PostConfig(BuildConfiguration& globalConfig, BuildConfiguration& config, const BuildTarget& target) override;
+		void PostConfig(BuildConfiguration& config, const BuildTarget& target) override;
 		
 	private:
 		const std::string path;

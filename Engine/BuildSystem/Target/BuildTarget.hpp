@@ -21,7 +21,9 @@ namespace Pollux::BuildSystem
 			BuildPlatform platform,
 			DevelopmentEnvironment developmentEnvironment) noexcept;
 
-		BuildOptimization optimization = BuildOptimization::Debug;
+		BuildOptimization optimization = BuildOptimization::None;
+
+		BuildOptimization currentOptimization = BuildOptimization::None;
 
 		BuildPlatform platform = BuildPlatform::Windows;
 
