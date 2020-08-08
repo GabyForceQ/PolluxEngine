@@ -70,14 +70,19 @@ namespace Pollux::Lang
 
     void Parser::Eat()
     {
+        SkipEndOfStatement();
         currentToken = pScanner->NextToken();
+        SkipEndOfStatement();
     }
     
     bool Parser::Eat(TokenKind tokenKind)
     {
+        SkipEndOfStatement();
+
         if (currentToken.kind == tokenKind)
         {
             currentToken = pScanner->NextToken();
+            SkipEndOfStatement();
             return true;
         }
 
@@ -98,7 +103,6 @@ namespace Pollux::Lang
         while (currentToken.kind == TokenKind::Comma)
         {
             Eat(TokenKind::Comma);
-            SkipEndOfStatement();
 
             pDeclHolders.push_back(ParseDeclHolder(bConstant));
         }
@@ -142,22 +146,27 @@ namespace Pollux::Lang
         return new ASTNodeType(currentToken);
     }
     
-    ASTNodeScope* Parser::ParsePackage()
+    ASTNodeScope* Parser::ParseUnit()
     {
-        SkipEndOfStatement();
+        if (!Eat(TokenKind::KeywordUnit))
+        {
+            std::cout << "parser error: unit expected\n";
+        }
+        else
+        {
+            Eat(TokenKind::Identifier);
+        }
 
-        ASTNodeScope* pNode = ParseScope();
+        ASTNodeScope* pNode = ParseGlobalScope();
         
-        SkipEndOfStatement();
-
         return pNode;
     }
     
-    ASTNodeScope* Parser::ParseScope()
+    ASTNodeScope* Parser::ParseFunScope()
     {
         Eat(TokenKind::OpenBrace);
 
-        std::deque<ASTNodeBase*> pStatements = ParseStatementList();
+        std::deque<ASTNodeBase*> pStatements = ParseFunStatementList();
 
         Eat(TokenKind::CloseBrace);
 
@@ -170,29 +179,40 @@ namespace Pollux::Lang
 
         return pNode;
     }
+
+    ASTNodeScope* Parser::ParseGlobalScope()
+    {
+        std::deque<ASTNodeBase*> pStatements = ParseGlobalStatementList();
+
+        ASTNodeScope* pNode = new ASTNodeScope();
+
+        for (ASTNodeBase* pStatement : pStatements)
+        {
+            pNode->InsertStatement(pStatement);
+        }
+
+        return pNode;
+    }
    
-    std::deque<ASTNodeBase*> Parser::ParseStatementList()
+    std::deque<ASTNodeBase*> Parser::ParseFunStatementList()
     {
         std::deque<ASTNodeBase*> pNodeList;
-
-        SkipEndOfStatement();
 
         if (currentToken.kind != TokenKind::CloseBrace)
         {
             if (currentToken.kind == TokenKind::OpenBrace)
             {
-                ASTNodeScope* pScope = ParseScope(); //////
-                SkipEndOfStatement();
+                ASTNodeScope* pScope = ParseFunScope(); //////
             }
 
             if (currentToken.kind != TokenKind::CloseBrace)
             {
-                ASTNodeBase* pStatement = ParseStatement();
+                ASTNodeBase* pStatement = ParseFunStatement();
                 pNodeList = { pStatement };
 
                 while (currentToken.kind != TokenKind::CloseBrace)
                 {
-                    pNodeList.push_back(ParseStatement());
+                    pNodeList.push_back(ParseFunStatement());
                 }
 
                 if (currentToken.kind == TokenKind::Identifier)
@@ -204,18 +224,31 @@ namespace Pollux::Lang
 
         return pNodeList;
     }
+
+    std::deque<ASTNodeBase*> Parser::ParseGlobalStatementList()
+    {
+        std::deque<ASTNodeBase*> pNodeList;
+
+        if (currentToken.kind != TokenKind::Eof)
+        {
+            ASTNodeBase* pStatement = ParseGlobalStatement();
+            pNodeList = { pStatement };
+
+            while ((currentToken.kind != TokenKind::Eof))
+            {
+                pNodeList.push_back(ParseGlobalStatement());
+            }
+        }
+
+        return pNodeList;
+    }
     
-    ASTNodeBase* Parser::ParseStatement()
+    ASTNodeBase* Parser::ParseFunStatement()
     {
         ASTNodeBase* pNode = nullptr;
 
         switch (currentToken.kind)
         {
-        case TokenKind::OpenBrace:
-        {
-            pNode = ParseScope();
-            break;
-        }
         case TokenKind::KeywordVar:
         {
             pNode = ParseDeclStatement(false);
@@ -242,10 +275,9 @@ namespace Pollux::Lang
             pNode = ParseIfStatement(false);
             break;
         }
-        case TokenKind::KeywordFun:
+        case TokenKind::KeywordReturn:
         {
-            Eat();
-            pNode = ParseFun();
+            //pNode = ParseReturn();
             break;
         }
         case TokenKind::KeywordComptime:
@@ -271,9 +303,56 @@ namespace Pollux::Lang
             break;
         }
         }
-
-        SkipEndOfStatement();
         
+        return pNode;
+    }
+
+    ASTNodeBase* Parser::ParseGlobalStatement()
+    {
+        ASTNodeBase* pNode = nullptr;
+
+        switch (currentToken.kind)
+        {
+        case TokenKind::KeywordVar:
+        {
+            pNode = ParseDeclStatement(false);
+            break;
+        }
+        case TokenKind::KeywordVal:
+        {
+            pNode = ParseDeclStatement(true);
+            break;
+        }
+        case TokenKind::KeywordFun:
+        {
+            Eat();
+            pNode = ParseFun();
+            break;
+        }
+        default:
+        {
+            pNode = ParseEmptyStatement();
+            break;
+        }
+        case TokenKind::KeywordComptime:
+        {
+            Eat();
+
+            switch (currentToken.kind)
+            {
+            case TokenKind::KeywordIf:
+            {
+                Eat();
+                pNode = ParseIfStatement(true);
+                break;
+            }
+            default: break;
+            }
+
+            break;
+        }
+        }
+
         return pNode;
     }
    
@@ -432,14 +511,13 @@ namespace Pollux::Lang
         ASTNodeIfStatement* pNode = new ASTNodeIfStatement();
         pNode->bComptimeEval = bComptimeEval;
         pNode->pExpression = ParseExpression();
-        pNode->pIfScope = ParseScope();
 
-        SkipEndOfStatement();
+        pNode->pIfScope = ParseFunScope(); // todo? globla or local
 
         if (Eat(TokenKind::KeywordElse))
         {
             pNode->bHasElseScope = true;
-            pNode->pElseScope = ParseScope();
+            pNode->pElseScope = ParseFunScope();
         }
 
         return pNode;
@@ -482,7 +560,7 @@ namespace Pollux::Lang
                         //	throw std::runtime_error("Expected: identifier.");
                     }
 
-                    pNode->pScope = ParseScope();
+                    pNode->pScope = ParseFunScope();
                 }
             }
         }
@@ -492,7 +570,7 @@ namespace Pollux::Lang
     
     ASTNodeBase* Parser::Parse()
     {
-        ASTNodeScope* pScope = ParsePackage();
+        ASTNodeScope* pScope = ParseUnit();
 
         if (currentToken.kind != TokenKind::Eof)
         {
@@ -516,7 +594,7 @@ namespace Pollux::Lang
     {
         while (currentToken.kind == TokenKind::Eol)
         {
-            Eat(TokenKind::Eol);
+            currentToken = pScanner->NextToken();
         }
     }
 }

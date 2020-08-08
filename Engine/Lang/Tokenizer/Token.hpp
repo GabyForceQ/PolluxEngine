@@ -12,7 +12,7 @@ namespace Pollux::Lang
 {
 	struct Token final
 	{
-		explicit Token(TokenKind tokenKind, std::string_view value) noexcept;
+		explicit Token(TokenKind kind, std::string_view value) noexcept;
 
 		Token(const Token& other) noexcept;
 

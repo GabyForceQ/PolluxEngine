@@ -28,13 +28,19 @@ namespace Pollux::Lang
 		
 		ASTNodeType* ParseType();
 		
-		ASTNodeScope* ParsePackage();
+		ASTNodeScope* ParseUnit();
 		
-		ASTNodeScope* ParseScope();
+		ASTNodeScope* ParseFunScope();
 		
-		std::deque<ASTNodeBase*> ParseStatementList();
+		ASTNodeScope* ParseGlobalScope();
+
+		std::deque<ASTNodeBase*> ParseFunStatementList();
+
+		std::deque<ASTNodeBase*> ParseGlobalStatementList();
 		
-		ASTNodeBase* ParseStatement();
+		ASTNodeBase* ParseFunStatement();
+
+		ASTNodeBase* ParseGlobalStatement();
 		
 		ASTNodeAssign* ParseAssignment();
 		

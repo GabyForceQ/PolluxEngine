@@ -146,6 +146,11 @@ namespace Pollux::Lang
 
 	void SemanticAnalyser::Visit(ASTNodeFun* pNode)
 	{
+		// todo. accept prototype
+
+		// Accept fun scope
+		pNode->pScope->Accept(this);
+
 	}
 
 	void SemanticAnalyser::Visit(ASTNodeFunParamDeclStatement* pNode)

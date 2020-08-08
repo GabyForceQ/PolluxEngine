@@ -48,8 +48,9 @@ namespace Pollux::Lang
 
 		void Visit(ASTNodeFunParamDeclStatement* pNode) override;
 
-	private:
 		SymbolTable* pSymbolTable = nullptr;
+
+	private:
 		CompilerUtils* pCompilerUtils = nullptr;
 	};
 }

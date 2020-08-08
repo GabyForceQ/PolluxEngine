@@ -10,7 +10,7 @@
 
 namespace Pollux::Lang
 {
-	Token::Token(TokenKind tokenKind, std::string_view value) noexcept
+	Token::Token(TokenKind kind, std::string_view value) noexcept
 		:
 		kind{ std::move(kind) },
 		value{ std::move(value) }
