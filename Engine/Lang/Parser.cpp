@@ -277,7 +277,6 @@ namespace Pollux::Lang
         }
         case TokenKind::KeywordIf:
         {
-            Eat();
             pNode = ParseIfStatement(false);
             break;
         }
@@ -288,13 +287,22 @@ namespace Pollux::Lang
         }
         case TokenKind::KeywordComptime:
         {
-            Eat();
+            FastEat();
 
             switch (currentToken.kind)
             {
+            case TokenKind::KeywordVar:
+            {
+                pNode = ParseDeclStatement(false);
+                break;
+            }
+            case TokenKind::KeywordVal:
+            {
+                pNode = ParseDeclStatement(true);
+                break;
+            }
             case TokenKind::KeywordIf:
             {
-                Eat();
                 pNode = ParseIfStatement(true);
                 break;
             }
@@ -331,7 +339,6 @@ namespace Pollux::Lang
         }
         case TokenKind::KeywordFun:
         {
-            Eat();
             pNode = ParseFun();
             break;
         }
@@ -342,13 +349,22 @@ namespace Pollux::Lang
         }
         case TokenKind::KeywordComptime:
         {
-            Eat();
+            FastEat();
 
             switch (currentToken.kind)
             {
+            case TokenKind::KeywordVar:
+            {
+                pNode = ParseDeclStatement(false);
+                break;
+            }
+            case TokenKind::KeywordVal:
+            {
+                pNode = ParseDeclStatement(true);
+                break;
+            }
             case TokenKind::KeywordIf:
             {
-                Eat();
                 pNode = ParseIfStatement(true);
                 break;
             }
@@ -381,7 +397,7 @@ namespace Pollux::Lang
         case TokenKind::LogicalAnd:
         case TokenKind::LogicalOr:
         {
-            Eat();
+            FastEat();
             break;
         }
         default: break;
@@ -514,16 +530,48 @@ namespace Pollux::Lang
     
     ASTNodeIfStatement* Parser::ParseIfStatement(bool bComptimeEval)
     {
+        FastEat();
+
         ASTNodeIfStatement* pNode = new ASTNodeIfStatement();
         pNode->bComptimeEval = bComptimeEval;
         pNode->pExpression = ParseExpression();
+        pNode->pIfScope = ParseScope(ScopeKindFlag::IfElse);
 
-        pNode->pIfScope = ParseScope(ScopeKindFlag::IfElse); // todo? globla or local
-
-        if (Eat(TokenKind::KeywordElse))
+        while (Eat(TokenKind::KeywordElse))
         {
-            pNode->bHasElseScope = true;
-            pNode->pElseScope = ParseScope(ScopeKindFlag::IfElse);
+            if (bComptimeEval)
+            {
+                if (currentToken.kind == TokenKind::KeywordComptime)
+                {
+                    FastEat();
+                    Eat(TokenKind::KeywordIf);
+
+                    ASTNodeExpression* pExpression = ParseExpression();
+                    ASTNodeScope* pElseIfScope = ParseScope(ScopeKindFlag::IfElse);
+                    pNode->pElseIfScopes[pElseIfScope] = pExpression;
+                }
+                else
+                {
+                    pNode->pElseScope = ParseScope(ScopeKindFlag::IfElse);
+                    break;
+                }
+            }
+            else
+            {
+                if (currentToken.kind == TokenKind::KeywordIf)
+                {
+                    FastEat();
+
+                    ASTNodeExpression* pExpression = ParseExpression();
+                    ASTNodeScope* pElseIfScope = ParseScope(ScopeKindFlag::IfElse);
+                    pNode->pElseIfScopes[pElseIfScope] = pExpression;
+                }
+                else
+                {
+                    pNode->pElseScope = ParseScope(ScopeKindFlag::IfElse);
+                    break;
+                }
+            }
         }
 
         return pNode;
@@ -531,6 +579,8 @@ namespace Pollux::Lang
     
     ASTNodeFun* Parser::ParseFun()
     {
+        FastEat();
+
         ASTNodeFun* pNode = new ASTNodeFun();
         pNode->name = currentToken.value;
 

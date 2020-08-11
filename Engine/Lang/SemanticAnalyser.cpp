@@ -134,7 +134,12 @@ namespace Pollux::Lang
 		pNode->pExpression->Accept(this);
 		pNode->pIfScope->Accept(this);
 		
-		if (pNode->bHasElseScope)
+		for (const auto& e : pNode->pElseIfScopes)
+		{
+			e.first->Accept(this);
+		}
+
+		if (pNode->pElseScope != nullptr)
 		{
 			pNode->pElseScope->Accept(this);
 		}

@@ -17,13 +17,14 @@ namespace Pollux::Lang
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
+	private:
 		ASTNodeExpression* pExpression = nullptr;
 
 		ASTNodeScope* pIfScope = nullptr;
+
+		std::map<ASTNodeScope*, ASTNodeExpression*> pElseIfScopes;
 		
 		ASTNodeScope* pElseScope = nullptr;
-		
-		bool bHasElseScope = false;
 		
 		bool bComptimeEval = false;
 

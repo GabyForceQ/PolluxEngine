@@ -43,7 +43,11 @@ namespace Pollux::Lang
 		for (ASTNodeDeclHolder* pDeclHolder : pNode->GetDeclHolders())
 		{
 			pDeclHolder->Accept(this);
-			statementCode += generatedCode + ";\n";
+
+			if (!pNode->bComptimeEval)
+			{
+				statementCode += generatedCode + ";\n";
+			}
 		}
 
 		generatedCode = statementCode;
@@ -340,7 +344,7 @@ namespace Pollux::Lang
 		generatedCode = "std::cout<<" + generatedCode;
 	}
 
-	void CXXCodegen::Visit(ASTNodeIfStatement* pNode)
+	void CXXCodegen::Visit(ASTNodeIfStatement* pNode) // todo. for else-ifs too
 	{
 		pNode->pExpression->Accept(this);
 		const std::string exprCode = generatedCode;
@@ -359,20 +363,53 @@ namespace Pollux::Lang
 			{
 				tempCode += ifScopeCode;
 			}
-			else if (pNode->bHasElseScope)
+			else
 			{
-				pNode->pElseScope->Accept(this);
-				tempCode += generatedCode;
+				bool trueEval = false;
+
+				for (const auto& e : pNode->pElseIfScopes)
+				{
+					e.second->Accept(this);
+					const std::string elseIfExprCode = generatedCode;
+
+					if (pCompilerUtils->StringToBoolean(elseIfExprCode))
+					{
+						e.first->Accept(this);
+						const std::string elseIfScopeCode = generatedCode;
+
+						tempCode += elseIfScopeCode;
+
+						trueEval = true;
+						break;
+					}
+				}
+
+				if (!trueEval && pNode->pElseScope != nullptr)
+				{
+					pNode->pElseScope->Accept(this);
+					tempCode += generatedCode;
+				}
 			}
 		}
 		else // genereate runtime 'if'
 		{
-			tempCode = "if(" + exprCode + "){\n" + ifScopeCode + "}";
+			tempCode = "if (" + exprCode + ")\n{\n\t" + ifScopeCode + "}\n";
 
-			if (pNode->bHasElseScope)
+			for (const auto& e : pNode->pElseIfScopes)
+			{
+				e.second->Accept(this);
+				const std::string elseIfExprCode = generatedCode;
+
+				e.first->Accept(this);
+				const std::string elseIfScopeCode = generatedCode;
+
+				tempCode += "else if (" + elseIfExprCode + ")\n{\n\t" + elseIfScopeCode + "}\n";
+			}
+
+			if (pNode->pElseScope != nullptr)
 			{
 				pNode->pElseScope->Accept(this);
-				tempCode += "else{\n" + generatedCode + "}";
+				tempCode += "else\n{\n\t" + generatedCode + "}";
 			}
 		}
 
