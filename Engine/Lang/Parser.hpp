@@ -53,7 +53,7 @@ namespace Pollux::Lang
 		
 		ASTNodeEmptyStatement* ParseEmptyStatement();
 		
-		ASTNodeLog* ParseLog();
+		ASTNodeLog* ParseLogStatement(bool bComptimeEval);
 		
 		ASTNodeIfStatement* ParseIfStatement(bool bComptimeEval);
 		

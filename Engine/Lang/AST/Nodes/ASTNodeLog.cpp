@@ -10,10 +10,9 @@
 
 namespace Pollux::Lang
 {
-	ASTNodeLog::ASTNodeLog(ASTNodeExpression* pExression) noexcept
+	ASTNodeLog::ASTNodeLog() noexcept
 		:
-		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } },
-		pExression{ pExression }
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } }
 	{
 		RegisterType("ASTNodeLog", +ASTNodeKind::ASTNodeLog);
 	}

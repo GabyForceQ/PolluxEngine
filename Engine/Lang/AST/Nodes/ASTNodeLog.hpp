@@ -13,11 +13,14 @@ namespace Pollux::Lang
 	class ASTNodeLog final : public ASTNodeBase
 	{
 	public:
-		explicit ASTNodeLog(ASTNodeExpression* pExression) noexcept;
+		explicit ASTNodeLog() noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
+	private:
 		ASTNodeExpression* pExression = nullptr;
+
+		bool bComptimeEval = false;
 
 		AST_FRIENDS_BODY
 	};

@@ -272,7 +272,7 @@ namespace Pollux::Lang
         }
         case TokenKind::KeywordLog:
         {
-            pNode = ParseLog();
+            pNode = ParseLogStatement(false);
             break;
         }
         case TokenKind::KeywordIf:
@@ -291,9 +291,14 @@ namespace Pollux::Lang
 
             switch (currentToken.kind)
             {
+            case TokenKind::KeywordLog:
+            {
+                pNode = ParseLogStatement(true);
+                break;
+            }
             case TokenKind::KeywordVar:
             {
-                pNode = ParseDeclStatement(false);
+                pNode = ParseDeclStatement(true);
                 break;
             }
             case TokenKind::KeywordVal:
@@ -353,9 +358,14 @@ namespace Pollux::Lang
 
             switch (currentToken.kind)
             {
+            case TokenKind::KeywordLog:
+            {
+                pNode = ParseLogStatement(true);
+                break;
+            }
             case TokenKind::KeywordVar:
             {
-                pNode = ParseDeclStatement(false);
+                pNode = ParseDeclStatement(true);
                 break;
             }
             case TokenKind::KeywordVal:
@@ -522,10 +532,15 @@ namespace Pollux::Lang
         return new ASTNodeEmptyStatement();
     }
     
-    ASTNodeLog* Parser::ParseLog()
+    ASTNodeLog* Parser::ParseLogStatement(bool bComptimeEval)
     {
-        Eat(currentToken.kind);
-        return new ASTNodeLog(ParseExpression());
+        FastEat();
+
+        ASTNodeLog* pNode = new ASTNodeLog();
+        pNode->pExression = ParseExpression();
+        pNode->bComptimeEval = bComptimeEval;
+
+        return pNode;
     }
     
     ASTNodeIfStatement* Parser::ParseIfStatement(bool bComptimeEval)

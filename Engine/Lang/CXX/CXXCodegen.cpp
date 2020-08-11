@@ -341,7 +341,16 @@ namespace Pollux::Lang
 	void CXXCodegen::Visit(ASTNodeLog* pNode)
 	{
 		pNode->pExression->Accept(this);
-		generatedCode = "std::cout<<" + generatedCode;
+
+		if (pNode->bComptimeEval)
+		{
+			std::cout << generatedCode << '\n';
+			generatedCode = "";
+		}
+		else
+		{
+			generatedCode = "std::cout << " + generatedCode + " << '\\n'";
+		}
 	}
 
 	void CXXCodegen::Visit(ASTNodeIfStatement* pNode) // todo. for else-ifs too
