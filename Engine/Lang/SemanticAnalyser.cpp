@@ -156,4 +156,14 @@ namespace Pollux::Lang
 	void SemanticAnalyser::Visit(ASTNodeFunParamDeclStatement* pNode)
 	{
 	}
+
+	void SemanticAnalyser::Visit(ASTNodeReturn* pNode)
+	{
+		pNode->pExpression->Accept(this);
+
+		//if (pNode->pReturnType->value != pNode->pFunction->pReturnType->value)
+		//{
+		//	std::cout << "Semantic Error: --------.\n\n";
+		//}
+	}
 }

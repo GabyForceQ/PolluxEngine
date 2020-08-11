@@ -343,10 +343,10 @@ namespace Pollux::Lang
 	void CXXCodegen::Visit(ASTNodeIfStatement* pNode)
 	{
 		pNode->pExpression->Accept(this);
-		std::string exprCode = generatedCode;
+		const std::string exprCode = generatedCode;
 
 		pNode->pIfScope->Accept(this);
-		std::string ifScopeCode = generatedCode;
+		const std::string ifScopeCode = generatedCode;
 		std::string tempCode = "";
 
 		if (pNode->bComptimeEval) // generate 'comptime if'
@@ -386,12 +386,19 @@ namespace Pollux::Lang
 	void CXXCodegen::Visit(ASTNodeFun* pNode)
 	{
 		pNode->pScope->Accept(this);
-		const std::string returnType = pCXXCompilerUtils->ToPrimitive(pNode->pReturType->token.value);
+		const std::string returnType = pCXXCompilerUtils->ToPrimitive(pNode->pReturnType->token.value);
 		generatedCode = "\n" + returnType + " " + pNode->name + "()\n{\n" + generatedCode + "}";
 	}
 
 	void CXXCodegen::Visit(ASTNodeFunParamDeclStatement* pNode)
 	{
+	}
+
+	void CXXCodegen::Visit(ASTNodeReturn* pNode)
+	{
+		pNode->pExpression->Accept(this);
+		const std::string exprCode = generatedCode;
+		generatedCode = "return " + exprCode + ";";
 	}
 
 	const std::string& CXXCodegen::GetGeneratedCode() const noexcept

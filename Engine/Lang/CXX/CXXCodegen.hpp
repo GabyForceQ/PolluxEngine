@@ -49,6 +49,8 @@ namespace Pollux::Lang
 
 		void Visit(ASTNodeFunParamDeclStatement* pNode) override;
 
+		void Visit(ASTNodeReturn* pNode) override;
+
 		const std::string& GetGeneratedCode() const noexcept;
 
 	private:

@@ -16,6 +16,7 @@ namespace Pollux::Lang
 	const char* g_ASTNodeKind_ASTNodeEmptyStatement = "ASTNodeKind::ASTNodeEmptyStatement";
 	const char* g_ASTNodeKind_ASTNodeExpression = "ASTNodeKind::ASTNodeExpression";
 	const char* g_ASTNodeKind_ASTNodeFun = "ASTNodeKind::ASTNodeFun";
+	const char* g_ASTNodeKind_ASTNodeReturn = "ASTNodeKind::ASTNodeReturn";
 	const char* g_ASTNodeKind_ASTNodeFunParamDeclStatement = "ASTNodeKind::ASTNodeFunParamDeclStatement";
 	const char* g_ASTNodeKind_ASTNodeScope = "ASTNodeKind::ASTNodeScope";
 	const char* g_ASTNodeKind_ASTNodeType = "ASTNodeKind::ASTNodeType";
@@ -35,6 +36,7 @@ namespace Pollux::Lang
 		{ g_ASTNodeKind_ASTNodeEmptyStatement, ASTNodeKind::ASTNodeEmptyStatement },
 		{ g_ASTNodeKind_ASTNodeExpression, ASTNodeKind::ASTNodeExpression },
 		{ g_ASTNodeKind_ASTNodeFun, ASTNodeKind::ASTNodeFun },
+		{ g_ASTNodeKind_ASTNodeReturn, ASTNodeKind::ASTNodeReturn },
 		{ g_ASTNodeKind_ASTNodeFunParamDeclStatement, ASTNodeKind::ASTNodeFunParamDeclStatement },
 		{ g_ASTNodeKind_ASTNodeScope, ASTNodeKind::ASTNodeScope },
 		{ g_ASTNodeKind_ASTNodeType, ASTNodeKind::ASTNodeType },
@@ -67,6 +69,7 @@ namespace Pollux::Lang
 		case ASTNodeKind::ASTNodeEmptyStatement: return g_ASTNodeKind_ASTNodeEmptyStatement;
 		case ASTNodeKind::ASTNodeExpression: return g_ASTNodeKind_ASTNodeExpression;
 		case ASTNodeKind::ASTNodeFun: return g_ASTNodeKind_ASTNodeFun;
+		case ASTNodeKind::ASTNodeReturn: return g_ASTNodeKind_ASTNodeReturn;
 		case ASTNodeKind::ASTNodeFunParamDeclStatement: return g_ASTNodeKind_ASTNodeFunParamDeclStatement;
 		case ASTNodeKind::ASTNodeScope: return g_ASTNodeKind_ASTNodeScope;
 		case ASTNodeKind::ASTNodeType: return g_ASTNodeKind_ASTNodeType;

@@ -109,4 +109,8 @@ namespace Pollux::Lang
 	void SymbolTableBuilder::Visit(ASTNodeFunParamDeclStatement* pNode)
 	{
 	}
+
+	void SymbolTableBuilder::Visit(ASTNodeReturn* pNode)
+	{
+	}
 }

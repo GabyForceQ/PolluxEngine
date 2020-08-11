@@ -68,6 +68,11 @@ namespace Pollux::Lang
         });
     }
 
+    void Parser::FastEat()
+    {
+        currentToken = pScanner->NextToken();
+    }
+
     void Parser::Eat()
     {
         SkipEndOfStatement();
@@ -278,7 +283,7 @@ namespace Pollux::Lang
         }
         case TokenKind::KeywordReturn:
         {
-            //pNode = ParseReturn();
+            pNode = ParseReturnStatement();
             break;
         }
         case TokenKind::KeywordComptime:
@@ -551,9 +556,9 @@ namespace Pollux::Lang
                 {
                     if (currentToken.kind == TokenKind::Colon)
                     {
-                        Eat(currentToken.kind);
+                        FastEat(); // eat ':'
 
-                        pNode->pReturType = ParseType();
+                        pNode->pReturnType = ParseType();
                         
                         Eat(currentToken.kind);
                         
@@ -565,6 +570,18 @@ namespace Pollux::Lang
                 }
             }
         }
+
+        return pNode;
+    }
+
+    ASTNodeReturn* Parser::ParseReturnStatement()
+    {
+        ASTNodeReturn* pNode = new ASTNodeReturn();
+        FastEat(); // eat 'return' keyword
+
+        pNode->pExpression = ParseExpression();
+        //pNode->pReturnType = pNode->pExpression->pBinaryOpType; //?
+        //pNode->pFunction = pContext->pFunction;
 
         return pNode;
     }

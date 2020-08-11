@@ -19,6 +19,8 @@ namespace Pollux::Lang
 	public:
 		explicit Parser(Lexer* pScanner) noexcept;
 
+		void FastEat();
+
 		void Eat();
 
 		bool Eat(TokenKind tokenKind);
@@ -57,6 +59,8 @@ namespace Pollux::Lang
 		
 		ASTNodeFun* ParseFun();
 		
+		ASTNodeReturn* ParseReturnStatement();
+
 		ASTNodeBase* Parse();
 
 		const Token& GetCurrentToken() const noexcept;

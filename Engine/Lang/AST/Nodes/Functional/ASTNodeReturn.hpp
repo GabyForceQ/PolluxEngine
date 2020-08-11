@@ -10,20 +10,19 @@
 
 namespace Pollux::Lang
 {
-	class ASTNodeFun final : public ASTNodeBase
+	class ASTNodeReturn final : public ASTNodeBase
 	{
 	public:
-		ASTNodeFun() noexcept;
+		ASTNodeReturn() noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
-		std::string name;
-
-		ASTNodeFunParamDeclStatement* pParams = nullptr;
-
+	private:
 		ASTNodeType* pReturnType = nullptr;
 
-		ASTNodeScope* pScope = nullptr;
+		ASTNodeExpression* pExpression = nullptr;
+
+		ASTNodeFun* pFunction = nullptr;
 
 		AST_FRIENDS_BODY
 	};

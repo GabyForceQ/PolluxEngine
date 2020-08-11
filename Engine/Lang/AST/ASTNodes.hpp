@@ -18,5 +18,6 @@
 #include "Nodes/Expression/ASTNodeExpression.hpp"
 #include "Nodes/Functional/ASTNodeFun.hpp"
 #include "Nodes/Functional/ASTNodeFunParamDeclStatement.hpp"
+#include "Nodes/Functional/ASTNodeReturn.hpp"
 #include "Nodes/Symbol/ASTNodeTypeSymbol.hpp"
 #include "Nodes/Symbol/ASTNodeVarSymbol.hpp"
