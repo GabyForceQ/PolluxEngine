@@ -10,12 +10,15 @@ namespace Pollux::Lang
 {
 	enum class ExpressionKind
 	{
+		Unit,
 		NumberLiteral,
 		StringLiteral,
 		DynamicHolder,
 		Unary,
 		Binary
 	};
+
+	extern const char* g_pExpressionKind_Unit;
 
 	extern const char* g_pExpressionKind_NumberLiteral;
 

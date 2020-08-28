@@ -39,6 +39,12 @@ namespace Pollux::Lang
 		return *this;
 	}
 
+	Token Token::Empty()
+	{
+		static Token token{ TokenKind::Undefined, g_pEmptyString };
+		return token;
+	}
+
 	std::string Token::ToString() const
 	{
 		return "Token({ " + Lang::ToString(kind) + " }, { " + value + " })\n";

@@ -81,10 +81,20 @@ namespace Pollux::Lang
 	const std::string g_pTokenKind_KeywordClass = "TokenKind::KeywordClass";
 	const std::string g_pTokenKind_KeywordStruct = "TokenKind::KeywordStruct";
 	const std::string g_pTokenKind_KeywordEnum = "TokenKind::KeywordEnum";
+	const std::string g_pTokenKind_KeywordRuntime = "TokenKind::KeywordRuntime";
 	const std::string g_pTokenKind_KeywordComptime = "TokenKind::KeywordComptime";
-	const std::string g_pTokenKind_KeywordAlways = "TokenKind::KeywordAlways";
+	const std::string g_pTokenKind_KeywordAnytime = "TokenKind::KeywordAnytime";
 	const std::string g_pTokenKind_KeywordUnit = "TokenKind::KeywordUnit";
 	const std::string g_pTokenKind_KeywordUse = "TokenKind::KeywordUse";
+	const std::string g_pTokenKind_KeywordPublic = "TokenKind::KeywordPublic";
+	const std::string g_pTokenKind_KeywordPrivate = "TokenKind::KeywordPrivate";
+	const std::string g_pTokenKind_KeywordProtected = "TokenKind::KeywordProtected";
+	const std::string g_pTokenKind_KeywordPackage = "TokenKind::KeywordPackage";
+	const std::string g_pTokenKind_KeywordInternal = "TokenKind::KeywordInternal";
+	const std::string g_pTokenKind_KeywordOpen = "TokenKind::KeywordOpen";
+	const std::string g_pTokenKind_KeywordGet = "TokenKind::KeywordGet";
+	const std::string g_pTokenKind_KeywordSet = "TokenKind::KeywordSet";
+	const std::string g_pTokenKind_KeywordField = "TokenKind::KeywordField";
 
 	const std::map<std::string, TokenKind> g_TokenKindMap
 	{
@@ -159,10 +169,19 @@ namespace Pollux::Lang
 		{ g_pTokenKind_KeywordClass, TokenKind::KeywordClass },
 		{ g_pTokenKind_KeywordStruct, TokenKind::KeywordStruct },
 		{ g_pTokenKind_KeywordEnum, TokenKind::KeywordEnum },
+		{ g_pTokenKind_KeywordRuntime, TokenKind::KeywordRuntime },
 		{ g_pTokenKind_KeywordComptime, TokenKind::KeywordComptime },
-		{ g_pTokenKind_KeywordAlways, TokenKind::KeywordAlways },
-		{ g_pTokenKind_KeywordUnit, TokenKind::KeywordUnit },
-		{ g_pTokenKind_KeywordUse, TokenKind::KeywordUse }
+		{ g_pTokenKind_KeywordAnytime, TokenKind::KeywordAnytime },
+		{ g_pTokenKind_KeywordUse, TokenKind::KeywordUse },
+		{ g_pTokenKind_KeywordPublic, TokenKind::KeywordPublic },
+		{ g_pTokenKind_KeywordPrivate, TokenKind::KeywordPrivate },
+		{ g_pTokenKind_KeywordProtected, TokenKind::KeywordProtected },
+		{ g_pTokenKind_KeywordPackage, TokenKind::KeywordPackage },
+		{ g_pTokenKind_KeywordInternal, TokenKind::KeywordInternal },
+		{ g_pTokenKind_KeywordOpen, TokenKind::KeywordOpen },
+		{ g_pTokenKind_KeywordGet, TokenKind::KeywordGet },
+		{ g_pTokenKind_KeywordSet, TokenKind::KeywordSet },
+		{ g_pTokenKind_KeywordField, TokenKind::KeywordField }
 	};
 
 	const std::map<std::string, TokenKind> g_TokenKindKeywordMap
@@ -181,10 +200,19 @@ namespace Pollux::Lang
 		{ "class", TokenKind::KeywordClass },
 		{ "struct", TokenKind::KeywordStruct },
 		{ "enum", TokenKind::KeywordEnum },
+		{ "runtime", TokenKind::KeywordRuntime },
 		{ "comptime", TokenKind::KeywordComptime },
-		{ "always", TokenKind::KeywordAlways },
-		{ "unit", TokenKind::KeywordUnit },
-		{ "use", TokenKind::KeywordUse }
+		{ "anytime", TokenKind::KeywordAnytime },
+		{ "use", TokenKind::KeywordUse },
+		{ "public", TokenKind::KeywordPublic },
+		{ "private", TokenKind::KeywordPrivate },
+		{ "protected", TokenKind::KeywordProtected },
+		{ "package", TokenKind::KeywordPackage },
+		{ "internal", TokenKind::KeywordInternal },
+		{ "open", TokenKind::KeywordOpen },
+		{ "get", TokenKind::KeywordGet },
+		{ "set", TokenKind::KeywordSet },
+		{ "field", TokenKind::KeywordField }
 	};
 
 	TokenKind TokenKindToEnum(const std::string& tokenKind)
@@ -272,10 +300,19 @@ namespace Pollux::Lang
 		case TokenKind::KeywordClass: return g_pTokenKind_KeywordClass;
 		case TokenKind::KeywordStruct: return g_pTokenKind_KeywordStruct;
 		case TokenKind::KeywordEnum: return g_pTokenKind_KeywordEnum;
+		case TokenKind::KeywordRuntime: return g_pTokenKind_KeywordRuntime;
 		case TokenKind::KeywordComptime: return g_pTokenKind_KeywordComptime;
-		case TokenKind::KeywordAlways: return g_pTokenKind_KeywordAlways;
-		case TokenKind::KeywordUnit: return g_pTokenKind_KeywordUnit;
+		case TokenKind::KeywordAnytime: return g_pTokenKind_KeywordAnytime;
 		case TokenKind::KeywordUse: return g_pTokenKind_KeywordUse;
+		case TokenKind::KeywordPublic: return g_pTokenKind_KeywordPublic;
+		case TokenKind::KeywordPrivate: return g_pTokenKind_KeywordPrivate;
+		case TokenKind::KeywordProtected: return g_pTokenKind_KeywordProtected;
+		case TokenKind::KeywordPackage: return g_pTokenKind_KeywordPackage;
+		case TokenKind::KeywordInternal: return g_pTokenKind_KeywordInternal;
+		case TokenKind::KeywordOpen: return g_pTokenKind_KeywordOpen;
+		case TokenKind::KeywordGet: return g_pTokenKind_KeywordGet;
+		case TokenKind::KeywordSet: return g_pTokenKind_KeywordSet;
+		case TokenKind::KeywordField: return g_pTokenKind_KeywordField;
 		}
 
 		return g_pEmptyString;

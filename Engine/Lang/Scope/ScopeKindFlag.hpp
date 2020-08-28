@@ -12,7 +12,8 @@ namespace Pollux::Lang
 	{
 		Global = 0x0000,
 		Fun = 0x0001,
-		IfElse = 0x0002
+		IfElse = 0x0002,
+		Struct = 0x0004
 	};
 
 	std::underlying_type_t<ScopeKindFlag> operator+(ScopeKindFlag self);

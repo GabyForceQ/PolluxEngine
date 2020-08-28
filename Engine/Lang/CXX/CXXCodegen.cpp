@@ -90,6 +90,11 @@ namespace Pollux::Lang
 	{
 		switch (pNode->kind)
 		{
+		case ExpressionKind::Unit:
+		{
+			generatedCode = pNode->token.value + "()";
+			break;
+		}
 		case ExpressionKind::NumberLiteral:
 		case ExpressionKind::StringLiteral:
 		{

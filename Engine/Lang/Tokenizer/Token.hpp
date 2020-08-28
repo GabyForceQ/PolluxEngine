@@ -20,6 +20,8 @@ namespace Pollux::Lang
 
 		Token& operator=(const Token& rhs) noexcept;
 
+		static Token Empty();
+
 		std::string ToString() const;
 
 		bool IsKeyword() const noexcept;

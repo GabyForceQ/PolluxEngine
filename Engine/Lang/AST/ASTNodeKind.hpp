@@ -26,7 +26,8 @@ namespace Pollux::Lang
 		ASTNodeVarSymbol,
 		ASTNodeDeclHolder,
 		ASTNodeDeclStatement,
-		ASTNodeIfStatement
+		ASTNodeIfStatement,
+		ASTNodeContainerDecl
 	};
 
 	MAKE_ENUM_CONVERTIBLE_TO(ASTNodeKind, type_t)

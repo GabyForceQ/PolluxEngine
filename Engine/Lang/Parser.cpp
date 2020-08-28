@@ -7,6 +7,7 @@
 #include "Engine/enginepch.hpp"
 
 #include "Parser.hpp"
+#include "ProtoParser.hpp"
 #include "Tokenizer/Lexer.hpp"
 #include "AST/ASTNodes.hpp"
 
@@ -15,143 +16,243 @@ namespace Pollux::Lang
     Parser::Parser(Lexer* pScanner) noexcept
         :
         pScanner{ pScanner },
-        currentToken{ pScanner->NextToken() }
+        m_pContext{ new ParseContext() }
     {
-        // Priority 0: ** //
-        binopPrecedence.push_back([&]() -> bool
+        // Lex the unit file
         {
-            return currentToken.kind == TokenKind::OperatorPow ||
-                currentToken.kind == TokenKind::OperatorRoot;
+            size_t i = 0_sz;
+
+            while (true)
+            {
+                Token token = pScanner->NextToken();
+
+                if (token.kind == TokenKind::Eof)
+                {
+                    break; // finish when end of file is reached
+                }
+
+                if (i != 0_sz && token.kind == TokenKind::Eol && token.kind == m_pContext->m_Tokens[i - 1].kind)
+                {
+                    continue; // skip successive end of lines
+                }
+                else
+                {
+                    m_pContext->m_Tokens.push_back(token);
+                }
+
+                i++;
+            }
+
+            m_pContext->m_TokenCount = m_pContext->m_Tokens.size();
+        }
+
+        // Priority 0: ** //
+        /*binopPrecedence.push_back([&]() -> bool
+        {
+            return m_Context.m_CurrentToken.kind == TokenKind::OperatorPow ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorRoot;
         });
 
         // Priority 1: * / %
         binopPrecedence.push_back([&]() -> bool
         {
-            return currentToken.kind == TokenKind::OperatorMul ||
-                currentToken.kind == TokenKind::OperatorDiv ||
-                currentToken.kind == TokenKind::OperatorMod;
+            return m_Context.m_CurrentToken.kind == TokenKind::OperatorMul ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorDiv ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorMod;
         });
 
         // Priority 2: + -
         binopPrecedence.push_back([&]() -> bool
         {
-            return currentToken.kind == TokenKind::OperatorAdd ||
-                currentToken.kind == TokenKind::OperatorSub;
+            return m_Context.m_CurrentToken.kind == TokenKind::OperatorAdd ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorSub;
         });
 
         // Priority 3: < <= > >=
         binopPrecedence.push_back([&]() -> bool
         {
-            return currentToken.kind == TokenKind::OperatorLe ||
-                currentToken.kind == TokenKind::OperatorLt ||
-                currentToken.kind == TokenKind::OperatorGe ||
-                currentToken.kind == TokenKind::OperatorGt;
+            return m_Context.m_CurrentToken.kind == TokenKind::OperatorLe ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorLt ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorGe ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorGt;
         });
 
         // Priority 4: == !=
         binopPrecedence.push_back([&]() -> bool
         {
-            return currentToken.kind == TokenKind::OperatorEq ||
-                currentToken.kind == TokenKind::OperatorNe;
+            return m_Context.m_CurrentToken.kind == TokenKind::OperatorEq ||
+                m_Context.m_CurrentToken.kind == TokenKind::OperatorNe;
         });
 
         // Priority 5: &&
         binopPrecedence.push_back([&]() -> bool
         {
-            return currentToken.kind == TokenKind::LogicalAnd;
+            return m_Context.m_CurrentToken.kind == TokenKind::LogicalAnd;
         });
 
         // Priority 6: ||
         binopPrecedence.push_back([&]() -> bool
         {
-            return currentToken.kind == TokenKind::LogicalOr;
-        });
+            return m_Context.m_CurrentToken.kind == TokenKind::LogicalOr;
+        });*/
     }
 
-    void Parser::FastEat()
+    ASTNodeBase* Parser::Parse()
     {
-        currentToken = pScanner->NextToken();
+        ASTNodeScope* pScope = ParseUnit();
+
+        //if (pToken->kind != TokenKind::Eof)
+        //{
+        //    throw std::runtime_error("NOT EOF");
+        //}
+
+        return pScope;
     }
 
-    void Parser::Eat()
+    ASTNodeScope* Parser::ParseUnit()
     {
-        SkipEndOfStatement();
-        currentToken = pScanner->NextToken();
-        SkipEndOfStatement();
-    }
-    
-    bool Parser::Eat(TokenKind tokenKind)
-    {
-        SkipEndOfStatement();
+        Token* pToken = PeekToken();
 
-        if (currentToken.kind == tokenKind)
+
+        // todo. check package name
+        pToken = EatToken();
+        pToken = EatToken();
+
+
+        m_pUnitSymbolTable = (new PxSymbolParser(this))->ParseScopeMembers();
+
+        if (m_pContext->m_CurrentTokenIndex != m_pContext->m_Tokens.size() - 1)
         {
-            currentToken = pScanner->NextToken();
-            SkipEndOfStatement();
-            return true;
+            //InvalidTokenError(PeekToken());
         }
 
-        return false;
+        ASTNodeScope* pNode = ParseScope();
+        //pNode-
+
+        return pNode;
     }
-    
-    ASTNodeDeclStatement* Parser::ParseDeclStatement(bool bConstant)
+
+    std::deque<ASTNodeBase*> Parser::ParseScopeStatements()
     {
-        Eat(currentToken.kind);
+        std::deque<ASTNodeBase*> pNodeList;
+
+        //if (m_pContext->m_CurrentToken.kind != TokenKind::Eof)
+        //{
+        //    ASTNodeBase* pStatement = ParseGlobalStatement(pContext);
+        //    pNodeList = { pStatement };
+        //
+        //    while ((pContext->m_CurrentToken.kind != TokenKind::Eof))
+        //    {
+        //        pNodeList.push_back(ParseGlobalStatement(pContext));
+        //    }
+        //}
+
+        return pNodeList;
+    }
+
+    ASTNodeScope* Parser::ParseScope()
+    {
+        ASTNodeScope* pNode = new ASTNodeScope();
+
+        switch (m_pContext->m_Scope.m_Kind)
+        {
+        case PxScopeKind::Global:
+        {
+            break;
+        }
+        case PxScopeKind::Fun:
+        {
+            break;
+        }
+        case PxScopeKind::Struct:
+        {
+            break;
+        }
+        default: break;
+        }
+
+        return pNode;
+    }
+
+    //void Parser::Eat()
+    //{
+    //    SkipEndOfStatement();
+    //    m_Context.m_CurrentToken = m_Context.m_Tokens[++m_Context.m_TokenIndex];
+    //    SkipEndOfStatement();
+    //}
+    //
+    //bool Parser::Eat(TokenKind tokenKind)
+    //{
+    //    SkipEndOfStatement();
+    //
+    //    if (m_Context.m_CurrentToken.kind == tokenKind)
+    //    {
+    //        m_Context.m_CurrentToken = m_Context.m_Tokens[++m_Context.m_TokenIndex];
+    //        SkipEndOfStatement();
+    //        return true;
+    //    }
+    //
+    //    return false;
+    //}
+    
+    /*ASTNodeDeclStatement* Parser::ParseDeclStatement(const ParseContext* pContext)
+    {
+        Eat(m_Context.m_CurrentToken.kind);
 
         std::deque pDeclHolders =
         {
-            ParseDeclHolder(bConstant)
+            ParseDeclHolder(pContext)
         };
 
-        Eat(TokenKind::Identifier);
-
-        while (currentToken.kind == TokenKind::Comma)
+        while (m_Context.m_CurrentToken.kind == TokenKind::Comma)
         {
             Eat(TokenKind::Comma);
 
-            pDeclHolders.push_back(ParseDeclHolder(bConstant));
+            pDeclHolders.push_back(ParseDeclHolder(pContext));
         }
 
-        return new ASTNodeDeclStatement(pDeclHolders, bConstant);
+        return new ASTNodeDeclStatement(pDeclHolders, pContext->m_bConstant);
     }
     
-    ASTNodeDeclHolder* Parser::ParseDeclHolder(bool bConstant)
+    ASTNodeDeclHolder* Parser::ParseDeclHolder(const ParseContext* pContext)
     {
         auto pNode = new ASTNodeDeclHolder();
-        pNode->bComptimeEval = bConstant;
+        pNode->bConstant = pContext->m_bConstant;
+        pNode->bComptimeEval = pContext->m_bComptimeEval;
 
-        Token tok_id = currentToken;
+        Token tok_id = pContext->m_CurrentToken;
         Eat(TokenKind::Identifier);
 
-        if (currentToken.kind == TokenKind::Colon)
+        if (pContext->m_CurrentToken.kind == TokenKind::Colon)
         {
-            Eat(currentToken.kind);
+            Eat(pContext->m_CurrentToken.kind);
 
             pNode->bAutoDeduction = false;
-            pNode->pType = ParseType();
+            pNode->pType = ParseType(pContext);
         }
 
-        pNode->pAssignment = new ASTNodeAssign(tok_id);
+        pNode->pAssignment = new ASTNodeAssign();
         pNode->pAssignment->pHolder = new ASTNodeVar(tok_id);
+        pNode->pAssignment->token = tok_id;
         
         Eat(TokenKind::Identifier);
         Eat(TokenKind::OperatorAssign);
         
-        pNode->pAssignment->pExpression = ParseExpression();
+        pNode->pAssignment->pExpression = ParseExpression(pContext);
         return pNode;
     }
     
-    ASTNodeType* Parser::ParseType()
+    ASTNodeType* Parser::ParseType(const ParseContext* pContext)
     {
-        if (currentToken.kind != TokenKind::Identifier)
+        if (pContext->m_CurrentToken.kind != TokenKind::Identifier)
         {
             // todo. error
         }
 
-        return new ASTNodeType(currentToken);
+        return new ASTNodeType(pContext->m_CurrentToken);
     }
     
-    ASTNodeScope* Parser::ParseUnit()
+    ASTNodeScope* Parser::ParseUnit(const ParseContext* pContext)
     {
         if (!Eat(TokenKind::KeywordUnit))
         {
@@ -162,21 +263,21 @@ namespace Pollux::Lang
             Eat(TokenKind::Identifier);
         }
 
-        ASTNodeScope* pNode = ParseGlobalScope();
+        ASTNodeScope* pNode = ParseGlobalScope(pContext);
         
         return pNode;
     }
     
-    ASTNodeScope* Parser::ParseScope(const ScopeKindFlag scopeKindFlag)
+    ASTNodeScope* Parser::ParseScope(const ParseContext* pContext)
     {
         Eat(TokenKind::OpenBrace);
 
-        std::deque<ASTNodeBase*> pStatements = ParseFunStatementList();
+        std::deque<ASTNodeBase*> pStatements = ParseFunStatementList(pContext);
 
         Eat(TokenKind::CloseBrace);
 
         ASTNodeScope* pNode = new ASTNodeScope();
-        pNode->kindFlag |= scopeKindFlag;
+        pNode->kindFlag |= pContext->m_ScopeKindFlag;
 
         for (ASTNodeBase* pStatement : pStatements)
         {
@@ -186,9 +287,9 @@ namespace Pollux::Lang
         return pNode;
     }
 
-    ASTNodeScope* Parser::ParseGlobalScope()
+    ASTNodeScope* Parser::ParseGlobalScope(const ParseContext* pContext)
     {
-        std::deque<ASTNodeBase*> pStatements = ParseGlobalStatementList();
+        std::deque<ASTNodeBase*> pStatements = ParseGlobalStatementList(pContext);
 
         ASTNodeScope* pNode = new ASTNodeScope();
 
@@ -200,28 +301,31 @@ namespace Pollux::Lang
         return pNode;
     }
    
-    std::deque<ASTNodeBase*> Parser::ParseFunStatementList()
+    std::deque<ASTNodeBase*> Parser::ParseFunStatementList(const ParseContext* pContext)
     {
         std::deque<ASTNodeBase*> pNodeList;
 
-        if (currentToken.kind != TokenKind::CloseBrace)
+        if (pContext->m_CurrentToken.kind != TokenKind::CloseBrace)
         {
-            if (currentToken.kind == TokenKind::OpenBrace)
+            if (pContext->m_CurrentToken.kind == TokenKind::OpenBrace)
             {
-                ASTNodeScope* pScope = ParseScope(ScopeKindFlag::Fun);
+                ParseContext context{ pContext };
+                context.m_ScopeKindFlag |= ScopeKindFlag::Fun;
+
+                ASTNodeScope* pScope = ParseScope(&context);
             }
 
-            if (currentToken.kind != TokenKind::CloseBrace)
+            if (pContext->m_CurrentToken.kind != TokenKind::CloseBrace)
             {
-                ASTNodeBase* pStatement = ParseFunStatement();
+                ASTNodeBase* pStatement = ParseFunStatement(pContext);
                 pNodeList = { pStatement };
 
-                while (currentToken.kind != TokenKind::CloseBrace)
+                while (pContext->m_CurrentToken.kind != TokenKind::CloseBrace)
                 {
-                    pNodeList.push_back(ParseFunStatement());
+                    pNodeList.push_back(ParseFunStatement(pContext));
                 }
 
-                if (currentToken.kind == TokenKind::Identifier)
+                if (pContext->m_CurrentToken.kind == TokenKind::Identifier)
                 {
                     throw std::runtime_error(""); //////
                 }
@@ -231,84 +335,116 @@ namespace Pollux::Lang
         return pNodeList;
     }
 
-    std::deque<ASTNodeBase*> Parser::ParseGlobalStatementList()
+    std::deque<ASTNodeBase*> Parser::ParseGlobalStatementList(const ParseContext* pContext)
     {
         std::deque<ASTNodeBase*> pNodeList;
 
-        if (currentToken.kind != TokenKind::Eof)
+        if (pContext->m_CurrentToken.kind != TokenKind::Eof)
         {
-            ASTNodeBase* pStatement = ParseGlobalStatement();
+            ASTNodeBase* pStatement = ParseGlobalStatement(pContext);
             pNodeList = { pStatement };
 
-            while ((currentToken.kind != TokenKind::Eof))
+            while ((pContext->m_CurrentToken.kind != TokenKind::Eof))
             {
-                pNodeList.push_back(ParseGlobalStatement());
+                pNodeList.push_back(ParseGlobalStatement(pContext));
             }
         }
 
         return pNodeList;
     }
     
-    ASTNodeBase* Parser::ParseFunStatement()
+    ASTNodeBase* Parser::ParseFunStatement(const ParseContext* pContext)
     {
         ASTNodeBase* pNode = nullptr;
 
-        switch (currentToken.kind)
+        switch (pContext->m_CurrentToken.kind)
         {
         case TokenKind::KeywordVar:
         {
-            pNode = ParseDeclStatement(false);
+            ParseContext context{ pContext };
+            context.m_bConstant = false;
+
+            pNode = ParseDeclStatement(&context);
             break;
         }
         case TokenKind::KeywordVal:
         {
-            pNode = ParseDeclStatement(true);
+            ParseContext context{ pContext };
+            context.m_bConstant = true;
+
+            pNode = ParseDeclStatement(&context);
             break;
         }
         case TokenKind::Identifier:
         {
-            pNode = ParseAssignment();
+            ParseContext context{ pContext };
+            //context.m_PreviusToken = pContext->m_CurrentToken;
+
+            Eat();
+
+            switch (pContext->m_CurrentToken.kind)
+            {
+            case TokenKind::OpenParen:
+            {
+                pNode = ParseExpression(&context);
+                break;
+            }
+            case TokenKind::OperatorAssign:
+            {
+                pNode = ParseAssignment(&context);
+                break;
+            }
+            default: break;
+            }
+
             break;
         }
         case TokenKind::KeywordLog:
         {
-            pNode = ParseLogStatement(false);
+            pNode = ParseLogStatement(pContext);
             break;
         }
         case TokenKind::KeywordIf:
         {
-            pNode = ParseIfStatement(false);
+            pNode = ParseIfStatement(pContext);
             break;
         }
         case TokenKind::KeywordReturn:
         {
-            pNode = ParseReturnStatement();
+            pNode = ParseReturnStatement(pContext);
             break;
         }
         case TokenKind::KeywordComptime:
         {
-            FastEat();
+            Eat();
 
-            switch (currentToken.kind)
+            ParseContext context{ pContext };
+            context.m_bComptimeEval = true;
+
+            switch (pContext->m_CurrentToken.kind)
             {
             case TokenKind::KeywordLog:
             {
-                pNode = ParseLogStatement(true);
+                pNode = ParseLogStatement(&context);
                 break;
             }
             case TokenKind::KeywordVar:
             {
-                pNode = ParseDeclStatement(true);
+                context.m_bConstant = false;
+
+                pNode = ParseDeclStatement(&context);
                 break;
             }
             case TokenKind::KeywordVal:
             {
-                pNode = ParseDeclStatement(true);
+                context.m_bConstant = false;
+
+                pNode = ParseDeclStatement(&context);
                 break;
             }
             case TokenKind::KeywordIf:
             {
-                pNode = ParseIfStatement(true);
+                pNode = ParseIfStatement(&context);
                 break;
             }
             default: break;
@@ -318,7 +454,7 @@ namespace Pollux::Lang
         }
         default:
         {
-            pNode = ParseEmptyStatement();
+            pNode = ParseEmptyStatement(pContext);
             break;
         }
         }
@@ -326,56 +462,69 @@ namespace Pollux::Lang
         return pNode;
     }
 
-    ASTNodeBase* Parser::ParseGlobalStatement()
+    ASTNodeBase* Parser::ParseGlobalStatement(const ParseContext* pContext)
     {
         ASTNodeBase* pNode = nullptr;
 
-        switch (currentToken.kind)
+        switch (pContext->m_CurrentToken.kind)
         {
         case TokenKind::KeywordVar:
         {
-            pNode = ParseDeclStatement(false);
+            ParseContext context{ pContext };
+            context.m_bConstant = false;
+
+            pNode = ParseDeclStatement(&context);
             break;
         }
         case TokenKind::KeywordVal:
         {
-            pNode = ParseDeclStatement(true);
+            ParseContext context{ pContext };
+            context.m_bConstant = true;
+
+            pNode = ParseDeclStatement(&context);
             break;
         }
         case TokenKind::KeywordFun:
         {
-            pNode = ParseFun();
+            pNode = ParseFun(pContext);
             break;
         }
         default:
         {
-            pNode = ParseEmptyStatement();
+            pNode = ParseEmptyStatement(pContext);
             break;
         }
         case TokenKind::KeywordComptime:
         {
-            FastEat();
+            Eat();
 
-            switch (currentToken.kind)
+            ParseContext context{ pContext };
+            context.m_bComptimeEval = true;
+
+            switch (pContext->m_CurrentToken.kind)
             {
             case TokenKind::KeywordLog:
             {
-                pNode = ParseLogStatement(true);
+                pNode = ParseLogStatement(&context);
                 break;
             }
             case TokenKind::KeywordVar:
             {
-                pNode = ParseDeclStatement(true);
+                context.m_bConstant = false;
+
+                pNode = ParseDeclStatement(&context);
                 break;
             }
             case TokenKind::KeywordVal:
             {
-                pNode = ParseDeclStatement(true);
+                context.m_bConstant = true;
+
+                pNode = ParseDeclStatement(&context);
                 break;
             }
             case TokenKind::KeywordIf:
             {
-                pNode = ParseIfStatement(true);
+                pNode = ParseIfStatement(&context);
                 break;
             }
             default: break;
@@ -388,13 +537,13 @@ namespace Pollux::Lang
         return pNode;
     }
    
-    ASTNodeAssign* Parser::ParseAssignment()
+    ASTNodeAssign* Parser::ParseAssignment(const ParseContext* pContext)
     {
-        ASTNodeAssign* pNode = new ASTNodeAssign(currentToken); //////
-        pNode->pHolder = ParseVar();
-        pNode->token = currentToken;
+        ASTNodeAssign* pNode = new ASTNodeAssign();
+        pNode->pHolder = ParseVar(pContext);
+        pNode->token = pContext->m_CurrentToken;
 
-        switch (currentToken.kind)
+        switch (pContext->m_CurrentToken.kind)
         {
         case TokenKind::OperatorAssign:
         case TokenKind::OperatorAddAssign:
@@ -407,33 +556,38 @@ namespace Pollux::Lang
         case TokenKind::LogicalAnd:
         case TokenKind::LogicalOr:
         {
-            FastEat();
+            Eat();
             break;
         }
         default: break;
         }
 
-        pNode->pExpression = ParseExpression();
+        pNode->pExpression = ParseExpression(pContext);
         return pNode;
     }
     
-    ASTNodeVar* Parser::ParseVar()
+    ASTNodeVar* Parser::ParseVar(const ParseContext* pContext)
     {
-        ASTNodeVar* pNode = new ASTNodeVar(currentToken);
-        pNode->token = currentToken; // todo. useless
+        ASTNodeVar* pNode = new ASTNodeVar(pContext->m_CurrentToken);
+        pNode->token = pContext->m_CurrentToken; // todo. useless
         
         Eat(TokenKind::Identifier);
         
         return pNode;
     }
     
-    ASTNodeExpression* Parser::ParseExpression()
+    ASTNodeExpression* Parser::ParseExpression(const ParseContext* pContext)
     {
+        //if (pContext->m_PreviusToken.kind == TokenKind::Identifier)
+        {
+            //currentToken = pContext->previusToken;
+        }
+
         using BasicExprFun = std::function<ASTNodeExpression*(int32_t priority)>;
 
         BasicExprFun ParseUnop = [&](int32_t priority) -> ASTNodeExpression*
         {
-            Token token = currentToken;
+            Token token = pContext->m_CurrentToken;
 
             switch (token.kind)
             {
@@ -442,7 +596,7 @@ namespace Pollux::Lang
             case TokenKind::LogicalNot:
             {
                 ASTNodeExpression* pNode = new ASTNodeExpression(ExpressionKind::Unary);
-                pNode->token = currentToken;
+                pNode->token = pContext->m_CurrentToken;
                 
                 Eat(token.kind);
                 
@@ -450,6 +604,23 @@ namespace Pollux::Lang
                 return pNode;
             }
             default: break;
+            }
+
+            if (token.kind == TokenKind::Identifier) // it can be var/val or function call
+            {
+                Eat(); // eat identifier
+
+                if (Eat(TokenKind::OpenParen)) // function call '('
+                {
+                    // todo. function params
+
+                    ASTNodeExpression* pNode = new ASTNodeExpression(ExpressionKind::Unit);
+                    pNode->token = token;
+
+                    Eat(TokenKind::CloseParen); // eat ')'
+
+                    return pNode;
+                }
             }
 
             switch (token.kind)
@@ -461,7 +632,7 @@ namespace Pollux::Lang
             case TokenKind::KeywordFalse:
             {
                 ASTNodeExpression* pNode = new ASTNodeExpression(ExpressionKind::NumberLiteral);
-                pNode->token = currentToken;
+                pNode->token = pContext->m_CurrentToken;
                 
                 Eat(token.kind);
                 
@@ -473,7 +644,7 @@ namespace Pollux::Lang
             if (token.kind == TokenKind::LiteralString)
             {
                 ASTNodeExpression* pNode = new ASTNodeExpression(ExpressionKind::StringLiteral);
-                pNode->token = currentToken;
+                pNode->token = pContext->m_CurrentToken;
                 
                 Eat(token.kind);
                 
@@ -484,7 +655,7 @@ namespace Pollux::Lang
             {
                 Eat(TokenKind::OpenParen);
                 
-                ASTNodeExpression* pNode = ParseExpression();
+                ASTNodeExpression* pNode = ParseExpression(pContext);
                 
                 Eat(TokenKind::CloseParen);
                 
@@ -494,7 +665,7 @@ namespace Pollux::Lang
             if (token.kind == TokenKind::Identifier)
             {
                 ASTNodeExpression* pNode = new ASTNodeExpression(ExpressionKind::DynamicHolder);
-                pNode->token = currentToken;
+                pNode->token = pContext->m_CurrentToken;
                 
                 Eat(token.kind);
                 
@@ -510,8 +681,8 @@ namespace Pollux::Lang
 
             while (binopPrecedence[priority]())
             {
-                Token tokenOperator = currentToken;
-                Eat(currentToken.kind);
+                Token tokenOperator = pContext->m_CurrentToken;
+                Eat(pContext->m_CurrentToken.kind);
 
                 ASTNodeExpression* pTempNode = new ASTNodeExpression(ExpressionKind::Binary);
                 pTempNode->token = tokenOperator;
@@ -527,63 +698,66 @@ namespace Pollux::Lang
         return ParseBinop(static_cast<int32_t>(binopPrecedence.size()) - 1);
     }
     
-    ASTNodeEmptyStatement* Parser::ParseEmptyStatement()
+    ASTNodeEmptyStatement* Parser::ParseEmptyStatement(const ParseContext* pContext)
     {
         return new ASTNodeEmptyStatement();
     }
     
-    ASTNodeLog* Parser::ParseLogStatement(bool bComptimeEval)
+    ASTNodeLog* Parser::ParseLogStatement(const ParseContext* pContext)
     {
-        FastEat();
+        Eat();
 
         ASTNodeLog* pNode = new ASTNodeLog();
-        pNode->pExression = ParseExpression();
-        pNode->bComptimeEval = bComptimeEval;
+        pNode->pExression = ParseExpression(pContext);
+        pNode->bComptimeEval = pContext->m_bComptimeEval;
 
         return pNode;
     }
     
-    ASTNodeIfStatement* Parser::ParseIfStatement(bool bComptimeEval)
+    ASTNodeIfStatement* Parser::ParseIfStatement(const ParseContext* pContext)
     {
-        FastEat();
+        Eat();
+
+        ParseContext context{ pContext };
+        context.m_ScopeKindFlag |= ScopeKindFlag::IfElse;
 
         ASTNodeIfStatement* pNode = new ASTNodeIfStatement();
-        pNode->bComptimeEval = bComptimeEval;
-        pNode->pExpression = ParseExpression();
-        pNode->pIfScope = ParseScope(ScopeKindFlag::IfElse);
+        pNode->bComptimeEval = pContext->m_bComptimeEval;
+        pNode->pExpression = ParseExpression(pContext);
+        pNode->pIfScope = ParseScope(&context);
 
         while (Eat(TokenKind::KeywordElse))
         {
-            if (bComptimeEval)
+            if (pContext->m_bComptimeEval)
             {
-                if (currentToken.kind == TokenKind::KeywordComptime)
+                if (pContext->m_CurrentToken.kind == TokenKind::KeywordComptime)
                 {
-                    FastEat();
+                    Eat();
                     Eat(TokenKind::KeywordIf);
 
-                    ASTNodeExpression* pExpression = ParseExpression();
-                    ASTNodeScope* pElseIfScope = ParseScope(ScopeKindFlag::IfElse);
+                    ASTNodeExpression* pExpression = ParseExpression(&context);
+                    ASTNodeScope* pElseIfScope = ParseScope(&context);
                     pNode->pElseIfScopes[pElseIfScope] = pExpression;
                 }
                 else
                 {
-                    pNode->pElseScope = ParseScope(ScopeKindFlag::IfElse);
+                    pNode->pElseScope = ParseScope(&context);
                     break;
                 }
             }
             else
             {
-                if (currentToken.kind == TokenKind::KeywordIf)
+                if (pContext->m_CurrentToken.kind == TokenKind::KeywordIf)
                 {
-                    FastEat();
+                    Eat();
 
-                    ASTNodeExpression* pExpression = ParseExpression();
-                    ASTNodeScope* pElseIfScope = ParseScope(ScopeKindFlag::IfElse);
+                    ASTNodeExpression* pExpression = ParseExpression(&context);
+                    ASTNodeScope* pElseIfScope = ParseScope(&context);
                     pNode->pElseIfScopes[pElseIfScope] = pExpression;
                 }
                 else
                 {
-                    pNode->pElseScope = ParseScope(ScopeKindFlag::IfElse);
+                    pNode->pElseScope = ParseScope(&context);
                     break;
                 }
             }
@@ -592,12 +766,15 @@ namespace Pollux::Lang
         return pNode;
     }
     
-    ASTNodeFun* Parser::ParseFun()
+    ASTNodeFun* Parser::ParseFun(const ParseContext* pContext)
     {
-        FastEat();
+        Eat();
+
+        ParseContext context{ pContext };
+        context.m_ScopeKindFlag |= ScopeKindFlag::Fun;
 
         ASTNodeFun* pNode = new ASTNodeFun();
-        pNode->name = currentToken.value;
+        pNode->name = pContext->m_CurrentToken.value;
 
         if (!Eat(TokenKind::Identifier))
         {
@@ -619,19 +796,19 @@ namespace Pollux::Lang
                 }
                 else
                 {
-                    if (currentToken.kind == TokenKind::Colon)
+                    if (pContext->m_CurrentToken.kind == TokenKind::Colon)
                     {
-                        FastEat(); // eat ':'
+                        Eat(); // eat ':'
 
-                        pNode->pReturnType = ParseType();
+                        pNode->pReturnType = ParseType(&context);
                         
-                        Eat(currentToken.kind);
+                        Eat(pContext->m_CurrentToken.kind);
                         
                         //if (!Eat(currentToken.kind)) ////
                         //	throw std::runtime_error("Expected: identifier.");
                     }
 
-                    pNode->pScope = ParseScope(ScopeKindFlag::Fun);
+                    pNode->pScope = ParseScope(&context);
                 }
             }
         }
@@ -639,45 +816,91 @@ namespace Pollux::Lang
         return pNode;
     }
 
-    ASTNodeReturn* Parser::ParseReturnStatement()
+    ASTNodeReturn* Parser::ParseReturnStatement(const ParseContext* pContext)
     {
         ASTNodeReturn* pNode = new ASTNodeReturn();
-        FastEat(); // eat 'return' keyword
+        Eat(); // eat 'return' keyword
 
-        pNode->pExpression = ParseExpression();
+        pNode->pExpression = ParseExpression(pContext);
         //pNode->pReturnType = pNode->pExpression->pBinaryOpType; //?
         //pNode->pFunction = pContext->pFunction;
 
         return pNode;
-    }
-    
-    ASTNodeBase* Parser::Parse()
-    {
-        ASTNodeScope* pScope = ParseUnit();
+    }*/
 
-        if (currentToken.kind != TokenKind::Eof)
+    Token* Parser::PeekToken(size_t i)
+    {
+        if (size_t index = m_pContext->m_CurrentTokenIndex + i; index < m_pContext->m_Tokens.size())
         {
-            throw std::runtime_error("NOT EOF");
+            return &m_pContext->m_Tokens.at(index);
         }
 
-        return pScope;
-    }
-    
-    const Token& Parser::GetCurrentToken() const noexcept
-    {
-        return currentToken;
+        return nullptr;
     }
 
-    bool Parser::EndOfStatement()
+    Token* Parser::EatToken()
     {
-        return currentToken.kind == TokenKind::Semicolon || currentToken.kind == TokenKind::Eol;
+        Token* pToken = PeekToken();
+        m_pContext->m_CurrentTokenIndex++;
+        return pToken;
     }
 
-    void Parser::SkipEndOfStatement()
+    Token* Parser::EatToken(TokenKind kind)
     {
-        while (currentToken.kind == TokenKind::Eol)
+        Token* pToken = PeekToken();
+
+        if (pToken->kind == kind)
         {
-            currentToken = pScanner->NextToken();
+            return EatToken();
         }
+
+        return nullptr;
     }
+
+    Token* Pollux::Lang::Parser::EatTokenOverEOLs()
+    {
+        Token* pToken;
+
+        do
+        {
+            if (pToken = EatToken(); pToken == nullptr)
+            {
+                break;
+            }
+        } while (pToken->kind == TokenKind::Eol);
+
+        return pToken;
+    }
+
+    std::pair<Token*, bool> Parser::ExpectToken(TokenKind kind)
+    {
+        Token* pToken = EatToken();
+        bool bCondition = pToken->kind != kind;
+
+        if (bCondition)
+        {
+            //ASTError(res, "Expected token '" + ToString(pToken->kind) + "', found '%s'", , token_name(pToken->kind));
+        }
+
+        return std::make_pair(pToken, !bCondition);
+    }
+
+    void Parser::PutBackToken()
+    {
+        m_pContext->m_CurrentTokenIndex -= 1;
+    }
+
+    //bool Parser::EndOfStatement()
+    //{
+    //    return m_Context.m_CurrentToken.kind == TokenKind::Semicolon ||
+    //        m_Context.m_CurrentToken.kind == TokenKind::Eol;
+    //}
+    //
+    //void Parser::SkipEndOfStatement()
+    //{
+    //    if (m_Context.m_CurrentToken.kind == TokenKind::Eol)
+    //    {
+    //        m_Context.m_CurrentToken = m_Context.m_Tokens[++m_Context.m_TokenIndex];
+    //    }
+    //}
 }

@@ -17,7 +17,7 @@ namespace Pollux::Lang
 
 		void Advance();
 		
-		void SkipComment();
+		void SkipComment(const bool multiline);
 		
 		void SkipWhitespace();
 		

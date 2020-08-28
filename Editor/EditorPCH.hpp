@@ -5,3 +5,8 @@
  *****************************************************************************************************************************/
 
 #pragma once
+
+#define ENGINE_HEADERS
+#include "Engine/enginepch.hpp"
+
+using namespace Pollux;

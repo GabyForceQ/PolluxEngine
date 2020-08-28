@@ -13,7 +13,7 @@ namespace Pollux::Lang
 	class ASTNodeAssign final : public ASTNodeBase
 	{
 	public:
-		explicit ASTNodeAssign(Token token) noexcept;
+		explicit ASTNodeAssign() noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 

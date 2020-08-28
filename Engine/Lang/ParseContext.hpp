@@ -6,27 +6,25 @@
 
 #pragma once
 
-#include "../ASTNodeBase.hpp"
+#include "Tokenizer/Token.hpp"
+#include "PxTypes.hpp"
 
 namespace Pollux::Lang
 {
-	class ASTNodeDeclHolder final : public ASTNodeBase
+	struct ParseContext final
 	{
-	public:
-		ASTNodeDeclHolder() noexcept;
+		const ParseContext* m_pOwner = nullptr;
 
-		void Accept(IASTNodeVisitor* pVisitor) override;
-
-		ASTNodeType* pType = nullptr;
-
-		ASTNodeAssign* pAssignment = nullptr;
-
-		bool bAutoDeduction = true;
-
-		bool bConstant = false;
-
-		bool bComptimeEval = false;
-
-		AST_FRIENDS_BODY
+		std::vector<Token> m_Tokens;
+		
+		size_t m_TokenCount = 0_sz;
+		
+		size_t m_CurrentTokenIndex = 0_sz;
+				
+		bool m_bConstant = false;
+		
+		bool m_bTokenSteal = false;
+				
+		PxScope m_Scope;
 	};
 }

@@ -154,11 +154,31 @@ namespace Pollux::Lang
 		}
 	}
 
-	void Lexer::SkipComment()
+	void Lexer::SkipComment(const bool multiline)
 	{
-		while (currentChar != '\n')
+		if (!multiline)
 		{
-			Advance();
+			while (currentChar != '\n')
+			{
+				Advance();
+			}
+		}
+		else
+		{
+			for (;;)
+			{
+				while (currentChar != '/')
+				{
+					Advance();
+				}
+
+				Advance();
+
+				if (currentChar == '#')
+				{
+					break;
+				}
+			}
 		}
 
 		Advance();
@@ -285,7 +305,19 @@ namespace Pollux::Lang
 			}
 			case '#':
 			{
-				SkipComment();
+				char peekRes = Peek();
+				Advance();
+
+				if (peekRes == '/')
+				{
+					Advance();
+					SkipComment(true);
+				}
+				else
+				{
+					SkipComment(false);
+				}
+
 				break;
 			}
 			case DIGIT:
@@ -500,11 +532,11 @@ namespace Pollux::Lang
 					Advance();
 					return std::move(Token{ TokenKind::OperatorNe, "!=" });
 				}
-				else if (peekRes == '#')
+				/*else if (peekRes == '#')
 				{
 					SkipComment(); // todo. Generate documentation instead
 					break;
-				}
+				}*/
 
 				return std::move(Token{ TokenKind::LogicalNot, "!" });
 			}

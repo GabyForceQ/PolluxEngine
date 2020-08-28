@@ -15,6 +15,7 @@
 #include "Nodes/ASTNodeType.hpp"
 #include "Nodes/ASTNodeVar.hpp"
 #include "Nodes/Conditional/ASTNodeIfStatement.hpp"
+#include "Nodes/Container/AstNodeContainerDecl.hpp"
 #include "Nodes/Expression/ASTNodeExpression.hpp"
 #include "Nodes/Functional/ASTNodeFun.hpp"
 #include "Nodes/Functional/ASTNodeFunParamDeclStatement.hpp"

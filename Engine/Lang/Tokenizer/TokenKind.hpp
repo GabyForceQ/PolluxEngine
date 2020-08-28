@@ -84,10 +84,19 @@ namespace Pollux::Lang
 		KeywordClass,			/// class
 		KeywordStruct,			/// struct
 		KeywordEnum,			/// enum
+		KeywordRuntime,			///	runtime
 		KeywordComptime,		///	comptime
-		KeywordAlways,			///	always
-		KeywordUnit,			///	unit
+		KeywordAnytime,			///	anytime
 		KeywordUse,				/// use
+		KeywordPublic,			/// public
+		KeywordPrivate,			/// private
+		KeywordProtected,		/// protected
+		KeywordPackage,			/// package
+		KeywordInternal,		/// internal
+		KeywordOpen,			/// open
+		KeywordGet,				/// open
+		KeywordSet,				/// open
+		KeywordField			/// open
 	};
 
 	extern const std::string g_pTokenKind_Undefined;
@@ -231,14 +240,32 @@ namespace Pollux::Lang
 	extern const std::string g_pTokenKind_KeywordStruct;
 	
 	extern const std::string g_pTokenKind_KeywordEnum;
-	
+
+	extern const std::string g_pTokenKind_KeywordRuntime;
+
 	extern const std::string g_pTokenKind_KeywordComptime;
 	
-	extern const std::string g_pTokenKind_KeywordAlways;
+	extern const std::string g_pTokenKind_KeywordAnytime;
 	
-	extern const std::string g_pTokenKind_KeywordUnit;
-
 	extern const std::string g_pTokenKind_KeywordUse;
+
+	extern const std::string g_pTokenKind_KeywordPublic;
+	
+	extern const std::string g_pTokenKind_KeywordPrivate;
+	
+	extern const std::string g_pTokenKind_KeywordProtected;
+	
+	extern const std::string g_pTokenKind_KeywordPackage;
+	
+	extern const std::string g_pTokenKind_KeywordInternal;
+
+	extern const std::string g_pTokenKind_KeywordOpen;
+
+	extern const std::string g_pTokenKind_KeywordGet;
+
+	extern const std::string g_pTokenKind_KeywordSet;
+
+	extern const std::string g_pTokenKind_KeywordField;
 
 	extern const std::map<std::string, TokenKind> g_TokenKindMap;
 

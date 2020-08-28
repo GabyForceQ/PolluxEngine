@@ -50,6 +50,8 @@ namespace Pollux::Lang
 
 		void Visit(ASTNodeReturn* pNode) override;
 
+		void Visit(ASTNodeContainerDecl* pNode) override {}
+
 		SymbolTable* pSymbolTable = nullptr;
 
 	private:

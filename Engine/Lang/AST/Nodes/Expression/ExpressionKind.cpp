@@ -10,6 +10,7 @@
 
 namespace Pollux::Lang
 {
+	const char* g_pExpressionKind_Unit = "ExpressionKind::Unit";
 	const char* g_pExpressionKind_NumberLiteral = "ExpressionKind::NumberLiteral";
 	const char* g_pExpressionKind_StringLiteral = "ExpressionKind::StringLiteral";
 	const char* g_pExpressionKind_DynamicHolder = "ExpressionKind::DynamicHolder";
@@ -18,6 +19,7 @@ namespace Pollux::Lang
 
 	const std::map<const char*, ExpressionKind> g_ExpressionKindMap
 	{
+		{ g_pExpressionKind_Unit, ExpressionKind::Unit },
 		{ g_pExpressionKind_NumberLiteral, ExpressionKind::NumberLiteral },
 		{ g_pExpressionKind_StringLiteral, ExpressionKind::StringLiteral },
 		{ g_pExpressionKind_DynamicHolder, ExpressionKind::DynamicHolder },
@@ -39,6 +41,7 @@ namespace Pollux::Lang
 	{
 		switch (expressionKind)
 		{
+		case ExpressionKind::Unit: return g_pExpressionKind_Unit;
 		case ExpressionKind::NumberLiteral: return g_pExpressionKind_NumberLiteral;
 		case ExpressionKind::StringLiteral: return g_pExpressionKind_StringLiteral;
 		case ExpressionKind::DynamicHolder: return g_pExpressionKind_DynamicHolder;

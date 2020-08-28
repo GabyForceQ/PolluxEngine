@@ -10,9 +10,9 @@
 
 namespace Pollux::Lang
 {
-	ASTNodeAssign::ASTNodeAssign(Token token) noexcept
+	ASTNodeAssign::ASTNodeAssign() noexcept
 		:
-		ASTNodeBase{ std::move(token) }
+		ASTNodeBase{ Token{ TokenKind::Undefined, g_pEmptyString } }
 	{
 		RegisterType("ASTNodeAssign", +ASTNodeKind::ASTNodeAssign);
 	}

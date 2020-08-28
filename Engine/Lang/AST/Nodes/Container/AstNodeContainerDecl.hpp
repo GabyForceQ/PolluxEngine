@@ -6,26 +6,24 @@
 
 #pragma once
 
-#include "../ASTNodeBase.hpp"
+#include "../../ASTNodeBase.hpp"
+#include "../../../PxTypes.hpp"
+#include "../../../Scope/ScopeKindFlag.hpp"
 
 namespace Pollux::Lang
 {
-	class ASTNodeDeclHolder final : public ASTNodeBase
+	class ASTNodeContainerDecl final : public ASTNodeBase
 	{
 	public:
-		ASTNodeDeclHolder() noexcept;
+		explicit ASTNodeContainerDecl() noexcept;
 
 		void Accept(IASTNodeVisitor* pVisitor) override;
 
-		ASTNodeType* pType = nullptr;
-
-		ASTNodeAssign* pAssignment = nullptr;
-
-		bool bAutoDeduction = true;
-
-		bool bConstant = false;
-
-		bool bComptimeEval = false;
+	private:
+		//std::vector<ASTNodeBase*> m_pFields;
+		//std::vector<ASTNodeBase*> m_pDecls;
+		ScopeKindFlag m_Kind;
+		std::vector<PxSymbol> m_Symbols;
 
 		AST_FRIENDS_BODY
 	};

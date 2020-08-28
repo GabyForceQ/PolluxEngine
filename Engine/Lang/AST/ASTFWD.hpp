@@ -24,6 +24,7 @@ namespace Pollux::Lang
 	class ASTNodeFun;
 	class ASTNodeFunParamDeclStatement;
 	class ASTNodeReturn;
+	class ASTNodeContainerDecl;
 }
 
 #define AST_FRIENDS_BODY friend class Parser; \
