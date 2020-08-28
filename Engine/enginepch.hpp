@@ -81,6 +81,8 @@ void operator delete(void* p);
 
 #ifdef POLLUX_DRIVER_VULKAN
 #include "vulkan/vulkan.hpp"
+#include "ktx/include/ktx.h"
+#include "ktx/include/ktxvulkan.h"
 #endif
 
 namespace Pollux
